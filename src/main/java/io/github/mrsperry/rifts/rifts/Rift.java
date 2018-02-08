@@ -7,13 +7,17 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Particle;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 
-public abstract class Rift implements IRift, Runnable {
+public abstract class Rift implements IRift, Runnable, Listener {
     private Location center;
 
     private int radius;
@@ -86,6 +90,11 @@ public abstract class Rift implements IRift, Runnable {
                 location.getWorld().spawnEntity(location, EntityType.WITHER_SKELETON);
             }
         }
+    }
+
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        
     }
 
     public boolean isValidLocation(Location location) {
