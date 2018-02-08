@@ -2,6 +2,7 @@ package io.github.mrsperry.rifts.rifts;
 
 import io.github.mrsperry.rifts.Rifts;
 
+import io.github.mrsperry.rifts.SpawnUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -71,24 +72,15 @@ public abstract class Rift implements IRift, Runnable, Listener {
         }
 
         this.center.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, this.center, 1); // mark the center of the rift
+        
+        SpawnUtils.spawn(this.validLocations, 10, (location, count) -> {
+            location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 1);
+        });
 
-        // TODO: get max particles per second from config
-        for (int particleCount = 10; particleCount > 0; particleCount--) {
-            Location location = this.validLocations.get(Rifts.getRandom().nextInt(this.validLocations.size()));
-            if (location != null) {
-                // TODO: spawn correct particle type/amount
-                location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 1);
-            }
-        }
+        SpawnUtils.spawn(this.validLocations, 3, (location, count) -> {
+            location.getWorld().spawnEntity(location, EntityType.WITHER_SKELETON);
+        });
 
-        // TODO: get max monsters per second from config
-        for (int monsterCount = 3; monsterCount > 0; monsterCount--) {
-            Location location = this.validLocations.get(Rifts.getRandom().nextInt(this.validLocations.size()));
-            if (location != null) {
-                // TODO: spawn correct monster type/amount
-                location.getWorld().spawnEntity(location, EntityType.WITHER_SKELETON);
-            }
-        }
     }
 
     @EventHandler
