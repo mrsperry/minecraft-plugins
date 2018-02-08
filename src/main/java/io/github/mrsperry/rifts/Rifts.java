@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts;
 
 import io.github.mrsperry.rifts.rifts.IRift;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.HashSet;
