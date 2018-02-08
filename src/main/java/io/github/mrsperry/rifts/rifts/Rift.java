@@ -24,7 +24,7 @@ public abstract class Rift implements IRift, Runnable, Listener {
     private int radius;
     private int timer;
 
-    private HashSet<Monster> monsters;
+    private ArrayList<Monster> monsters;
     private ArrayList<Location> validLocations;
 
     private int id;
@@ -48,7 +48,7 @@ public abstract class Rift implements IRift, Runnable, Listener {
                 break;
         }
 
-        this.monsters = new HashSet<Monster>();
+        this.monsters = new ArrayList<Monster>();
 
         this.validLocations = new ArrayList<Location>();
         int diameter = (this.radius * 2) + 1;
@@ -86,7 +86,12 @@ public abstract class Rift implements IRift, Runnable, Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        
+        Entity entity = event.getEntity();
+        if (entity instanceof Monster) {
+            if (this.monsters.contains(entity)) {
+                this.monsters.remove(entity);
+            }
+        }
     }
 
     public boolean isValidLocation(Location location) {
