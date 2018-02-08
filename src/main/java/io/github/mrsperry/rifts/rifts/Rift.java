@@ -15,7 +15,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 
 public abstract class Rift implements IRift, Runnable, Listener {
     private Location center;
