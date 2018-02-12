@@ -1,5 +1,6 @@
 package io.github.mrsperry.rifts.dungeons;
 
+import io.github.mrsperry.rifts.SpawnUtils;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,7 +22,7 @@ public abstract class Dungeon implements Listener {
         this.boss = null;
     }
 
-    public void teleport(Player keyholder, String message) {
+    public void teleport(Player keyholder, String message) throws Exception {
         HashSet<Player> nearby = new HashSet<Player>();
         nearby.add(keyholder);
         for (Player player : keyholder.getWorld().getPlayers()) {
@@ -31,7 +32,7 @@ public abstract class Dungeon implements Listener {
         }
 
         for (Player player : nearby) {
-            player.teleport(config.getStartingLocation());
+            player.teleport(SpawnUtils.toLocation(config.getStartingLocation(), keyholder.getWorld()));
             player.sendMessage(message);
         }
     }

@@ -31,21 +31,8 @@ public abstract class Rift implements IRift, Runnable, Listener {
     public Rift(Location location, RiftSize size) {
         this.center = location;
 
-        // TODO: use values from config
-        switch (size) {
-            case Small:
-                this.radius = 25;
-                this.timer = 300; // 5 minutes
-                break;
-            case Medium:
-                this.radius = 50;
-                this.timer = 420; // 7 minutes
-                break;
-            case Large:
-                this.radius = 100;
-                this.timer = 600; // 10 minutes
-                break;
-        }
+        this.radius = size.radius;
+        this.timer = size.timer;
 
         this.monsters = new ArrayList<Monster>();
 

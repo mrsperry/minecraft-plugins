@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts;
 
 import org.bukkit.Location;
+import org.bukkit.World;
 
 import java.util.List;
 
@@ -17,5 +18,18 @@ public class SpawnUtils {
                 operation.execute(location, count);
             }
         }
+    }
+
+    public static Location toLocation(String location, World world) throws Exception {
+        String[] locationPart = location.split(",");
+
+        if(locationPart.length != 3) { throw new Exception("Malformed Location String " + location);}
+
+        return new Location(
+                world,
+                Double.parseDouble(locationPart[0]),
+                Double.parseDouble(locationPart[1]),
+                Double.parseDouble(locationPart[2])
+        );
     }
 }

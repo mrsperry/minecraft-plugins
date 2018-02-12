@@ -1,5 +1,7 @@
 package io.github.mrsperry.rifts.dungeons;
 
+import io.github.mrsperry.rifts.configs.BasicConfig;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
@@ -7,26 +9,88 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.HashSet;
 
-public class DungeonConfig {
-    private int dungeonID;
-    private int bossID;
+public class DungeonConfig extends BasicConfig {
+    private String dungeonID;
+    private String bossID;
     private HashSet<EntityType> monsters;
     private HashSet<PotionEffectType> monsterPotionEffects;
     private HashSet<PotionEffectType> playerPotionEffects;
-    private Location startingLocation;
-    private Location portalLocation;
-    private Location chestLocation;
+    private String startingLocation;
+    private String portalLocation;
+    private String chestLocation;
     private HashSet<Particle> particles; // maybe not particle type?
 
-    public DungeonConfig() {
-        // TODO: set variables
+    public DungeonConfig(String path) {
+        super(path);
     }
 
-    public int getDungeonID() {
-        return dungeonID;
+    public boolean loadValues() {
+        this.dungeonID = this.getString("dungeon.dungeonID", "INVALID");
+        this.bossID = this.getString("dungeon.bossID", "INVALID");
+        this.monsters = new HashSet<>();
+
+        for(String monsterType : this.getStringList("dungeon.monsters")) {
+            try {
+                this.monsters.add(EntityType.valueOf(monsterType));
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("Error loading monsters in " + this.dungeonID + " config: " + e.getMessage());
+            }
+        }
+
+        this.monsterPotionEffects = new HashSet<>();
+        for(String monsterPE : this.getStringList("dungeon.monsterPotionEffects")) {
+            try {
+                this.monsterPotionEffects.add(PotionEffectType.getByName(monsterPE));
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("Error loading monster's potion effects in " + this.dungeonID + " config: " + e.getMessage());
+            }
+        }
+
+        this.playerPotionEffects = new HashSet<>();
+        for(String playerPE : this.getStringList("dungeon.playerPotionEffects")) {
+            try {
+                this.playerPotionEffects.add(PotionEffectType.getByName(playerPE));
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("Error loading players's potion effects in " + this.dungeonID + " config: " + e.getMessage());
+            }
+        }
+
+        this.startingLocation = this.getString("dungeon.startingLocation", "INVALID");
+        this.portalLocation = this.getString("dungeon.portalLocation", "INVALID");
+        this.chestLocation = this.getString("dungeon.chestLocation", "INVALID");
+
+        this.particles = new HashSet<>();
+        for(String particleType : this.getStringList("dungeon.particles")) {
+            try {
+                this.particles.add(Particle.valueOf(particleType));
+            } catch (Exception e) {
+                Bukkit.getLogger().warning("Error loading particle effects in " + this.dungeonID + " config: " + e.getMessage());
+            }
+        }
+
+        return  !(this.dungeonID.equals("INVALID")        ||
+                  this.bossID.equals("INVALID")           ||
+                  this.startingLocation.equals("INVALID") ||
+                  this.portalLocation.equals("INVALID")   ||
+                  this.chestLocation.equals("INVALID"));
     }
 
-    public int getBossID() {
+    @Override
+    public boolean reload() {
+        boolean result = super.reload();
+
+        if (result) {
+            return this.loadValues();
+        }
+
+        return false;
+    }
+
+    public String getDungeonID() {
+        return this.dungeonID;
+    }
+
+    public String getBossID() {
         return this.bossID;
     }
 
@@ -42,15 +106,15 @@ public class DungeonConfig {
         return this.playerPotionEffects;
     }
 
-    public Location getStartingLocation() {
+    public String getStartingLocation() {
         return this.startingLocation;
     }
 
-    public Location getPortalLocation() {
+    public String getPortalLocation() {
         return this.portalLocation;
     }
 
-    public Location getChestLocation() {
+    public String getChestLocation() {
         return this.chestLocation;
     }
 
