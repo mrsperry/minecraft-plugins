@@ -1,4 +1,4 @@
-package io.github.mrsperry.rifts.dungeons;
+package io.github.mrsperry.rifts.utils;
 
 import net.md_5.bungee.api.ChatColor;
 

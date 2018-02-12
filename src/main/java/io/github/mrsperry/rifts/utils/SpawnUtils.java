@@ -1,5 +1,6 @@
-package io.github.mrsperry.rifts;
+package io.github.mrsperry.rifts.utils;
 
+import io.github.mrsperry.rifts.Rifts;
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -20,10 +21,8 @@ public class SpawnUtils {
         }
     }
 
-    public static Location toLocation(String location, World world) throws Exception {
+    public static Location toLocation(String location, World world) {
         String[] locationPart = location.split(",");
-
-        if(locationPart.length != 3) { throw new Exception("Malformed Location String " + location);}
 
         return new Location(
                 world,

@@ -1,4 +1,4 @@
-package io.github.mrsperry.rifts.dungeons;
+package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.configs.BasicConfig;
 import org.bukkit.Bukkit;

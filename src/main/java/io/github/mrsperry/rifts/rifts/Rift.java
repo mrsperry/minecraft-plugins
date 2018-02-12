@@ -2,7 +2,7 @@ package io.github.mrsperry.rifts.rifts;
 
 import io.github.mrsperry.rifts.Rifts;
 
-import io.github.mrsperry.rifts.SpawnUtils;
+import io.github.mrsperry.rifts.utils.SpawnUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -34,9 +34,9 @@ public abstract class Rift implements IRift, Runnable, Listener {
         this.radius = size.radius;
         this.timer = size.timer;
 
-        this.monsters = new ArrayList<Monster>();
+        this.monsters = new ArrayList<>();
 
-        this.validLocations = new ArrayList<Location>();
+        this.validLocations = new ArrayList<>();
         int diameter = (this.radius * 2) + 1;
         for (int x = this.center.getBlockX() - this.radius; x < diameter; x++) {
             for (int y = this.center.getBlockY() - this.radius; y < diameter; y++) {

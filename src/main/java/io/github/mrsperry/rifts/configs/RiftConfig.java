@@ -1,6 +1,7 @@
-package io.github.mrsperry.rifts.rifts;
+package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.configs.BasicConfig;
+import io.github.mrsperry.rifts.rifts.RiftSize;
 import org.bukkit.Bukkit;
 import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
