@@ -1,11 +1,12 @@
 package io.github.mrsperry.rifts.dungeons;
 
+import io.github.mrsperry.rifts.configs.DungeonConfig;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.entity.Player;
 
 public class MonsterDungeon extends Dungeon implements IDungeon {
     public MonsterDungeon(DungeonConfig config, Player keyholder) {
-        super(config, keyholder);
+        super(config);
         this.teleport(keyholder);
     }
 
