@@ -16,6 +16,8 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 
@@ -83,8 +85,9 @@ public abstract class Rift implements IRift, Runnable, Listener {
     }
 
     public void death() {
-        for (Monster monster : monsters) {
-            monster.remove();
+        // TODO: cancel drops & add particle effects
+        for (Monster monster : this.monsters) {
+            monster.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 4, false, false));
         }
         Bukkit.getScheduler().cancelTask(this.id);
     }
