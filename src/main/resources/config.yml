@@ -1,0 +1,25 @@
+dungeons:
+  enabled: true
+  keys:
+    # Determines if only monsters from rifts will drop keys
+    only-from-rifts: true
+    # Chance to drop keys for biome specific dungeons
+    biome-chance: 1
+    # Chance to drop keys for a random non-biome dungeon
+    random-chance: 5
+rifts:
+  enabled: true
+  spawning:
+    # Percentage to spawn
+    chance: 25
+    # How many seconds between spawn chance
+    frequency: 60
+    # Maximum number of rifts at a time
+    max: 3
+    size:
+      # Radius: 25 blocks; Length: 5 minutes
+      small: true
+      # Radius: 50 blocks; Length: 7 minutes
+      medium: true
+      # Radius: 100 blocks; Length: 10 minutes
+      large: true
