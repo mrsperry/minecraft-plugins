@@ -35,7 +35,7 @@ public class SpawnUtils {
         );
     }
 
-    public boolean isValidLocation(Location location) {
+    public static boolean isValidLocation(Location location) {
         Block block = location.getBlock();
         if (block.getType() == Material.AIR) {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));

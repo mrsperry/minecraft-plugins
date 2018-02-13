@@ -45,7 +45,7 @@ public abstract class Rift implements IRift, Runnable, Listener {
             for (int y = this.center.getBlockY() - this.radius; y < diameter; y++) {
                 for (int z = this.center.getBlockZ() - this.radius; z < diameter; z++) {
                     Location current = new Location(this.center.getWorld(), x, y, z);
-                    if (this.isValidLocation(current)) {
+                    if (SpawnUtils.isValidLocation(current)) {
                         this.validLocations.add(current);
                     }
                 }
