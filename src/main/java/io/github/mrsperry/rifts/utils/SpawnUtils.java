@@ -1,8 +1,11 @@
 package io.github.mrsperry.rifts.utils;
 
 import io.github.mrsperry.rifts.Rifts;
+
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 
 import java.util.List;
 
@@ -30,5 +33,15 @@ public class SpawnUtils {
                 Double.parseDouble(locationPart[1]),
                 Double.parseDouble(locationPart[2])
         );
+    }
+
+    public boolean isValidLocation(Location location) {
+        Block block = location.getBlock();
+        if (block.getType() == Material.AIR) {
+            Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
+            Block above = block.getWorld().getBlockAt(location.add(0, 1, 1));
+            return below.getType().isSolid() && !above.getType().isSolid(); // require 2 blocks of air & solid material below
+        }
+        return false;
     }
 }

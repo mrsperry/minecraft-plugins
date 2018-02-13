@@ -4,11 +4,10 @@ import io.github.mrsperry.rifts.Rifts;
 
 import io.github.mrsperry.rifts.utils.MobUtils;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.Particle;
-import org.bukkit.block.Block;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
@@ -72,16 +71,6 @@ public abstract class Rift implements IRift, Runnable, Listener {
             location.getWorld().spawnEntity(location, EntityType.WITHER_SKELETON);
         });
 
-    }
-
-    public boolean isValidLocation(Location location) {
-        Block block = location.getBlock();
-        if (block.getType() == Material.AIR) {
-            Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
-            Block above = block.getWorld().getBlockAt(location.add(0, 1, 1));
-            return below.getType().isSolid() && !above.getType().isSolid(); // require 2 blocks of air & solid material below
-        }
-        return false;
     }
 
     public void death() {
