@@ -25,17 +25,17 @@ public class BossConfig extends BasicConfig {
 
     public boolean loadValues() {
         this.name = this.getString("boss.name", "RANDOM");
-        this.bossID = this.getString("boss.bossID", "INVALID");
-        this.maxHealth = this.getDouble("boss.maxHealth", 100.0);
-        this.regenRate = this.getDouble("boss.regenRate", 1.5);
+        this.bossID = this.getString("boss.boss-id", "INVALID");
+        this.maxHealth = this.getDouble("boss.max-health", 100.0);
+        this.regenRate = this.getDouble("boss.regen-rate", 1.5);
 
         this.inventory = (PlayerInventory) Bukkit.createInventory(null, InventoryType.PLAYER);
         this.inventory.setItemInMainHand(
                 new ItemStack(Material.valueOf(
-                        this.getString("boss.inventory.mainHand", "AIR"))));
+                        this.getString("boss.inventory.main-hand", "AIR"))));
         this.inventory.setItemInOffHand(
                 new ItemStack(Material.valueOf(
-                        this.getString("boss.inventory.offHand", "AIR"))));
+                        this.getString("boss.inventory.off-hand", "AIR"))));
         this.inventory.setHelmet(
                 new ItemStack(Material.valueOf(
                         this.getString("boss.inventory.helmet", "AIR"))));
@@ -50,7 +50,7 @@ public class BossConfig extends BasicConfig {
                         this.getString("boss.inventory.boots", "AIR"))));
 
         this.potionEffects = new HashSet<>();
-        for(String potionEffect : this.getStringList("boss.potionEffects")) {
+        for(String potionEffect : this.getStringList("boss.potion-effects")) {
             try {
                 this.potionEffects.add(PotionEffectType.getByName(potionEffect));
             } catch (Exception e) {

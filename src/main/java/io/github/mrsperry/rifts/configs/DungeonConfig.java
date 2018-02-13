@@ -25,8 +25,8 @@ public class DungeonConfig extends BasicConfig {
     }
 
     public boolean loadValues() {
-        this.dungeonID = this.getString("dungeon.dungeonID", "INVALID");
-        this.bossID = this.getString("dungeon.bossID", "INVALID");
+        this.dungeonID = this.getString("dungeon.dungeon-id", "INVALID");
+        this.bossID = this.getString("dungeon.boss-id", "INVALID");
         this.monsters = new HashSet<>();
 
         for(String monsterType : this.getStringList("dungeon.monsters")) {
@@ -38,7 +38,7 @@ public class DungeonConfig extends BasicConfig {
         }
 
         this.monsterPotionEffects = new HashSet<>();
-        for(String monsterPE : this.getStringList("dungeon.monsterPotionEffects")) {
+        for(String monsterPE : this.getStringList("dungeon.monster-potion-effects")) {
             try {
                 this.monsterPotionEffects.add(PotionEffectType.getByName(monsterPE));
             } catch (Exception e) {
@@ -47,7 +47,7 @@ public class DungeonConfig extends BasicConfig {
         }
 
         this.playerPotionEffects = new HashSet<>();
-        for(String playerPE : this.getStringList("dungeon.playerPotionEffects")) {
+        for(String playerPE : this.getStringList("dungeon.player-potion-effects")) {
             try {
                 this.playerPotionEffects.add(PotionEffectType.getByName(playerPE));
             } catch (Exception e) {
@@ -55,9 +55,9 @@ public class DungeonConfig extends BasicConfig {
             }
         }
 
-        this.startingLocation = this.getString("dungeon.startingLocation", "INVALID");
-        this.portalLocation = this.getString("dungeon.portalLocation", "INVALID");
-        this.chestLocation = this.getString("dungeon.chestLocation", "INVALID");
+        this.startingLocation = this.getString("dungeon.starting-location", "INVALID");
+        this.portalLocation = this.getString("dungeon.portal-location", "INVALID");
+        this.chestLocation = this.getString("dungeon.chest-location", "INVALID");
 
         this.particles = new HashSet<>();
         for(String particleType : this.getStringList("dungeon.particles")) {

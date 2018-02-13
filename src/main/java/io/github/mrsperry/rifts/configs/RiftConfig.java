@@ -23,11 +23,11 @@ public class RiftConfig extends BasicConfig {
     }
 
     public boolean loadValues() {
-        this.riftID = this.getString("rift.riftID", "INVALID");
-        this.riftSize = RiftSize.valueOf(this.getString("rift.riftSize", "SMALL"));
-        this.maxPotionsApplied = this.getInt("rift.maxPotionsApplied", 1);
-        this.coreParticle = Particle.valueOf(this.getString("rift.coreParticle", "SMOKE_NORMAL"));
-        this.ambientParticle = Particle.valueOf(this.getString("rift.ambientParticle", "PORTAL"));
+        this.riftID = this.getString("rift.rift-id", "INVALID");
+        this.riftSize = RiftSize.valueOf(this.getString("rift.rift-size", "SMALL"));
+        this.maxPotionsApplied = this.getInt("rift.max-potions-applied", 1);
+        this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL"));
+        this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL"));
 
         this.monsters = new HashSet<>();
         for(String monsterType : this.getStringList("rift.monsters")) {
@@ -39,7 +39,7 @@ public class RiftConfig extends BasicConfig {
         }
 
         this.potionEffects = new HashSet<>();
-        for(String potionType : this.getStringList("rift.potionEffects")) {
+        for(String potionType : this.getStringList("rift.potion-effects")) {
             try {
                 this.potionEffects.add(PotionEffectType.getByName(potionType));
             } catch (Exception e) {
