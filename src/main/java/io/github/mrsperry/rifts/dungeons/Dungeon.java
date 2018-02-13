@@ -54,17 +54,24 @@ public abstract class Dungeon implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-        
+        Entity entity = event.getEntity();
+        if (this.isDungeonMonster(entity)) {
+            monsters.remove(entity);
+        }
     }
 
     // prevent creepers and charged creepers from destroying blocks
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        Entity entity = event.getEntity();
-        if (entity instanceof Monster) {
-            if (this.monsters.contains(entity)) {
-                event.blockList().clear();
-            }
+        if (this.isDungeonMonster(event.getEntity())) {
+            event.blockList().clear();
         }
+    }
+
+     private boolean isDungeonMonster(Entity entity) {
+         if (entity instanceof Monster) {
+             return this.monsters.contains(entity);
+         }
+         return false;
      }
 }
