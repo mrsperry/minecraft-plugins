@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts.dungeons;
 
 import io.github.mrsperry.rifts.configs.DungeonConfig;
+import io.github.mrsperry.rifts.utils.MobUtils;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
 
 import org.bukkit.World;
@@ -55,23 +56,16 @@ public abstract class Dungeon implements Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (this.isDungeonMonster(entity)) {
-            monsters.remove(entity);
+        if (MobUtils.listContainsMonster(this.monsters, entity)) {
+            this.monsters.remove(entity);
         }
     }
 
     // prevent creepers and charged creepers from destroying blocks
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        if (this.isDungeonMonster(event.getEntity())) {
+        if (MobUtils.listContainsMonster(this.monsters, event.getEntity())) {
             event.blockList().clear();
         }
     }
-
-     private boolean isDungeonMonster(Entity entity) {
-         if (entity instanceof Monster) {
-             return this.monsters.contains(entity);
-         }
-         return false;
-     }
 }

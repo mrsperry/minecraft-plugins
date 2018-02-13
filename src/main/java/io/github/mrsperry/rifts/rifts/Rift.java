@@ -2,6 +2,7 @@ package io.github.mrsperry.rifts.rifts;
 
 import io.github.mrsperry.rifts.Rifts;
 
+import io.github.mrsperry.rifts.utils.MobUtils;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -14,6 +15,7 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.ArrayList;
 
@@ -70,16 +72,6 @@ public abstract class Rift implements IRift, Runnable, Listener {
 
     }
 
-    @EventHandler
-    public void onEntityDeath(EntityDeathEvent event) {
-        Entity entity = event.getEntity();
-        if (entity instanceof Monster) {
-            if (this.monsters.contains(entity)) {
-                this.monsters.remove(entity);
-            }
-        }
-    }
-
     public boolean isValidLocation(Location location) {
         Block block = location.getBlock();
         if (block.getType() == Material.AIR) {
@@ -95,5 +87,22 @@ public abstract class Rift implements IRift, Runnable, Listener {
             monster.remove();
         }
         Bukkit.getScheduler().cancelTask(this.id);
+    }
+
+    // TODO: repetitive event handlers with dungeons -- can we merge them somewhere?
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        Entity entity = event.getEntity();
+        if (MobUtils.listContainsMonster(this.monsters, entity)) {
+            this.monsters.remove(entity);
+        }
+    }
+
+    // prevent creepers and charged creepers from destroying blocks
+    @EventHandler
+    public void onEntityExplode(EntityExplodeEvent event) {
+        if (MobUtils.listContainsMonster(this.monsters, event.getEntity())) {
+            event.blockList().clear();
+        }
     }
 }
