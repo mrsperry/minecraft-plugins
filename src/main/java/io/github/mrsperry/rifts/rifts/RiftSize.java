@@ -2,7 +2,7 @@ package io.github.mrsperry.rifts.rifts;
 
 public enum RiftSize {
     Small(25, 300),
-    Medium(50, 4200),
+    Medium(50, 420),
     Large(100, 600);
 
     public final int radius;
