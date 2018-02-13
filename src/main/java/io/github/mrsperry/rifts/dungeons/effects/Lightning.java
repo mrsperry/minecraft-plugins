@@ -24,8 +24,8 @@ public class Lightning extends BossEffect {
                 continue;
             }
             if (this.checkDistance(location)) {
-                int blockX = location.getBlockX();
-                int blockZ = location.getBlockZ();
+                int blockX = location.subtract(1, 0, 0).getBlockX();
+                int blockZ = location.subtract(0, 0, 1).getBlockZ();
                 ArrayList<Location> validLocations = new ArrayList<>();
                 // allow lightning strikes in a 3x3 area around each player
                 for (int x = blockX; x < blockX + 3; x++) {
