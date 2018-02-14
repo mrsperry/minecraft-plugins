@@ -9,6 +9,9 @@ import io.github.mrsperry.rifts.configs.RiftConfig;
 import java.util.HashMap;
 
 public class Manager {
+    private static int currentDungeonId = 0;
+    private static int currentRiftId = 0;
+
     private static HashMap<String, BossConfig> bossConfigs = new HashMap<>();
     private static HashMap<String, DungeonConfig> dungeonConfigs = new HashMap<>();
     private static HashMap<String, RiftConfig> riftConfigs = new HashMap<>();
@@ -28,23 +31,27 @@ public class Manager {
         return null;
     }
 
-    public static void registerDungeon(int id, Dungeon dungeon) {
-        activeDungeons.put(id, dungeon);
+    public static int registerDungeon(Dungeon dungeon) {
+        activeDungeons.put(++currentDungeonId, dungeon);
+        return currentDungeonId;
     }
 
-    public static void registerRift(int id, Rift rift) {
-        activeRifts.put(id, rift);
+    public static int registerRift(Rift rift) {
+        activeRifts.put(++currentRiftId, rift);
+        return currentRiftId;
     }
 
     public static void unregisterDungeon(int id) {
         if (activeDungeons.containsKey(id)) {
             activeDungeons.remove(id);
+            currentDungeonId--;
         }
     }
 
     public static void unregisterRift(int id) {
         if (activeRifts.containsKey(id)) {
             activeRifts.remove(id);
+            currentRiftId--;
         }
     }
 }

@@ -1,7 +1,7 @@
 package io.github.mrsperry.rifts.rifts;
 
+import io.github.mrsperry.rifts.Manager;
 import io.github.mrsperry.rifts.Rifts;
-
 import io.github.mrsperry.rifts.utils.MobUtils;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
 
@@ -20,16 +20,16 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 
-public abstract class Rift implements IRift, Runnable, Listener {
-    private Location center;
+public class Rift implements IRift, Runnable, Listener {
+    private int riftId;
+    private int taskId;
 
+    private Location center;
     private int radius;
     private int timer;
 
     private ArrayList<Monster> monsters;
     private ArrayList<Location> validLocations;
-
-    private int id;
 
     public Rift(Location location, RiftSize size) {
         this.center = location;
@@ -52,7 +52,8 @@ public abstract class Rift implements IRift, Runnable, Listener {
             }
         }
 
-        this.id = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
+        this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
+        this.riftId = Manager.registerRift(this);
     }
 
     public void run() {
@@ -61,7 +62,7 @@ public abstract class Rift implements IRift, Runnable, Listener {
             this.death();
         }
 
-        this.center.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, this.center, 1); // mark the center of the rift
+        this.center.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, this.center, 1); // TODO: remove this; mark the center of the rift
         
         SpawnUtils.spawn(this.validLocations, 10, (location, count) -> {
             location.getWorld().spawnParticle(Particle.SMOKE_NORMAL, location, 1);
@@ -78,7 +79,8 @@ public abstract class Rift implements IRift, Runnable, Listener {
         for (Monster monster : this.monsters) {
             monster.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 4, false, false));
         }
-        Bukkit.getScheduler().cancelTask(this.id);
+        Bukkit.getScheduler().cancelTask(this.taskId);
+        Manager.unregisterRift(this.riftId);
     }
 
     // TODO: repetitive event handlers with dungeons -- can we merge them somewhere?

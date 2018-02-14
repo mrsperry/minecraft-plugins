@@ -14,7 +14,7 @@ public class Rifts extends JavaPlugin {
 
     @Override
     public void onEnable() {
-
+        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Timer(100), 0, 6005);
     }
 
     @Override
