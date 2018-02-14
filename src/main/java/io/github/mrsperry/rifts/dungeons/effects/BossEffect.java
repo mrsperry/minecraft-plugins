@@ -2,6 +2,7 @@ package io.github.mrsperry.rifts.dungeons.effects;
 
 import io.github.mrsperry.rifts.Rifts;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Monster;
 import org.bukkit.entity.Player;
