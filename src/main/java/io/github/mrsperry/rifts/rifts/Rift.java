@@ -62,7 +62,7 @@ public class Rift implements IRift, Runnable, Listener {
             this.death();
         }
 
-        this.center.getWorld().spawnParticle(Particle.EXPLOSION_NORMAL, this.center, 1); // TODO: remove this; mark the center of the rift
+        this.center.getWorld().spawnParticle(Particle.EXPLOSION_HUGE, this.center, 1); // TODO: remove this; mark the center of the rift
 
         if (this.validLocations.size() > 0) {
             SpawnUtils.spawn(this.validLocations, 10, (location, count) -> {

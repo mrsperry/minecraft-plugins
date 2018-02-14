@@ -15,7 +15,7 @@ public class Timer implements Runnable {
 
     public void run() {
         if (Rifts.getRandom().nextInt(100) + 1 <= this.chance) {
-            new Rift(new Location(Bukkit.getWorld("world"), 0, 30, 0), RiftSize.Small);
+            new Rift(new Location(Bukkit.getWorld("world"), 0, 10, 0), RiftSize.Small);
             Bukkit.broadcastMessage("Creating new rift...");
         }
     }
