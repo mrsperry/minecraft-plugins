@@ -8,12 +8,16 @@ import java.util.HashSet;
 import java.util.Random;
 
 public class Rifts extends JavaPlugin {
+    private static Rifts instance;
+
     private static Random random = new Random();
 
     private static HashSet<IRift> rifts = new HashSet<IRift>();
 
     @Override
     public void onEnable() {
+        instance = this;
+
         getServer().getScheduler().scheduleSyncRepeatingTask(this, new Timer(100), 0, 6005);
     }
 
@@ -23,7 +27,7 @@ public class Rifts extends JavaPlugin {
     }
 
     public static Rifts getInstance() {
-        return Rifts.getInstance();
+        return instance;
     }
 
     public static Random getRandom() {
