@@ -1,11 +1,14 @@
 package io.github.mrsperry.rifts;
 
+import io.github.mrsperry.rifts.configs.BasicConfig;
 import io.github.mrsperry.rifts.configs.BossConfig;
 import io.github.mrsperry.rifts.dungeons.Dungeon;
 import io.github.mrsperry.rifts.configs.DungeonConfig;
 import io.github.mrsperry.rifts.rifts.Rift;
 import io.github.mrsperry.rifts.configs.RiftConfig;
+import org.bukkit.Bukkit;
 
+import java.io.File;
 import java.util.HashMap;
 
 public class Manager {
@@ -53,5 +56,57 @@ public class Manager {
             activeRifts.remove(id);
             currentRiftId--;
         }
+    }
+
+    public static void loadConfigs() {
+        File base = new File(Rifts.getInstance().getDataFolder(), "configs");
+        File riftConfigFolder = new File(base, "rifts");
+        File dungeonConfigFolder = new File(base, "dungeons");
+        File bossConfigFolder = new File(base, "bosses");
+
+        //Load rift configs
+        for(File riftFile : getFileList(riftConfigFolder)) {
+            RiftConfig config = new RiftConfig("configs/rifts/" + riftFile.getName());
+            if(config.loadValues()) {
+                riftConfigs.put(config.getRiftID(), config);
+                Bukkit.getLogger().info("\n\nLoaded rift config " + riftFile.getName());
+                Bukkit.getLogger().info(config.toString());
+            } else {
+                Bukkit.getLogger().warning("Could not load Rift config " + riftFile.getName());
+            }
+        }
+
+        //Load dungeon configs
+        for(File dungeonFile : getFileList(dungeonConfigFolder)) {
+            DungeonConfig config = new DungeonConfig("configs/dungeons/" + dungeonFile.getName());
+            if(config.loadValues()) {
+                dungeonConfigs.put(config.getDungeonID(), config);
+                Bukkit.getLogger().info("\n\nLoaded rift config " + dungeonFile.getName());
+                Bukkit.getLogger().info(config.toString());
+            } else {
+                Bukkit.getLogger().warning("Could not load Rift config " + dungeonFile.getName());
+            }
+        }
+
+        //Load boss configs
+        for(File bossFile : getFileList(bossConfigFolder)) {
+            BossConfig config = new BossConfig("configs/bosses/" + bossFile.getName());
+            if(config.loadValues()) {
+                bossConfigs.put(config.getBossID(), config);
+                Bukkit.getLogger().info("\n\nLoaded rift config " + bossFile.getName());
+                Bukkit.getLogger().info(config.toString());
+            } else {
+                Bukkit.getLogger().warning("Could not load Rift config " + bossFile.getName());
+            }
+        }
+    }
+
+    private static File[] getFileList(File folder) {
+        if(!folder.exists()) {
+            Bukkit.getLogger().info(folder.getName() + " config folder not found, creating...");
+            folder.mkdirs();
+        }
+
+        return folder.listFiles();
     }
 }

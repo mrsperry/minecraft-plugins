@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.configs.BasicConfig;
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -120,5 +121,10 @@ public class DungeonConfig extends BasicConfig {
 
     public HashSet<Particle> getParticles() {
         return this.particles;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }
