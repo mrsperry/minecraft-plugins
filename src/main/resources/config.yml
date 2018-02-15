@@ -22,10 +22,10 @@ rifts:
         enabled: true
         max-monsters: 25
       # Radius: 50 blocks; Length: 7 minutes
-      small:
+      medium:
         enabled: true
         max-monsters: 50
       # Radius: 100 blocks; Length: 10 minutes
-      small:
+      large:
         enabled: true
         max-monsters: 75
