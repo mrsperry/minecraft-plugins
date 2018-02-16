@@ -1,22 +1,46 @@
 package io.github.mrsperry.rifts;
 
 import io.github.mrsperry.rifts.rifts.Rift;
-
 import io.github.mrsperry.rifts.rifts.RiftSize;
+import io.github.mrsperry.rifts.utils.SpawnUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Random;
 
 public class Timer implements Runnable {
+    private int area;
     private int chance;
+    private int max;
 
-    public Timer(int chance) {
+    private ArrayList<RiftSize> sizes;
+
+    public Timer(int area, int chance, int max, ArrayList<RiftSize> sizes) {
+        this.area = area;
         this.chance = chance;
+        this.max = max;
+
+        this.sizes = sizes;
     }
 
     public void run() {
-        if (Rifts.getRandom().nextInt(100) + 1 <= this.chance) {
-            new Rift(new Location(Bukkit.getWorld("world"), 0, 10, 0), RiftSize.Small);
-            Bukkit.broadcastMessage("Creating new rift...");
+        Random random = Rifts.getRandom();
+        if (Manager.getCurrentRiftId() + 1 < this.max) {
+            if (Rifts.getRandom().nextInt(100) + 1 <= this.chance) {
+                // get a random player
+                Collection<? extends Player> players = Bukkit.getOnlinePlayers();
+                Player player = (Player) players.toArray()[random.nextInt(players.size())];
+
+                // get a random valid location
+                ArrayList<Location> valids = SpawnUtils.getValidLocations(player.getLocation(), this.area, this.area, this.area);
+                Location valid = (valids.size() > 0 ? valids.get(Rifts.getRandom().nextInt(valids.size())) : null);
+
+                Manager.registerRift(new Rift(valid, this.sizes.get(random.nextInt(this.sizes.size()))));
+            }
         }
     }
 }

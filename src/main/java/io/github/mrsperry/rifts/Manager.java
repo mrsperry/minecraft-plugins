@@ -1,11 +1,11 @@
 package io.github.mrsperry.rifts;
 
-import io.github.mrsperry.rifts.configs.BasicConfig;
 import io.github.mrsperry.rifts.configs.BossConfig;
 import io.github.mrsperry.rifts.dungeons.Dungeon;
 import io.github.mrsperry.rifts.configs.DungeonConfig;
 import io.github.mrsperry.rifts.rifts.Rift;
 import io.github.mrsperry.rifts.configs.RiftConfig;
+
 import org.bukkit.Bukkit;
 
 import java.io.File;
@@ -108,5 +108,9 @@ public class Manager {
         }
 
         return folder.listFiles();
+    }
+
+    public static int getCurrentRiftId() {
+        return currentRiftId;
     }
 }

@@ -4,12 +4,14 @@ dungeons:
     # Determines if only monsters from rifts will drop keys
     only-from-rifts: true
     # Chance to drop keys for biome specific dungeons
-    biome-chance: 1
+    biome-chance: 0.05
     # Chance to drop keys for a random non-biome dungeon
     random-chance: 5
 rifts:
   enabled: true
   spawning:
+    # Number of blocks away from a player a rift can spawn
+    area: 50
     # Percentage to spawn
     chance: 25
     # How many seconds between spawn chance

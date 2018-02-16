@@ -1,5 +1,6 @@
 package io.github.mrsperry.rifts;
 
+import io.github.mrsperry.rifts.configs.GeneralConfig;
 import io.github.mrsperry.rifts.rifts.IRift;
 
 import org.bukkit.plugin.java.JavaPlugin;
@@ -18,8 +19,15 @@ public class Rifts extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        GeneralConfig.initialize(this.getConfig());
         Manager.loadConfigs();
-        getServer().getScheduler().scheduleSyncRepeatingTask(this, new Timer(100), 0, 6005);
+
+        getServer().getScheduler().scheduleSyncRepeatingTask(this,
+                new Timer(GeneralConfig.getRiftArea(),
+                    GeneralConfig.getRiftChance(),
+                    GeneralConfig.getMaxRifts(),
+                    GeneralConfig.getRiftSizes()),
+                    0, GeneralConfig.getRiftFrequency());
     }
 
     @Override
