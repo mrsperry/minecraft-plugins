@@ -19,6 +19,8 @@ public class Rifts extends JavaPlugin {
     public void onEnable() {
         instance = this;
 
+        saveDefaultConfig();
+
         GeneralConfig.initialize(this.getConfig());
         Manager.loadConfigs();
 
