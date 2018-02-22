@@ -1,6 +1,6 @@
 package io.github.mrsperry.rifts.rifts;
 
-import io.github.mrsperry.rifts.Manager;
+import io.github.mrsperry.rifts.RiftManager;
 import io.github.mrsperry.rifts.Rifts;
 import io.github.mrsperry.rifts.utils.MobUtils;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
@@ -53,7 +53,7 @@ public class Rift implements IRift, Runnable, Listener {
         }
 
         this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
-        this.riftId = Manager.registerRift(this);
+        this.riftId = RiftManager.registerRift(this);
     }
 
     public void run() {
@@ -81,7 +81,7 @@ public class Rift implements IRift, Runnable, Listener {
             monster.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 4, false, false));
         }
         Bukkit.getScheduler().cancelTask(this.taskId);
-        Manager.unregisterRift(this.riftId);
+        RiftManager.unregisterRift(this.riftId);
     }
 
     // TODO: repetitive event handlers with dungeons -- can we merge them somewhere?

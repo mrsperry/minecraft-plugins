@@ -25,17 +25,6 @@ public class SpawnUtils {
         }
     }
 
-    public static Location toLocation(String location, World world) {
-        String[] locationPart = location.split(",");
-
-        return new Location(
-                world,
-                Double.parseDouble(locationPart[0]),
-                Double.parseDouble(locationPart[1]),
-                Double.parseDouble(locationPart[2])
-        );
-    }
-
     public static ArrayList<Location> getValidLocations(Location center, int xRadius, int yRadius, int zRadius) {
         ArrayList<Location> valids = new ArrayList<>();
         for (int x = center.subtract(xRadius, 0, 0).getBlockX(); x <= (xRadius * 2) + 1; x++) {

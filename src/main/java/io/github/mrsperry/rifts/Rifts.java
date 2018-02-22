@@ -22,7 +22,7 @@ public class Rifts extends JavaPlugin {
         saveDefaultConfig();
 
         GeneralConfig.initialize(this.getConfig());
-        Manager.loadConfigs();
+        RiftManager.loadConfigs();
 
         getServer().getScheduler().scheduleSyncRepeatingTask(this,
                 new Timer(GeneralConfig.getRiftArea(),

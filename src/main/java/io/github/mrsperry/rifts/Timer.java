@@ -29,7 +29,7 @@ public class Timer implements Runnable {
 
     public void run() {
         Random random = Rifts.getRandom();
-        if (Manager.getCurrentRiftId() + 1 < this.max) {
+        if (RiftManager.getCurrentRiftId() + 1 < this.max) {
             if (Rifts.getRandom().nextInt(100) + 1 <= this.chance) {
                 // get a random player
                 Collection<? extends Player> players = Bukkit.getOnlinePlayers();
@@ -39,7 +39,7 @@ public class Timer implements Runnable {
                 ArrayList<Location> valids = SpawnUtils.getValidLocations(player.getLocation(), this.area, this.area, this.area);
                 Location valid = (valids.size() > 0 ? valids.get(Rifts.getRandom().nextInt(valids.size())) : null);
 
-                Manager.registerRift(new Rift(valid, this.sizes.get(random.nextInt(this.sizes.size()))));
+                RiftManager.registerRift(new Rift(valid, this.sizes.get(random.nextInt(this.sizes.size()))));
             }
         }
     }

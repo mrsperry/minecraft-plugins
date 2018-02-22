@@ -7,11 +7,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import java.util.ArrayList;
 
 public class GeneralConfig {
-    private static boolean dungeonsEnabled;
-    private static boolean keysOnlyFromRifts;
-    private static double biomeKeyChance;
-    private static double randomKeyChance;
-
     private static boolean riftsEnabled;
     private static int area;
     private static int chance;
@@ -21,11 +16,6 @@ public class GeneralConfig {
     private static ArrayList<RiftSize> sizes = new ArrayList<>();
 
     public static void initialize(FileConfiguration config) {
-        dungeonsEnabled = config.getBoolean("dungeons.enabled", true);
-        keysOnlyFromRifts = config.getBoolean("dungeon.only-from-rifts", true);
-        biomeKeyChance = config.getDouble("dungeon.biome-chance", 0.05);
-        randomKeyChance = config.getDouble("dungeon.random-chance", 5);
-
         riftsEnabled = config.getBoolean("rifts.enabled", true);
         area = config.getInt("rifts.area", 50);
         chance = config.getInt("rifts.chance", 25);
@@ -34,22 +24,6 @@ public class GeneralConfig {
         sizes.add(RiftSize.Small);
         sizes.add(RiftSize.Medium);
         sizes.add(RiftSize.Large);
-    }
-
-    public static boolean areDungeonsEnabled() {
-        return dungeonsEnabled;
-    }
-
-    public static boolean getKeysOnlyFromRifts() {
-        return keysOnlyFromRifts;
-    }
-
-    public static double getBiomeKeyChance() {
-        return biomeKeyChance;
-    }
-
-    public static double getRandomKeyChance() {
-        return randomKeyChance;
     }
 
     public static boolean areRiftsEnabled() {
