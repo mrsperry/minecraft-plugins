@@ -4,7 +4,6 @@ import io.github.mrsperry.rifts.Rifts;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.World;
 import org.bukkit.block.Block;
 
 import java.util.ArrayList;

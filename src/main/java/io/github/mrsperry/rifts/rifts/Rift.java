@@ -84,7 +84,6 @@ public class Rift implements IRift, Runnable, Listener {
         RiftManager.unregisterRift(this.riftId);
     }
 
-    // TODO: repetitive event handlers with dungeons -- can we merge them somewhere?
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();

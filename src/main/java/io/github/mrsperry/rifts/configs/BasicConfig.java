@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.Rifts;
+
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
@@ -44,11 +45,6 @@ public class BasicConfig implements IConfig {
     @Override
     public String getString(String path, String defaultValue) {
         return this.fileConfiguration.getString(path, defaultValue);
-    }
-
-    @Override
-    public Double getDouble(String path, Double defaultValue) {
-        return this.fileConfiguration.getDouble(path, defaultValue);
     }
 
     @Override

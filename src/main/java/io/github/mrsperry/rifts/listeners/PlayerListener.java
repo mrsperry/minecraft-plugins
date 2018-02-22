@@ -9,6 +9,4 @@ public class PlayerListener implements Listener {
     public void onPlayerMove(PlayerMoveEvent event) {
 
     }
-
-
 }
