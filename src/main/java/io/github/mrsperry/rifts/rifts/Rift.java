@@ -10,6 +10,7 @@ import io.github.mrsperry.rifts.rifts.RiftSize.CustomRiftSize;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Particle;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -25,9 +26,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Rift implements IRift, Runnable, Listener {
+public class Rift implements Runnable, Listener {
     private int riftId;
     private int taskId;
+    private boolean deactivated;
 
     private RiftConfig config;
 
@@ -41,6 +43,7 @@ public class Rift implements IRift, Runnable, Listener {
 
     public Rift(Location location, RiftConfig config) {
         this.center = location;
+        this.deactivated = false;
         CustomRiftSize size = config.getRiftSize();
 
         this.radius = size.radius();
@@ -92,26 +95,33 @@ public class Rift implements IRift, Runnable, Listener {
         }
     }
 
-    public void death() {
+    private void death() {
         // TODO: cancel drops & add particle effects
+
+        this.deactivated = true;
 
         new BukkitRunnable() {
 
             @Override
             public void run() {
                 if(monsters.size() <= 0) {
+                    Messenger.sendDeathMessage(center.getWorld());
+                    Bukkit.getScheduler().cancelTask(taskId);
+                    RiftManager.unregisterRift(riftId);
+                    HandlerList.unregisterAll(RiftManager.getRiftById(riftId));
+                    this.cancel();
+                }
 
+                LivingEntity entity = monsters.get(0);
+                if(!entity.isDead()) {
+                    entity.damage(entity.getHealth());
+                    monsters.remove(0);
+                    entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0,1,0), 5);
+                } else {
+                    this.run();
                 }
             }
-        }.runTaskTimerAsynchronously(Rifts.getInstance(), 0, 5);
-
-        for (Monster monster : this.monsters) {
-            monster.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 4, false, false));
-        }
-        Messenger.sendDeathMessage(this.center.getWorld());
-        Bukkit.getScheduler().cancelTask(this.taskId);
-        RiftManager.unregisterRift(this.riftId);
-        HandlerList.unregisterAll(this);
+        }.runTaskTimerAsynchronously(Rifts.getInstance(), 0, 2);
     }
 
     @EventHandler
@@ -119,6 +129,9 @@ public class Rift implements IRift, Runnable, Listener {
         Entity entity = event.getEntity();
         if (MobUtils.listContainsMonster(this.monsters, entity)) {
             this.monsters.remove(entity);
+            if(deactivated) {
+                event.getDrops().clear();
+            }
         }
     }
 

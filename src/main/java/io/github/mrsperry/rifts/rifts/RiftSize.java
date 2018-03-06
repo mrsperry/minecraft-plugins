@@ -30,7 +30,7 @@ public class RiftSize {
     }
 
     public CustomRiftSize get(String name) {
-        return sizes.containsKey(name.toLowerCase()) ? sizes.get(name.toLowerCase()) : null;
+        return sizes.getOrDefault(name, null);
     }
 
     public CustomRiftSize getRandom() {
