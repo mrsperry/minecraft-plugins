@@ -14,11 +14,17 @@ rifts:
       small:
         enabled: true
         max-monsters: 25
+        length: 5
+        radius: 25
       # Radius: 50 blocks; Length: 7 minutes
       medium:
         enabled: true
         max-monsters: 50
+        length: 7
+        radius: 50
       # Radius: 100 blocks; Length: 10 minutes
       large:
         enabled: true
         max-monsters: 75
+        length: 10
+        radius: 100

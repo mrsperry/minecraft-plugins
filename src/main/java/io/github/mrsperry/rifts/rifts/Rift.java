@@ -26,16 +26,18 @@ public class Rift implements IRift, Runnable, Listener {
 
     private Location center;
     private int radius;
-    private int timer;
+    private double timer;
+    private int maxMonsters;
 
     private ArrayList<Monster> monsters;
     private ArrayList<Location> validLocations;
 
-    public Rift(Location location, RiftSize size) {
+    public Rift(Location location, RiftSize.CustomRiftSize size) {
         this.center = location;
 
-        this.radius = size.radius;
-        this.timer = size.timer;
+        this.radius = size.radius();
+        this.timer = size.length();
+        this.maxMonsters = size.maxMonsters();
 
         this.monsters = new ArrayList<>();
 

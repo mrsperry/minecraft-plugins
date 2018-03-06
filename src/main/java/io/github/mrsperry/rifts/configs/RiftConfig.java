@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.rifts.RiftSize;
+import io.github.mrsperry.rifts.rifts.RiftSize.CustomRiftSize;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
@@ -13,7 +14,7 @@ import java.util.HashSet;
 
 public class RiftConfig extends BasicConfig {
     private String riftID;
-    private RiftSize riftSize;
+    private CustomRiftSize riftSize;
     private HashSet<EntityType> monsters;
     private HashSet<PotionEffectType> potionEffects;
     private int maxPotionsApplied;
@@ -26,7 +27,7 @@ public class RiftConfig extends BasicConfig {
 
     public boolean loadValues() {
         this.riftID = this.getString("rift.rift-id", "INVALID");
-        this.riftSize = RiftSize.valueOf(this.getString("rift.rift-size", "SMALL"));
+        this.riftSize = RiftSize.getInstance().get(this.getString("rift.rift-size", "small"));
         this.maxPotionsApplied = this.getInt("rift.max-potions-applied", 1);
         this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL"));
         this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL"));
@@ -49,7 +50,7 @@ public class RiftConfig extends BasicConfig {
             }
         }
 
-        return !this.riftID.equals("INVALID");
+        return !this.riftID.equals("INVALID") && this.riftSize  != null;
     }
 
     @Override
@@ -66,7 +67,7 @@ public class RiftConfig extends BasicConfig {
         return riftID;
     }
 
-    public RiftSize getRiftSize() {
+    public CustomRiftSize getRiftSize() {
         return riftSize;
     }
 

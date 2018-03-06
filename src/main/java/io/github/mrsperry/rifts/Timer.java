@@ -2,6 +2,7 @@ package io.github.mrsperry.rifts;
 
 import io.github.mrsperry.rifts.rifts.Rift;
 import io.github.mrsperry.rifts.rifts.RiftSize;
+import io.github.mrsperry.rifts.rifts.RiftSize.CustomRiftSize;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
 
 import org.bukkit.Bukkit;
@@ -17,14 +18,10 @@ public class Timer implements Runnable {
     private int chance;
     private int max;
 
-    private ArrayList<RiftSize> sizes;
-
-    public Timer(int area, int chance, int max, ArrayList<RiftSize> sizes) {
+    public Timer(int area, int chance, int max) {
         this.area = area;
         this.chance = chance;
         this.max = max;
-
-        this.sizes = sizes;
     }
 
     public void run() {
@@ -39,7 +36,9 @@ public class Timer implements Runnable {
                 ArrayList<Location> valids = SpawnUtils.getValidLocations(player.getLocation(), this.area, this.area, this.area);
                 Location valid = (valids.size() > 0 ? valids.get(Rifts.getRandom().nextInt(valids.size())) : null);
 
-                RiftManager.registerRift(new Rift(valid, this.sizes.get(random.nextInt(this.sizes.size()))));
+
+
+                RiftManager.registerRift(new Rift(valid, RiftSize.getInstance().getRandom()));
             }
         }
     }

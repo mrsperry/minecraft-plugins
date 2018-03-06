@@ -2,12 +2,14 @@ package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.Rifts;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.util.List;
+import java.util.Set;
 
 public class BasicConfig implements IConfig {
     private Plugin riftsPlugin;
@@ -50,5 +52,15 @@ public class BasicConfig implements IConfig {
     @Override
     public List<String> getStringList(String path) {
         return this.fileConfiguration.getStringList(path);
+    }
+
+    @Override
+    public Set<String> getKeys(String path, boolean deep) {
+        return this.fileConfiguration.getConfigurationSection(path).getKeys(deep);
+    }
+
+    @Override
+    public ConfigurationSection getConfigurationSection(String path) {
+        return this.fileConfiguration.getConfigurationSection(path);
     }
 }

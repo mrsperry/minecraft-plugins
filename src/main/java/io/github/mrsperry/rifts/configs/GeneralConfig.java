@@ -12,18 +12,17 @@ public class GeneralConfig {
     private static int chance;
     private static int frequency;
     private static int max;
-    // TODO: implement dynamic sizes
-    private static ArrayList<RiftSize> sizes = new ArrayList<>();
 
     public static void initialize(FileConfiguration config) {
         riftsEnabled = config.getBoolean("rifts.enabled", true);
-        area = config.getInt("rifts.area", 50);
-        chance = config.getInt("rifts.chance", 25);
-        frequency = config.getInt("rifts.frequency", 60);
-        max = config.getInt("rifts.max", 3);
-        sizes.add(RiftSize.Small);
-        sizes.add(RiftSize.Medium);
-        sizes.add(RiftSize.Large);
+        area = config.getInt("rifts.spawning.area", 50);
+        chance = config.getInt("rifts.spawning.chance", 25);
+        frequency = config.getInt("rifts.spawning.frequency", 60);
+        max = config.getInt("rifts.spawning.max", 3);
+
+        for(String key : config.getConfigurationSection("rifts.spawning.size").getKeys(false)) {
+            RiftSize.getInstance().register(key, config.getConfigurationSection("rifts.spawning.size." + key));
+        }
     }
 
     public static boolean areRiftsEnabled() {
@@ -44,9 +43,5 @@ public class GeneralConfig {
 
     public static int getMaxRifts() {
         return max;
-    }
-
-    public static ArrayList<RiftSize> getRiftSizes() {
-        return sizes;
     }
 }
