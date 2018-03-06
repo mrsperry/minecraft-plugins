@@ -1,5 +1,12 @@
 rifts:
   enabled: true
+  messages:
+    # Message to display when a player joins a world with an active rift
+    login: "You feel an overwhelming sense of dread in the world..."
+    # Message to display when a rift is created
+    create: "Your mind becomes clouded as you feel your soul being drained..."
+    # Message to display when a rift dies
+    death: "Your thoughts become less pervasive as the world heals..."
   spawning:
     # Number of blocks away from a player a rift can spawn
     area: 50

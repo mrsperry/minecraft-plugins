@@ -1,12 +1,21 @@
 package io.github.mrsperry.rifts.listeners;
 
+import io.github.mrsperry.rifts.Messenger;
+import io.github.mrsperry.rifts.RiftManager;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerListener implements Listener {
+    /***
+     * Send a message to any player who joins with an active rift in their world
+     */
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
-
+    public void onPlayerJoin(PlayerJoinEvent event) {
+        // Check if any ID is being used
+        if (RiftManager.getCurrentRiftId() > 0) {
+            Messenger.sendJoinMessage(event.getPlayer());
+        }
     }
 }

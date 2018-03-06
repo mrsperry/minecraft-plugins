@@ -7,6 +7,11 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 public class GeneralConfig {
     private static boolean riftsEnabled;
+
+    private static String joinMessage;
+    private static String createMessage;
+    private static String deathMessage;
+
     private static int area;
     private static int chance;
     private static int frequency;
@@ -14,6 +19,11 @@ public class GeneralConfig {
 
     public static void initialize(FileConfiguration config) {
         riftsEnabled = config.getBoolean("rifts.enabled", true);
+
+        joinMessage = config.getString("rifts.messages.join", "");
+        createMessage = config.getString("rifts.messages.create", "");
+        deathMessage = config.getString("rifts.messages.death", "");
+
         area = config.getInt("rifts.spawning.area", 50);
         chance = config.getInt("rifts.spawning.chance", 25);
         frequency = config.getInt("rifts.spawning.frequency", 60);
@@ -31,6 +41,18 @@ public class GeneralConfig {
 
     public static boolean areRiftsEnabled() {
         return riftsEnabled;
+    }
+
+    public static String getJoinMessage() {
+        return joinMessage;
+    }
+
+    public static String getCreateMessage() {
+        return createMessage;
+    }
+
+    public static String getDeathMessage() {
+        return deathMessage;
     }
 
     public static int getRiftArea() {

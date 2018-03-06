@@ -1,5 +1,6 @@
 package io.github.mrsperry.rifts.rifts;
 
+import io.github.mrsperry.rifts.Messenger;
 import io.github.mrsperry.rifts.RiftManager;
 import io.github.mrsperry.rifts.Rifts;
 import io.github.mrsperry.rifts.configs.RiftConfig;
@@ -61,6 +62,7 @@ public class Rift implements IRift, Runnable, Listener {
             }
         }
 
+        Messenger.sendCreateMessage(this.center.getWorld());
         this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
         this.riftId = RiftManager.registerRift(this);
         Bukkit.getServer().getPluginManager().registerEvents(this, Rifts.getInstance());
@@ -106,6 +108,7 @@ public class Rift implements IRift, Runnable, Listener {
         for (Monster monster : this.monsters) {
             monster.addPotionEffect(new PotionEffect(PotionEffectType.POISON, Integer.MAX_VALUE, 4, false, false));
         }
+        Messenger.sendDeathMessage(this.center.getWorld());
         Bukkit.getScheduler().cancelTask(this.taskId);
         RiftManager.unregisterRift(this.riftId);
         HandlerList.unregisterAll(this);
