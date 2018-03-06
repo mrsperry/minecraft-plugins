@@ -6,7 +6,7 @@ rifts:
     # Message to display when a rift is created
     create: "Your mind becomes clouded as you feel your soul being drained..."
     # Message to display when a rift dies
-    death: "Your thoughts become less pervasive as the world heals..."
+    death: "Your thoughts become less pervasive and the world begins to heal..."
   spawning:
     # Number of blocks away from a player a rift can spawn
     area: 50
@@ -17,21 +17,16 @@ rifts:
     # Maximum number of rifts at a time
     max: 3
     size:
-      # Radius: 25 blocks; Length: 5 minutes
-      small:
-        enabled: true
+      # You can add any number of rift configurations here.
+      # Any configuration may be used randomly when a rift spawns.
+      # `max-monsters` specifies how many monsters from a rift may be spawned at once (this does not affect multiple rifts)
+      # `length` is the duration in minutes
+      # `radius` is the radius of spawnable blocks going in all directions
+      example-small:
         max-monsters: 25
         length: 5
         radius: 25
-      # Radius: 50 blocks; Length: 7 minutes
-      medium:
-        enabled: true
-        max-monsters: 50
-        length: 7
-        radius: 50
-      # Radius: 100 blocks; Length: 10 minutes
-      large:
-        enabled: true
-        max-monsters: 75
-        length: 10
+      another-example:
+        max-monsters: 200
+        length: 15
         radius: 100
