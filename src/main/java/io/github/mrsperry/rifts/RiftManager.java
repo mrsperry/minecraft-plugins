@@ -27,7 +27,6 @@ public class RiftManager {
     public static void unregisterRift(int id) {
         if (activeRifts.containsKey(id)) {
             activeRifts.remove(id);
-            currentRiftId--;
         }
     }
 

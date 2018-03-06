@@ -10,13 +10,14 @@ import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 
 public class RiftConfig extends BasicConfig {
     private String riftID;
     private CustomRiftSize riftSize;
-    private HashSet<EntityType> monsters;
-    private HashSet<PotionEffectType> potionEffects;
+    private List<EntityType> monsters;
+    private List<PotionEffectType> potionEffects;
     private int maxPotionsApplied;
     private Particle coreParticle;
     private Particle ambientParticle;
@@ -32,7 +33,7 @@ public class RiftConfig extends BasicConfig {
         this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL").toUpperCase());
         this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL").toUpperCase());
 
-        this.monsters = new HashSet<>();
+        this.monsters = new ArrayList<>();
         for(String monsterType : this.getStringList("rift.monsters")) {
             try {
                 EntityType type = EntityType.valueOf(monsterType.toUpperCase());
@@ -42,7 +43,7 @@ public class RiftConfig extends BasicConfig {
             }
         }
 
-        this.potionEffects = new HashSet<>();
+        this.potionEffects = new ArrayList<>();
         for(String potionType : this.getStringList("rift.potion-effects")) {
             PotionEffectType type = PotionEffectType.getByName(potionType);
 
@@ -74,11 +75,11 @@ public class RiftConfig extends BasicConfig {
         return riftSize;
     }
 
-    public HashSet<EntityType> getMonsters() {
+    public List<EntityType> getMonsters() {
         return monsters;
     }
 
-    public HashSet<PotionEffectType> getPotionEffects() {
+    public List<PotionEffectType> getPotionEffects() {
         return potionEffects;
     }
 
