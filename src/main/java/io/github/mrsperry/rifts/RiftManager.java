@@ -33,11 +33,10 @@ public class RiftManager {
 
     public static void loadConfigs() {
         File base = new File(Rifts.getInstance().getDataFolder(), "configs");
-        File riftConfigFolder = new File(base, "rifts");
 
         //Load rift configs
-        for(File riftFile : getFileList(riftConfigFolder)) {
-            RiftConfig config = new RiftConfig("configs/rifts/" + riftFile.getName());
+        for(File riftFile : getFileList(base)) {
+            RiftConfig config = new RiftConfig("configs/" + riftFile.getName());
             if(config.loadValues()) {
                 riftConfigs.put(config.getRiftID(), config);
                 Bukkit.getLogger().info("\n\nLoaded rift config " + riftFile.getName());

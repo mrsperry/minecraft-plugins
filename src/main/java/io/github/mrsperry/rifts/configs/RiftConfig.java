@@ -27,30 +27,33 @@ public class RiftConfig extends BasicConfig {
 
     public boolean loadValues() {
         this.riftID = this.getString("rift.rift-id", "INVALID");
-        this.riftSize = RiftSize.getInstance().get(this.getString("rift.rift-size", "small"));
+        this.riftSize = RiftSize.getInstance().get(this.getString("rift.rift-size", "small").toLowerCase());
         this.maxPotionsApplied = this.getInt("rift.max-potions-applied", 1);
-        this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL"));
-        this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL"));
+        this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL").toUpperCase());
+        this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL").toUpperCase());
 
         this.monsters = new HashSet<>();
         for(String monsterType : this.getStringList("rift.monsters")) {
             try {
-                this.monsters.add(EntityType.valueOf(monsterType));
+                EntityType type = EntityType.valueOf(monsterType.toUpperCase());
+                this.monsters.add(type);
             } catch (Exception e) {
-                Bukkit.getLogger().warning("Error loading monster in " + this.riftID + " config: " + e.getMessage());
+                Bukkit.getLogger().warning("Error loading monster in " + this.riftID + " config! Unknown monster " + monsterType);
             }
         }
 
         this.potionEffects = new HashSet<>();
         for(String potionType : this.getStringList("rift.potion-effects")) {
-            try {
-                this.potionEffects.add(PotionEffectType.getByName(potionType));
-            } catch (Exception e) {
-                Bukkit.getLogger().warning("Error loading potion effect in " + this.riftID + " config: " + e.getMessage());
+            PotionEffectType type = PotionEffectType.getByName(potionType);
+
+            if(type != null) {
+                this.potionEffects.add(type);
+            } else {
+                Bukkit.getLogger().warning("Error loading potion effect in " + this.riftID + " config! Unknown potion effect " + potionType);
             }
         }
 
-        return !this.riftID.equals("INVALID") && this.riftSize  != null;
+        return !this.riftID.equals("INVALID") && this.riftSize != null;
     }
 
     @Override

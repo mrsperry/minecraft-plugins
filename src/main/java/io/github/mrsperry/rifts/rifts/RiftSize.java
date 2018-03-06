@@ -26,7 +26,7 @@ public class RiftSize {
         double length = section.getDouble("length", 5);
         int radius = section.getInt("radius", 25);
 
-        sizes.put(name.toLowerCase(), new CustomRiftSize(enabled, maxMonsters, length, radius));
+        sizes.put(name.toLowerCase(), new CustomRiftSize(name, enabled, maxMonsters, length, radius));
     }
 
     public CustomRiftSize get(String name) {
@@ -49,16 +49,22 @@ public class RiftSize {
     }
 
     public class CustomRiftSize {
+        private String name;
         private boolean enabled;
         private int maxMonsters;
         private double length;
         private int radius;
 
-        public CustomRiftSize(boolean enabled, int maxMonsters, double length, int radius) {
+        public CustomRiftSize(String name, boolean enabled, int maxMonsters, double length, int radius) {
+            this.name = name;
             this.enabled = enabled;
             this.maxMonsters = maxMonsters;
             this.length = length;
             this.radius = radius;
+        }
+
+        public String name() {
+            return this.name;
         }
 
         public boolean enabled() {
@@ -75,6 +81,15 @@ public class RiftSize {
 
         public int radius() {
             return this.radius;
+        }
+
+        @Override
+        public String toString() {
+            return  "[" + this.name + ","
+                    + " [Enabled: " + this.enabled + ","
+                    + " Max Monsters: " + this.maxMonsters + ","
+                    + " Length: " + this.length + ","
+                    + " Radius: " + this.radius + "]]";
         }
     }
 }

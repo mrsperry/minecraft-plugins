@@ -29,7 +29,7 @@ public class Rifts extends JavaPlugin {
                 new Timer(GeneralConfig.getRiftArea(),
                     GeneralConfig.getRiftChance(),
                     GeneralConfig.getMaxRifts()),
-                    0, GeneralConfig.getRiftFrequency());
+                    0, GeneralConfig.getRiftFrequency() * 20);
     }
 
     @Override

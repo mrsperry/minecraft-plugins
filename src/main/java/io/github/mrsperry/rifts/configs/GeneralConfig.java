@@ -2,9 +2,8 @@ package io.github.mrsperry.rifts.configs;
 
 import io.github.mrsperry.rifts.rifts.RiftSize;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import java.util.ArrayList;
 
 public class GeneralConfig {
     private static boolean riftsEnabled;
@@ -23,6 +22,11 @@ public class GeneralConfig {
         for(String key : config.getConfigurationSection("rifts.spawning.size").getKeys(false)) {
             RiftSize.getInstance().register(key, config.getConfigurationSection("rifts.spawning.size." + key));
         }
+
+        //Testing to make sure loading works
+        RiftSize.getInstance().list().forEach(size -> {
+            Bukkit.getLogger().info(size.toString());
+        });
     }
 
     public static boolean areRiftsEnabled() {
