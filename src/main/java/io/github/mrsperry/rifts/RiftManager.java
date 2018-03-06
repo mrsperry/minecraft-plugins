@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class RiftManager {
     private static int currentRiftId = 0;
@@ -53,6 +54,16 @@ public class RiftManager {
         }
 
         return folder.listFiles();
+    }
+
+    public static Rift getRiftById(int id) {
+        return activeRifts.getOrDefault(id, null);
+    }
+
+    public static HashSet<Rift> getActiveRifts() {
+        HashSet<Rift> rifts = new HashSet<>();
+        activeRifts.values().addAll(rifts);
+        return rifts;
     }
 
     public static int getCurrentRiftId() {
