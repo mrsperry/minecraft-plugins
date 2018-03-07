@@ -34,7 +34,6 @@ public class Rift implements Runnable, Listener {
     private RiftConfig config;
 
     private Location center;
-    private int radius;
     private double timer;
     private int maxMonsters;
 
@@ -44,19 +43,20 @@ public class Rift implements Runnable, Listener {
     public Rift(Location location, RiftConfig config) {
         this.center = location;
         this.deactivated = false;
+        this.config = config;
         CustomRiftSize size = config.getRiftSize();
 
-        this.radius = size.radius();
+        int radius = size.radius();
         this.timer = size.length() * 60;
         this.maxMonsters = size.maxMonsters();
 
         this.monsters = new ArrayList<>();
 
         this.validLocations = new ArrayList<>();
-        int diameter = (this.radius * 2) + 1;
-        for (int x = this.center.getBlockX() - this.radius; x < diameter; x++) {
-            for (int y = this.center.getBlockY() - this.radius; y < diameter; y++) {
-                for (int z = this.center.getBlockZ() - this.radius; z < diameter; z++) {
+        int diameter = (radius * 2) + 1;
+        for (int x = this.center.getBlockX() - radius; x < diameter; x++) {
+            for (int y = this.center.getBlockY() - radius; y < diameter; y++) {
+                for (int z = this.center.getBlockZ() - radius; z < diameter; z++) {
                     Location current = new Location(this.center.getWorld(), x, y, z);
                     if (SpawnUtils.isValidLocation(current)) {
                         this.validLocations.add(current);
