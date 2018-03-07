@@ -96,12 +96,8 @@ public class Rift implements Runnable, Listener {
     }
 
     private void death() {
-        // TODO: cancel drops & add particle effects
-
         this.deactivated = true;
-
         new BukkitRunnable() {
-
             @Override
             public void run() {
                 if(monsters.size() <= 0) {
