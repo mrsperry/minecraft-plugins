@@ -30,15 +30,23 @@ public class Timer implements Runnable {
         }
     }
 
-    public static void spawnRift(Player player, int area, RiftConfig config) {
+    public static boolean spawnRift(Player player, int area, RiftConfig config) {
         ArrayList<Location> valids = SpawnUtils.getValidLocations(player.getLocation(), area, area, area);
+        if (valids.isEmpty()) {
+            Bukkit.broadcastMessage("Valid locations is empty");
+            return false;
+        }
         Location location = valids.get(Rifts.getRandom().nextInt(valids.size()));
+        Bukkit.broadcastMessage("Location: " + location.toString() + "  # of locations: " + valids.size() + "  Player: " + player.getName() + "  Area: " + area + "  Rift config: " + config.getRiftID());
         new Rift(location, config);
+        return true;
     }
 
     public static void spawnRandomRift(int area) {
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
-        Player player = (Player) players.toArray()[Rifts.getRandom().nextInt(players.size())];
-        spawnRift(player, area, RiftManager.getRandomRiftConfig());
+        if (players.size() != 0) {
+            Player player = (Player) players.toArray()[Rifts.getRandom().nextInt(players.size())];
+            spawnRift(player, area, RiftManager.getRandomRiftConfig());
+        }
     }
 }

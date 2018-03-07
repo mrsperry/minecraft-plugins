@@ -54,6 +54,7 @@ public class RiftConfig extends BasicConfig {
             }
         }
 
+        Bukkit.broadcastMessage(this.riftID + " : " + this.riftSize.toString());
         return !this.riftID.equals("INVALID") && this.riftSize != null;
     }
 
