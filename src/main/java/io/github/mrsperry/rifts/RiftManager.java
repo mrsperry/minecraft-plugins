@@ -20,6 +20,11 @@ public class RiftManager {
         return null;
     }
 
+    public static RiftConfig getRandomRiftConfig() {
+        int index = Rifts.getRandom().nextInt(riftConfigs.values().size());
+        return (RiftConfig) riftConfigs.values().toArray()[index];
+    }
+
     public static int registerRift(Rift rift) {
         activeRifts.put(++currentRiftId, rift);
         return currentRiftId;

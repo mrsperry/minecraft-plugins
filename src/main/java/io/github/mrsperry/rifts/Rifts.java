@@ -1,20 +1,14 @@
 package io.github.mrsperry.rifts;
 
 import io.github.mrsperry.rifts.configs.GeneralConfig;
-import io.github.mrsperry.rifts.rifts.IRift;
 
-import io.github.mrsperry.rifts.rifts.RiftSize;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.HashSet;
 import java.util.Random;
 
 public class Rifts extends JavaPlugin {
     private static Rifts instance;
-
     private static Random random = new Random();
-
-    private static HashSet<IRift> rifts = new HashSet<IRift>();
 
     @Override
     public void onEnable() {
@@ -43,9 +37,5 @@ public class Rifts extends JavaPlugin {
 
     public static Random getRandom() {
         return random;
-    }
-
-    public static HashSet<IRift> getRifts() {
-        return rifts;
     }
 }
