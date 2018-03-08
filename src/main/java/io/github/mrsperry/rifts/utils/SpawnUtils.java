@@ -26,9 +26,9 @@ public class SpawnUtils {
 
     public static ArrayList<Location> getValidLocations(Location center, int xRadius, int yRadius, int zRadius) {
         ArrayList<Location> valids = new ArrayList<>();
-        for (int x = center.subtract(xRadius, 0, 0).getBlockX(); x <= (xRadius * 2) + 1; x++) {
-            for (int y = center.subtract(0, yRadius, 0).getBlockY(); y <= (yRadius * 2) + 1; y++) {
-                for (int z = center.subtract(0, 0, zRadius).getBlockZ(); z <= (zRadius * 2) + 1; z++) {
+        for (int x = center.subtract(xRadius, 0, 0).getBlockX(); x <= center.getBlockX() + xRadius + 1; x++) {
+            for (int y = center.subtract(0, yRadius, 0).getBlockY(); y <= center.getBlockY() + yRadius + 1; y++) {
+                for (int z = center.subtract(0, 0, zRadius).getBlockZ(); z <= center.getBlockZ() + zRadius + 1; z++) {
                     Location location = new Location(center.getWorld(), x, y, z);
                     if (isValidLocation(location)) {
                         valids.add(location);
