@@ -12,6 +12,8 @@ rifts:
     area: 50
     # Percentage to spawn
     chance: 25
+    # Number of tries for a valid location (more tries = higher chance to spawn)
+    tries: 100
     # How many seconds between spawn chance
     frequency: 60
     # Maximum number of rifts at a time

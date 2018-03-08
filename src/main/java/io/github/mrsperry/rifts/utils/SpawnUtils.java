@@ -2,12 +2,13 @@ package io.github.mrsperry.rifts.utils;
 
 import io.github.mrsperry.rifts.Rifts;
 
+import io.github.mrsperry.rifts.configs.GeneralConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class SpawnUtils {
     public interface ISpawn {
@@ -24,19 +25,18 @@ public class SpawnUtils {
         }
     }
 
-    public static ArrayList<Location> getValidLocations(Location center, int xRadius, int yRadius, int zRadius) {
-        ArrayList<Location> valids = new ArrayList<>();
-        for (int x = center.subtract(xRadius, 0, 0).getBlockX(); x <= center.getBlockX() + xRadius + 1; x++) {
-            for (int y = center.subtract(0, yRadius, 0).getBlockY(); y <= center.getBlockY() + yRadius + 1; y++) {
-                for (int z = center.subtract(0, 0, zRadius).getBlockZ(); z <= center.getBlockZ() + zRadius + 1; z++) {
-                    Location location = new Location(center.getWorld(), x, y, z);
-                    if (isValidLocation(location)) {
-                        valids.add(location);
-                    }
-                }
-            }
-        }
-        return valids;
+    public static Location getValidLocation(Location center, int xRadius, int yRadius, int zRadius) {
+        Random random = Rifts.getRandom();
+        Location location;
+        int tries = 0;
+        do {
+            int x = random.nextInt((xRadius * 2) + 1);
+            int y = random.nextInt((yRadius * 2) + 1);
+            int z = random.nextInt((zRadius * 2) + 1);
+            location = new Location(center.getWorld(), x, y, z);
+            tries++;
+        } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
+        return location;
     }
 
     public static boolean isValidLocation(Location location) {

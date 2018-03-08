@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 public class Timer implements Runnable {
@@ -31,13 +30,8 @@ public class Timer implements Runnable {
     }
 
     public static boolean spawnRift(Player player, int area, RiftConfig config) {
-        ArrayList<Location> valids = SpawnUtils.getValidLocations(player.getLocation(), area, area, area);
-        if (valids.isEmpty()) {
-            Bukkit.broadcastMessage("Valid locations is empty");
-            return false;
-        }
-        Location location = valids.get(Rifts.getRandom().nextInt(valids.size()));
-        Bukkit.broadcastMessage("Location: " + location.toString() + "  # of locations: " + valids.size() + "  Player: " + player.getName() + "  Area: " + area + "  Rift config: " + config.getRiftID());
+        Location location = SpawnUtils.getValidLocation(player.getLocation(), area, area, area);
+        Bukkit.broadcastMessage("Location: " + location.toString() + "  Player: " + player.getName() + "  Area: " + area + "  Rift config: " + config.getRiftID());
         new Rift(location, config);
         return true;
     }

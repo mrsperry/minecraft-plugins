@@ -14,6 +14,7 @@ public class GeneralConfig {
 
     private static int area;
     private static int chance;
+    private static int tries;
     private static int frequency;
     private static int max;
 
@@ -26,6 +27,7 @@ public class GeneralConfig {
 
         area = config.getInt("rifts.spawning.area", 50);
         chance = config.getInt("rifts.spawning.chance", 25);
+        tries = config.getInt("rifts.spawning.tries", 100);
         frequency = config.getInt("rifts.spawning.frequency", 60);
         max = config.getInt("rifts.spawning.max", 3);
 
@@ -61,6 +63,10 @@ public class GeneralConfig {
 
     public static int getRiftChance() {
         return chance;
+    }
+
+    public static int getRiftTries() {
+        return tries;
     }
 
     public static int getRiftFrequency() {
