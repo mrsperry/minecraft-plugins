@@ -1,7 +1,7 @@
 package io.github.mrsperry.rifts.utils;
 
 import io.github.mrsperry.rifts.Rifts;
-import io.github.mrsperry.rifts.rifts.Rift;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Monster;
@@ -9,7 +9,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class MobUtils {
     public static boolean listContainsMonster(ArrayList<Monster> monsters, Entity entity) {

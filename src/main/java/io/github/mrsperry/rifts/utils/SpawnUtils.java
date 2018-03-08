@@ -1,8 +1,8 @@
 package io.github.mrsperry.rifts.utils;
 
 import io.github.mrsperry.rifts.Rifts;
-
 import io.github.mrsperry.rifts.configs.GeneralConfig;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
