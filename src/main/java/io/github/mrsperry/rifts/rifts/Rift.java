@@ -52,11 +52,13 @@ public class Rift implements Runnable, Listener {
 
         this.monsters = new ArrayList<>();
         this.validLocations = new ArrayList<>();
-        int diameter = (radius * 2) + 1;
-        for (int x = this.center.getBlockX() - radius; x < diameter; x++) {
-            for (int y = this.center.getBlockY() - radius; y < diameter; y++) {
-                for (int z = this.center.getBlockZ() - radius; z < diameter; z++) {
-                    Location current = new Location(this.center.getWorld(), x, y, z);
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    Location current = new Location(this.center.getWorld(),
+                            this.center.getBlockX() + x,
+                            this.center.getBlockY() + y,
+                            this.center.getBlockZ() + z);
                     if (SpawnUtils.isValidLocation(current)) {
                         this.validLocations.add(current);
                     }
@@ -90,6 +92,7 @@ public class Rift implements Runnable, Listener {
                     PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE,1);
                     monster.addPotionEffect(potion);
                 }
+                this.monsters.add((Monster) monster);
             });
         }
     }
