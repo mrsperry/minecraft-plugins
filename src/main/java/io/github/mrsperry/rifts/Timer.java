@@ -33,8 +33,6 @@ public class Timer implements Runnable {
         Location location = SpawnUtils.getValidLocation(player.getLocation(), area, area, area);
         if (location != null) {
             new Rift(location, config);
-        } else {
-            Bukkit.getLogger().warning("Could not find a valid location to spawn a rift!");
         }
         return true;
     }
