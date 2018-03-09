@@ -3,6 +3,7 @@ package io.github.mrsperry.rifts.utils;
 import io.github.mrsperry.rifts.Rifts;
 import io.github.mrsperry.rifts.configs.GeneralConfig;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -46,7 +47,7 @@ public class SpawnUtils {
         Block block = location.getBlock();
         if (block.getType() == Material.AIR) {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
-            Block above = block.getWorld().getBlockAt(location.add(0, 1, 1));
+            Block above = block.getWorld().getBlockAt(location.add(0, 1, 0));
             return below.getType().isSolid() && !above.getType().isSolid(); // require 2 blocks of air & solid material below
         }
         return false;
