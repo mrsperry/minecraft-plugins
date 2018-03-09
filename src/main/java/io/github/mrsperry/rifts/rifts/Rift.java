@@ -65,16 +65,11 @@ public class Rift implements Runnable, Listener {
                 }
             }
         }
+
+        Messenger.sendCreateMessage(this.center.getWorld());
         this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
         this.riftId = RiftManager.registerRift(this);
         Bukkit.getServer().getPluginManager().registerEvents(this, Rifts.getInstance());
-
-        if (this.validLocations.size() == 0) {
-            this.death();
-            Bukkit.getLogger().warning("Could not find any valid locations for a rift!");
-        } else {
-            Messenger.sendCreateMessage(this.center.getWorld());
-        }
     }
 
     public void run() {
