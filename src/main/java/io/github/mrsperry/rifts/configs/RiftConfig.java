@@ -55,7 +55,7 @@ public class RiftConfig extends BasicConfig {
         }
 
         return !this.riftID.equals("INVALID") && this.riftSize != null;
-    }
+}
 
     @Override
     public boolean reload() {
