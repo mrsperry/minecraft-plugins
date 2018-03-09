@@ -40,8 +40,7 @@ public class SpawnUtils {
                     center.getBlockZ() + (z - zRadius));
             tries++;
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
-        Bukkit.broadcastMessage("Valid: " + location);
-        return location;
+        return isValidLocation(location) ? location : null;
     }
 
     public static boolean isValidLocation(Location location) {
