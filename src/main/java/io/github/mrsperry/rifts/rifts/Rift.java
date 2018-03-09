@@ -107,13 +107,15 @@ public class Rift implements Runnable, Listener {
                     this.cancel();
                 }
 
-                LivingEntity entity = monsters.get(0);
-                if(!entity.isDead()) {
-                    entity.damage(entity.getHealth());
-                    monsters.remove(0);
-                    entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0,1,0), 5);
-                } else {
-                    this.run();
+                if (monsters.size() > 0) {
+                    LivingEntity entity = monsters.get(0);
+                    if (!entity.isDead()) {
+                        entity.damage(entity.getHealth());
+                        monsters.remove(0);
+                        entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
+                    } else {
+                        this.run();
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(Rifts.getInstance(), 0, 2);
