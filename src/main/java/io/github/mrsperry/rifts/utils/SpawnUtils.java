@@ -35,11 +35,12 @@ public class SpawnUtils {
             int y = random.nextInt((yRadius * 2) + 1);
             int z = random.nextInt((zRadius * 2) + 1);
             location = new Location(center.getWorld(),
-                    center.getBlockX() + (x - (xRadius / 2)),
-                    center.getBlockY() + (y - (yRadius / 2)),
-                    center.getBlockZ() + (z - (zRadius / 2)));
+                    center.getBlockX() + (x - xRadius),
+                    center.getBlockY() + (y - yRadius),
+                    center.getBlockZ() + (z - zRadius));
             tries++;
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
+        Bukkit.broadcastMessage("Valid: " + location);
         return location;
     }
 
