@@ -34,9 +34,9 @@ public class SpawnUtils {
             int y = random.nextInt((yRadius * 2) + 1);
             int z = random.nextInt((zRadius * 2) + 1);
             location = new Location(center.getWorld(),
-                    center.getBlockX() + (x - (x / 2)),
-                    center.getBlockY() + (y - (y / 2)),
-                    center.getBlockZ() + (z - (z / 2)));
+                    center.getBlockX() + (x - (xRadius / 2)),
+                    center.getBlockY() + (y - (yRadius / 2)),
+                    center.getBlockZ() + (z - (zRadius / 2)));
             tries++;
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
         return location;
