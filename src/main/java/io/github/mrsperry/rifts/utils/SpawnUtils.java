@@ -19,7 +19,6 @@ public class SpawnUtils {
         for (int count = 0; count < maxCount; count++) {
             Location location = validLocations.get(Rifts.getRandom().nextInt(validLocations.size()));
             if (location != null) {
-                // TODO: spawn correct monster type/amount
                 operation.execute(location, count);
             }
         }
@@ -34,19 +33,19 @@ public class SpawnUtils {
             int y = random.nextInt((yRadius * 2) + 1);
             int z = random.nextInt((zRadius * 2) + 1);
             location = new Location(center.getWorld(),
-                    center.getBlockX() + (x - (xRadius / 2)),
-                    center.getBlockY() + (y - (yRadius / 2)),
-                    center.getBlockZ() + (z - (zRadius / 2)));
+                    center.getBlockX() + (x - xRadius),
+                    center.getBlockY() + (y - yRadius),
+                    center.getBlockZ() + (z - zRadius));
             tries++;
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
-        return location;
+        return isValidLocation(location) ? location : null;
     }
 
     public static boolean isValidLocation(Location location) {
         Block block = location.getBlock();
         if (block.getType() == Material.AIR) {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
-            Block above = block.getWorld().getBlockAt(location.add(0, 1, 1));
+            Block above = block.getWorld().getBlockAt(location.add(0, 1, 0));
             return below.getType().isSolid() && !above.getType().isSolid(); // require 2 blocks of air & solid material below
         }
         return false;
