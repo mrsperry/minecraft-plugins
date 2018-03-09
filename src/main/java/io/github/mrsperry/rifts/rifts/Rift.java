@@ -78,10 +78,6 @@ public class Rift implements Runnable, Listener {
             this.death();
         }
 
-        this.center.getWorld().spawnParticle(this.config.getCoreParticle(), this.center, 1); // TODO: remove this; mark the center of the rift
-
-        SpawnUtils.spawn(this.validLocations, 10, (location, count) ->
-                location.getWorld().spawnParticle(this.config.getAmbientParticle(), location, 1));
         if (this.validLocations.size() > 0 && this.monsters.size() < this.maxMonsters) {
             SpawnUtils.spawn(this.validLocations, 1, (location, count) -> {
                 LivingEntity monster = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));

@@ -3,7 +3,6 @@ package io.github.mrsperry.rifts.utils;
 import io.github.mrsperry.rifts.Rifts;
 import io.github.mrsperry.rifts.configs.GeneralConfig;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -20,7 +19,6 @@ public class SpawnUtils {
         for (int count = 0; count < maxCount; count++) {
             Location location = validLocations.get(Rifts.getRandom().nextInt(validLocations.size()));
             if (location != null) {
-                // TODO: spawn correct monster type/amount
                 operation.execute(location, count);
             }
         }
