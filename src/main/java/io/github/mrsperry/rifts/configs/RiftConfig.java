@@ -20,6 +20,7 @@ public class RiftConfig extends BasicConfig {
     private List<PotionEffectType> potionEffects;
     private int maxPotionsApplied;
     private Particle coreParticle;
+    private Particle secondaryParticle;
     private Particle ambientParticle;
 
     public RiftConfig(String path) {
@@ -32,6 +33,7 @@ public class RiftConfig extends BasicConfig {
         this.maxPotionsApplied = this.getInt("rift.max-potions-applied", 1);
         this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL").toUpperCase());
         this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL").toUpperCase());
+        this.secondaryParticle = Particle.valueOf(this.getString("rift.secondary-particle", "SMOKE_NORMAL").toUpperCase());
 
         this.monsters = new ArrayList<>();
         for(String monsterType : this.getStringList("rift.monsters")) {
@@ -95,6 +97,8 @@ public class RiftConfig extends BasicConfig {
     public Particle getAmbientParticle() {
         return ambientParticle;
     }
+
+    public Particle getSecondaryParticle() { return secondaryParticle; }
 
     @Override
     public String toString() {

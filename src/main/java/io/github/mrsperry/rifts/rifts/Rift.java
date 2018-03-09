@@ -29,6 +29,7 @@ import java.util.List;
 public class Rift implements Runnable, Listener {
     private int riftId;
     private int taskId;
+    private int effectId;
     private boolean deactivated;
 
     private RiftConfig config;
@@ -70,6 +71,12 @@ public class Rift implements Runnable, Listener {
         this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
         this.riftId = RiftManager.registerRift(this);
         Bukkit.getServer().getPluginManager().registerEvents(this, Rifts.getInstance());
+
+        RiftEffect riftEffect = new RiftEffect()
+                .setEffects(config.getCoreParticle(), config.getSecondaryParticle(), config.getAmbientParticle())
+                .setCenter(this.center)
+                .setValidLocations(this.validLocations);
+        this.effectId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), riftEffect, 0L, 5L);
     }
 
     public void run() {
@@ -100,6 +107,7 @@ public class Rift implements Runnable, Listener {
                 if(monsters.size() <= 0) {
                     Messenger.sendDeathMessage(center.getWorld());
                     Bukkit.getScheduler().cancelTask(taskId);
+                    Bukkit.getScheduler().cancelTask(effectId);
                     RiftManager.unregisterRift(riftId);
                     HandlerList.unregisterAll(RiftManager.getRiftById(riftId));
                     this.cancel();
