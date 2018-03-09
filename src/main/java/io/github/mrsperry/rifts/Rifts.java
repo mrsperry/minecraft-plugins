@@ -19,11 +19,13 @@ public class Rifts extends JavaPlugin {
         GeneralConfig.initialize(this.getConfig());
         RiftManager.loadConfigs();
 
-        getServer().getScheduler().scheduleSyncRepeatingTask(this,
-                new Timer(GeneralConfig.getRiftArea(),
-                    GeneralConfig.getRiftChance(),
-                    GeneralConfig.getMaxRifts()),
-                    0, GeneralConfig.getRiftFrequency() * 20);
+        if (GeneralConfig.areRiftsEnabled()) {
+            getServer().getScheduler().scheduleSyncRepeatingTask(this,
+                    new Timer(GeneralConfig.getRiftArea(),
+                            GeneralConfig.getRiftChance(),
+                            GeneralConfig.getMaxRifts()),
+                            0, GeneralConfig.getRiftFrequency() * 20);
+        }
     }
 
     @Override

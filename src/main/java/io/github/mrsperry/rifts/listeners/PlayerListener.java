@@ -8,9 +8,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 
 public class PlayerListener implements Listener {
-    /***
-     * Send a message to any player who joins with an active rift in their world
-     */
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         // Check if any ID is being used

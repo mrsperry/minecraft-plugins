@@ -41,17 +41,16 @@ public class Rift implements Runnable, Listener {
     private ArrayList<Location> validLocations;
 
     public Rift(Location location, RiftConfig config) {
-        this.center = location;
         this.deactivated = false;
         this.config = config;
-        CustomRiftSize size = config.getRiftSize();
 
-        int radius = size.radius();
+        CustomRiftSize size = config.getRiftSize();
+        this.center = location;
         this.timer = size.length() * 60;
         this.maxMonsters = size.maxMonsters();
+        int radius = size.radius();
 
         this.monsters = new ArrayList<>();
-
         this.validLocations = new ArrayList<>();
         int diameter = (radius * 2) + 1;
         for (int x = this.center.getBlockX() - radius; x < diameter; x++) {
@@ -108,13 +107,15 @@ public class Rift implements Runnable, Listener {
                     this.cancel();
                 }
 
-                LivingEntity entity = monsters.get(0);
-                if(!entity.isDead()) {
-                    entity.damage(entity.getHealth());
-                    monsters.remove(0);
-                    entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0,1,0), 5);
-                } else {
-                    this.run();
+                if (monsters.size() > 0) {
+                    LivingEntity entity = monsters.get(0);
+                    if (!entity.isDead()) {
+                        entity.damage(entity.getHealth());
+                        monsters.remove(0);
+                        entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
+                    } else {
+                        this.run();
+                    }
                 }
             }
         }.runTaskTimerAsynchronously(Rifts.getInstance(), 0, 2);

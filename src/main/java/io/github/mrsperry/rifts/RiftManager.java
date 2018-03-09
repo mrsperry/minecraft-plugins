@@ -67,7 +67,7 @@ public class RiftManager {
 
     public static HashSet<Rift> getActiveRifts() {
         HashSet<Rift> rifts = new HashSet<>();
-        activeRifts.values().addAll(rifts);
+        rifts.addAll(activeRifts.values());
         return rifts;
     }
 

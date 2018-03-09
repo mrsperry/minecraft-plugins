@@ -1,6 +1,7 @@
 package io.github.mrsperry.rifts.rifts;
 
 import io.github.mrsperry.rifts.Rifts;
+
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
