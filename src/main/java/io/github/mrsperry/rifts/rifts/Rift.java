@@ -67,16 +67,14 @@ public class Rift implements Runnable, Listener {
             }
         }
 
-        Messenger.sendCreateMessage(this.center.getWorld());
-        this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
-        this.riftId = RiftManager.registerRift(this);
-        Bukkit.getServer().getPluginManager().registerEvents(this, Rifts.getInstance());
-
-        RiftEffect riftEffect = new RiftEffect()
-                .setEffects(config.getCoreParticle(), config.getSecondaryParticle(), config.getAmbientParticle())
+        RiftEffect riftEffect = new RiftEffect(this.config)
                 .setCenter(this.center)
                 .setValidLocations(this.validLocations);
         this.effectId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), riftEffect, 0L, 5L);
+        this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
+        this.riftId = RiftManager.registerRift(this);
+        Bukkit.getServer().getPluginManager().registerEvents(this, Rifts.getInstance());
+        Messenger.sendCreateMessage(this.center.getWorld());
     }
 
     public void run() {

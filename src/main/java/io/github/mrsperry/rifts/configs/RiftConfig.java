@@ -6,7 +6,6 @@ import io.github.mrsperry.rifts.rifts.RiftSize.CustomRiftSize;
 import org.apache.commons.lang.builder.ToStringBuilder;
 
 import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.entity.EntityType;
 import org.bukkit.potion.PotionEffectType;
 
@@ -19,9 +18,9 @@ public class RiftConfig extends BasicConfig {
     private List<EntityType> monsters;
     private List<PotionEffectType> potionEffects;
     private int maxPotionsApplied;
-    private Particle coreParticle;
-    private Particle secondaryParticle;
-    private Particle ambientParticle;
+    private boolean showCoreEffect;
+    private boolean showSecondaryEffect;
+    private boolean showAmbientEffect;
 
     public RiftConfig(String path) {
         super(path);
@@ -31,9 +30,9 @@ public class RiftConfig extends BasicConfig {
         this.riftID = this.getString("rift.rift-id", "INVALID");
         this.riftSize = RiftSize.getInstance().get(this.getString("rift.rift-size", "small").toLowerCase());
         this.maxPotionsApplied = this.getInt("rift.max-potions-applied", 1);
-        this.coreParticle = Particle.valueOf(this.getString("rift.core-particle", "SMOKE_NORMAL").toUpperCase());
-        this.ambientParticle = Particle.valueOf(this.getString("rift.ambient-particle", "PORTAL").toUpperCase());
-        this.secondaryParticle = Particle.valueOf(this.getString("rift.secondary-particle", "SMOKE_NORMAL").toUpperCase());
+        this.showCoreEffect = this.getBoolean("rift.core-effect", true);
+        this.showAmbientEffect = this.getBoolean("rift.ambient-effect", true);
+        this.showSecondaryEffect = this.getBoolean("rift.secondary-effect", true);
 
         this.monsters = new ArrayList<>();
         for(String monsterType : this.getStringList("rift.monsters")) {
@@ -90,15 +89,15 @@ public class RiftConfig extends BasicConfig {
         return maxPotionsApplied;
     }
 
-    public Particle getCoreParticle() {
-        return coreParticle;
+    public boolean showCoreEffect() {
+        return showCoreEffect;
     }
 
-    public Particle getAmbientParticle() {
-        return ambientParticle;
+    public boolean showAmbientEffect() {
+        return showAmbientEffect;
     }
 
-    public Particle getSecondaryParticle() { return secondaryParticle; }
+    public boolean showSecondaryEffect() { return showSecondaryEffect; }
 
     @Override
     public String toString() {

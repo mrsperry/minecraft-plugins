@@ -45,6 +45,11 @@ public class BasicConfig implements IConfig {
     }
 
     @Override
+    public boolean getBoolean(String path, boolean defaultValue) {
+        return this.fileConfiguration.getBoolean(path, defaultValue);
+    }
+
+    @Override
     public String getString(String path, String defaultValue) {
         return this.fileConfiguration.getString(path, defaultValue);
     }
