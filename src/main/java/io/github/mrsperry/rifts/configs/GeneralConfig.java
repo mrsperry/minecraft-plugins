@@ -12,7 +12,8 @@ public class GeneralConfig {
     private static String createMessage;
     private static String deathMessage;
 
-    private static int area;
+    private static int minArea;
+    private static int maxArea;
     private static int chance;
     private static int tries;
     private static int frequency;
@@ -25,7 +26,13 @@ public class GeneralConfig {
         createMessage = config.getString("rifts.messages.create", "");
         deathMessage = config.getString("rifts.messages.death", "");
 
-        area = config.getInt("rifts.spawning.area", 50);
+        minArea = config.getInt("rifts.spawning.min-area", 50);
+        maxArea = config.getInt("rifts.spawning.max-area", 100);
+        if (minArea > maxArea) {
+            minArea = 50;
+            maxArea = 100;
+            Bukkit.getLogger().warning("Maximum area is less than the minimum area a rift can spawn in; setting defaults");
+        }
         chance = config.getInt("rifts.spawning.chance", 25);
         tries = config.getInt("rifts.spawning.tries", 100);
         frequency = config.getInt("rifts.spawning.frequency", 60);
@@ -35,10 +42,9 @@ public class GeneralConfig {
             RiftSize.getInstance().register(key, config.getConfigurationSection("rifts.spawning.size." + key));
         }
 
-        //Testing to make sure loading works
-        RiftSize.getInstance().list().forEach(size -> {
-            Bukkit.getLogger().info(size.toString());
-        });
+        RiftSize.getInstance().list().forEach(size ->
+            Bukkit.getLogger().info(size.toString())
+        );
     }
 
     public static boolean areRiftsEnabled() {
@@ -57,8 +63,12 @@ public class GeneralConfig {
         return deathMessage;
     }
 
-    public static int getRiftArea() {
-        return area;
+    public static int getMinArea() {
+        return minArea;
+    }
+
+    public static int getMaxArea() {
+        return maxArea;
     }
 
     public static int getRiftChance() {

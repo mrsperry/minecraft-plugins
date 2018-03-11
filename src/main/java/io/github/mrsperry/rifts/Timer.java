@@ -13,12 +13,14 @@ import org.bukkit.entity.Player;
 import java.util.Collection;
 
 public class Timer implements Runnable {
-    private int area;
+    private int minArea;
+    private int maxArea;
     private int chance;
     private int max;
 
-    public Timer(int area, int chance, int max) {
-        this.area = area;
+    public Timer(int minArea, int maxArea, int chance, int max) {
+        this.minArea = minArea;
+        this.maxArea = maxArea;
         this.chance = chance;
         this.max = max;
     }
@@ -26,13 +28,13 @@ public class Timer implements Runnable {
     public void run() {
         if (RiftManager.getActiveRifts().size() < this.max) {
             if (Rifts.getRandom().nextInt(100) + 1 <= this.chance) {
-                spawnRandomRift(this.area);
+                spawnRandomRift(this.minArea, this.maxArea);
             }
         }
     }
 
-    public static boolean spawnRift(Player player, int area, RiftConfig config) {
-        Location location = SpawnUtils.getValidLocation(player.getLocation(), area, area, area);
+    public static boolean spawnRift(Player player, int minArea, int maxArea, RiftConfig config) {
+        Location location = SpawnUtils.getValidLocation(player.getLocation(), minArea, maxArea);
         if (location != null) {
             for (Location core : RiftEffect.getCoreLocations(location)) {
                 if (core.getBlock().getType() != Material.AIR) {
@@ -44,16 +46,17 @@ public class Timer implements Runnable {
                     return false;
                 }
             }
+            Bukkit.broadcastMessage("Location: " + location + "  Distance: " + player.getLocation().distance(location));
             new Rift(location, config);
         }
         return true;
     }
 
-    public static void spawnRandomRift(int area) {
+    public static void spawnRandomRift(int minArea, int maxArea) {
         Collection<? extends Player> players = Bukkit.getOnlinePlayers();
         if (players.size() != 0) {
             Player player = (Player) players.toArray()[Rifts.getRandom().nextInt(players.size())];
-            spawnRift(player, area, RiftManager.getRandomRiftConfig());
+            spawnRift(player, minArea, maxArea, RiftManager.getRandomRiftConfig());
         }
     }
 }

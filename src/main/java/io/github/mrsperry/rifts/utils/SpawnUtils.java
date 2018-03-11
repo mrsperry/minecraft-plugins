@@ -24,18 +24,18 @@ public class SpawnUtils {
         }
     }
 
-    public static Location getValidLocation(Location center, int xRadius, int yRadius, int zRadius) {
+    public static Location getValidLocation(Location center, int minArea, int maxArea) {
         Random random = Rifts.getRandom();
         Location location;
         int tries = 0;
         do {
-            int x = random.nextInt((xRadius * 2) + 1);
-            int y = random.nextInt((yRadius * 2) + 1);
-            int z = random.nextInt((zRadius * 2) + 1);
+            int difference = maxArea - minArea;
+            int x = random.nextInt(difference + 1);
+            int z = random.nextInt(difference + 1);
             location = new Location(center.getWorld(),
-                    center.getBlockX() + (x - xRadius),
-                    center.getBlockY() + (y - yRadius),
-                    center.getBlockZ() + (z - zRadius));
+                    center.getBlockX() + (x + minArea),
+                    center.getWorld().getHighestBlockYAt(center) + 1,
+                    center.getBlockZ() + (z + minArea));
             tries++;
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
         return isValidLocation(location) ? location : null;
