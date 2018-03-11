@@ -45,10 +45,11 @@ public class RiftManager {
             if(config.loadValues()) {
                 String id = config.getRiftID();
                 if (riftConfigs.keySet().contains(id)) {
-                    Bukkit.getLogger().warning("Rift ID for two config files are identical: " + id);
+                    Bukkit.getLogger().warning("Rift ID in " + riftFile.getPath() + " is identical to another rift! ");
                     break;
                 }
                 riftConfigs.put(id, config);
+                count++;
             } else {
                 Bukkit.getLogger().warning("Could not load rift config: " + riftFile.getName());
             }
