@@ -46,7 +46,7 @@ public class RiftConfig extends BasicConfig {
 
         this.potionEffects = new ArrayList<>();
         for(String potionType : this.getStringList("rift.potion-effects")) {
-            PotionEffectType type = PotionEffectType.getByName(potionType);
+            PotionEffectType type = PotionEffectType.getByName(potionType.toUpperCase());
 
             if(type != null) {
                 this.potionEffects.add(type);
