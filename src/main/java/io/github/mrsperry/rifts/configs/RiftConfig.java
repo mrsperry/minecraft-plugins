@@ -35,29 +35,29 @@ public class RiftConfig extends BasicConfig {
         this.showSecondaryEffect = this.getBoolean("rift.secondary-effect", true);
 
         this.monsters = new ArrayList<>();
-        for(String monsterType : this.getStringList("rift.monsters")) {
+        for (String monsterType : this.getStringList("rift.monsters")) {
             try {
                 EntityType type = EntityType.valueOf(monsterType.toUpperCase());
                 this.monsters.add(type);
             } catch (Exception e) {
-                Bukkit.getLogger().warning("Error loading monster in " + this.riftID + " config! Unknown monster " + monsterType);
+                Bukkit.getLogger().warning("Error loading monster in " + this.riftID + " config! Unknown monster: " + monsterType);
             }
         }
 
         this.potionEffects = new ArrayList<>();
-        for(String potionType : this.getStringList("rift.potion-effects")) {
+        for (String potionType : this.getStringList("rift.potion-effects")) {
             PotionEffectType type = PotionEffectType.getByName(potionType.toUpperCase());
 
-            if(type != null) {
+            if (type != null) {
                 this.potionEffects.add(type);
             } else {
-                Bukkit.getLogger().warning("Error loading potion effect in " + this.riftID + " config! Unknown potion effect " + potionType);
+                Bukkit.getLogger().warning("Error loading potion effect in " + this.riftID + " config! Unknown potion effect: " + potionType);
             }
         }
 
         Bukkit.broadcastMessage(this.riftID + " : " + this.riftSize.toString());
         return !this.riftID.equals("INVALID") && this.riftSize != null;
-}
+    }
 
     @Override
     public boolean reload() {

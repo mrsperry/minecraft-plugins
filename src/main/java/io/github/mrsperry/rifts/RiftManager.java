@@ -39,17 +39,21 @@ public class RiftManager {
     public static void loadConfigs() {
         File base = new File(Rifts.getInstance().getDataFolder(), "configs");
 
-        //Load rift configs
+        int count = 0;
         for(File riftFile : getFileList(base)) {
             RiftConfig config = new RiftConfig("configs/" + riftFile.getName());
             if(config.loadValues()) {
-                riftConfigs.put(config.getRiftID(), config);
-                Bukkit.getLogger().info("\n\nLoaded rift config " + riftFile.getName());
-                Bukkit.getLogger().info(config.toString());
+                String id = config.getRiftID();
+                if (riftConfigs.keySet().contains(id)) {
+                    Bukkit.getLogger().warning("Rift ID for two config files are identical: " + id);
+                    break;
+                }
+                riftConfigs.put(id, config);
             } else {
-                Bukkit.getLogger().warning("Could not load Rift config " + riftFile.getName());
+                Bukkit.getLogger().warning("Could not load rift config: " + riftFile.getName());
             }
         }
+        Bukkit.getLogger().info("Loaded " + count + " rift config file(s)");
     }
 
     private static File[] getFileList(File folder) {

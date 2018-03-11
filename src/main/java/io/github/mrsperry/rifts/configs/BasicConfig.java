@@ -58,14 +58,4 @@ public class BasicConfig implements IConfig {
     public List<String> getStringList(String path) {
         return this.fileConfiguration.getStringList(path);
     }
-
-    @Override
-    public Set<String> getKeys(String path, boolean deep) {
-        return this.fileConfiguration.getConfigurationSection(path).getKeys(deep);
-    }
-
-    @Override
-    public ConfigurationSection getConfigurationSection(String path) {
-        return this.fileConfiguration.getConfigurationSection(path);
-    }
 }
