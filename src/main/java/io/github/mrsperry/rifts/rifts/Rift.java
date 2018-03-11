@@ -79,17 +79,17 @@ public class Rift implements Runnable, Listener {
 
     public void run() {
         this.timer--;
-        if (this.timer == 0) {
+        if (this.timer <= 0) {
             this.death();
         }
 
         if (this.validLocations.size() > 0 && this.monsters.size() < this.maxMonsters) {
             SpawnUtils.spawn(this.validLocations, 1, (location, count) -> {
                 LivingEntity monster = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));
-                List<PotionEffectType> effects = MobUtils.getRandomEffects(config.getPotionEffects(), config.getMaxPotionsApplied());
+                List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
 
                 for(PotionEffectType effect : effects) {
-                    PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE,1);
+                    PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE, 1, false);
                     monster.addPotionEffect(potion);
                 }
                 this.monsters.add((Monster) monster);
@@ -123,6 +123,18 @@ public class Rift implements Runnable, Listener {
                 }
             }
         }.runTaskTimerAsynchronously(Rifts.getInstance(), 0, 2);
+    }
+
+    public int getID() {
+        return this.riftId;
+    }
+
+    public Location getCenter() {
+        return this.center;
+    }
+
+    public void end() {
+        this.timer = 0;
     }
 
     @EventHandler

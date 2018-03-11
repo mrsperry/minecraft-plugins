@@ -8,6 +8,8 @@ import org.bukkit.Bukkit;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class RiftManager {
     private static int currentRiftId = 0;
@@ -17,7 +19,15 @@ public class RiftManager {
     private static HashMap<Integer, Rift> activeRifts = new HashMap<>();
 
     public static RiftConfig getRiftConfig(String id) {
-        return null;
+        return riftConfigs.get(id);
+    }
+
+    public static boolean isConfigID(String id) {
+        return riftConfigs.containsKey(id);
+    }
+
+    public static Set<String> getRiftConfigIDs() {
+        return riftConfigs.keySet();
     }
 
     public static RiftConfig getRandomRiftConfig() {
