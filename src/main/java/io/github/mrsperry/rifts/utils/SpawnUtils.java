@@ -34,16 +34,17 @@ public class SpawnUtils {
         int tries = 0;
         do {
             int difference = maxArea - minArea;
-            int x = random.nextInt(difference + 1);
-            int z = random.nextInt(difference + 1);
+            int x = random.nextInt((difference * 2) + 1) - difference;
+            int z = random.nextInt((difference * 2) + 1) - difference;
             location = new Location(center.getWorld(),
-                    center.getBlockX() + (x + minArea),
+                    center.getBlockX() + (x + (x >= 0 ? + minArea : - minArea)),
                     center.getWorld().getHighestBlockYAt(center) + 1,
-                    center.getBlockZ() + (z + minArea));
+                    center.getBlockZ() + (z + (z >= 0 ? + minArea : - minArea)));
             tries++;
             original.put(location, location.getBlock().getType());
             location.getBlock().setType(Material.WOOL);
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
+        cleanupdebug(original);
         return isValidLocation(location) ? location : null;
     }
 
@@ -57,7 +58,7 @@ public class SpawnUtils {
         return false;
     }
 
-    private void cleanupdebug(Map<Location, Material> org) {
+    private static void cleanupdebug(Map<Location, Material> org) {
         new BukkitRunnable() {
 
             @Override
