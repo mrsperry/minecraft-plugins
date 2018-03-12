@@ -1,4 +1,4 @@
-main: io.github.mrsperry.meta.Main
+main: io.github.mrsperry.rifts.Main
 name: Main
 version: 1.0.0
 description: World-splitting rifts featuring a wide array of monsters to kill.
