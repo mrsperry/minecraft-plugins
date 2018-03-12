@@ -100,9 +100,12 @@ public class Rift implements Runnable, Listener {
     private void stop() {
         this.deactivated = true;
         new BukkitRunnable() {
+            boolean ending = false;
+
             @Override
             public void run() {
-                if(monsters.size() <= 0) {
+                if(monsters.size() <= 0 && !ending) {
+                    ending = true;
                     Messenger.sendDeathMessage(center.getWorld());
                     Bukkit.getScheduler().cancelTask(taskId);
                     Bukkit.getScheduler().cancelTask(effectId);
