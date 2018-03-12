@@ -52,8 +52,7 @@ public class RiftConfig extends BasicConfig {
                 Bukkit.getLogger().warning("Error loading potion effect in " + this.riftID + " config! Unknown potion effect: " + potionType);
             }
         }
-
-        Bukkit.broadcastMessage(this.riftID + " : " + this.riftSize.toString());
+        
         return !this.riftID.equals("INVALID") && this.riftSize != null;
     }
 

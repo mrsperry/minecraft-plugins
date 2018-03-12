@@ -20,26 +20,26 @@ public class GeneralConfig {
     private static int max;
 
     public static void initialize(FileConfiguration config) {
-        riftsEnabled = config.getBoolean("meta.enabled", true);
+        riftsEnabled = config.getBoolean("rifts.enabled", true);
 
-        joinMessage = config.getString("meta.messages.join", "");
-        createMessage = config.getString("meta.messages.create", "");
-        deathMessage = config.getString("meta.messages.death", "");
+        joinMessage = config.getString("rifts.messages.join", "");
+        createMessage = config.getString("rifts.messages.create", "");
+        deathMessage = config.getString("rifts.messages.death", "");
 
-        minArea = config.getInt("meta.meta.min-area", 50);
-        maxArea = config.getInt("meta.meta.max-area", 100);
+        minArea = config.getInt("rifts.spawning.min-area", 50);
+        maxArea = config.getInt("rifts.spawning.max-area", 100);
         if (minArea > maxArea) {
             minArea = 50;
             maxArea = 100;
             Bukkit.getLogger().warning("Maximum area is less than the minimum area a rift can spawn in; setting defaults");
         }
-        chance = config.getInt("meta.meta.chance", 25);
-        tries = config.getInt("meta.meta.tries", 100);
-        frequency = config.getInt("meta.meta.frequency", 60);
-        max = config.getInt("meta.meta.max", 3);
+        chance = config.getInt("rifts.spawning.chance", 25);
+        tries = config.getInt("rifts.spawning.tries", 100);
+        frequency = config.getInt("rifts.spawning.frequency", 60);
+        max = config.getInt("rifts.spawning.max", 3);
 
-        for(String key : config.getConfigurationSection("meta.meta.size").getKeys(false)) {
-            RiftSize.getInstance().register(key, config.getConfigurationSection("meta.meta.size." + key));
+        for(String key : config.getConfigurationSection("rifts.spawning.size").getKeys(false)) {
+            RiftSize.getInstance().register(key, config.getConfigurationSection("rifts.spawning.size." + key));
         }
 
         RiftSize.getInstance().list().forEach(size ->
