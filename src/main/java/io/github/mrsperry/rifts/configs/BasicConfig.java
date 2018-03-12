@@ -9,7 +9,7 @@ import org.bukkit.plugin.Plugin;
 import java.io.File;
 import java.util.List;
 
-public class BasicConfig implements IConfig {
+public class BasicConfig {
     private Plugin riftsPlugin;
     private String path;
     private FileConfiguration fileConfiguration;
@@ -20,8 +20,7 @@ public class BasicConfig implements IConfig {
         load();
     }
 
-    @Override
-    public boolean load() {
+    private boolean load() {
         File file = new File(riftsPlugin.getDataFolder(), path);
 
         if(file.exists()) {
@@ -31,28 +30,23 @@ public class BasicConfig implements IConfig {
         return false;
     }
 
-    @Override
     public boolean reload() {
         this.fileConfiguration = null;
         return load();
     }
 
-    @Override
     public int getInt(String path, int defaultValue) {
         return this.fileConfiguration.getInt(path, defaultValue);
     }
 
-    @Override
     public boolean getBoolean(String path, boolean defaultValue) {
         return this.fileConfiguration.getBoolean(path, defaultValue);
     }
 
-    @Override
     public String getString(String path, String defaultValue) {
         return this.fileConfiguration.getString(path, defaultValue);
     }
 
-    @Override
     public List<String> getStringList(String path) {
         return this.fileConfiguration.getStringList(path);
     }
