@@ -1,6 +1,6 @@
 package io.github.mrsperry.rifts;
 
-import io.github.mrsperry.rifts.rifts.Rift;
+import io.github.mrsperry.rifts.meta.Rift;
 import io.github.mrsperry.rifts.configs.RiftConfig;
 
 import org.bukkit.Bukkit;
@@ -8,7 +8,6 @@ import org.bukkit.Bukkit;
 import java.io.File;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class RiftManager {
@@ -31,7 +30,7 @@ public class RiftManager {
     }
 
     public static RiftConfig getRandomRiftConfig() {
-        int index = Rifts.getRandom().nextInt(riftConfigs.values().size());
+        int index = Main.getRandom().nextInt(riftConfigs.values().size());
         return (RiftConfig) riftConfigs.values().toArray()[index];
     }
 
@@ -47,7 +46,7 @@ public class RiftManager {
     }
 
     public static void loadConfigs() {
-        File base = new File(Rifts.getInstance().getDataFolder(), "configs");
+        File base = new File(Main.getInstance().getDataFolder(), "configs");
 
         int count = 0;
         for(File riftFile : getFileList(base)) {

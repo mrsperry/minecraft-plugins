@@ -1,17 +1,16 @@
-package io.github.mrsperry.rifts.rifts;
-
-import io.github.mrsperry.rifts.Rifts;
+package io.github.mrsperry.rifts.meta;
 
 import org.bukkit.configuration.ConfigurationSection;
 
 import java.util.*;
 
 public class RiftSize {
-    static RiftSize self;
-    Map<String, CustomRiftSize> sizes;
+    public static RiftSize self;
+
+    private Map<String, CustomRiftSize> sizes;
 
     private RiftSize() {
-        sizes = new HashMap<>();
+        this.sizes = new HashMap<>();
     }
 
     public static RiftSize getInstance() {
@@ -27,26 +26,15 @@ public class RiftSize {
         double length = section.getDouble("length", 5);
         int radius = section.getInt("radius", 25);
 
-        sizes.put(name.toLowerCase(), new CustomRiftSize(name, enabled, maxMonsters, length, radius));
+        this.sizes.put(name.toLowerCase(), new CustomRiftSize(name, enabled, maxMonsters, length, radius));
     }
 
     public CustomRiftSize get(String name) {
-        return sizes.getOrDefault(name, null);
-    }
-
-    public CustomRiftSize getRandom() {
-        List<CustomRiftSize> valid = new ArrayList<>();
-        for(CustomRiftSize size : sizes.values()) {
-            if(size.enabled()) {
-                valid.add(size);
-            }
-        }
-
-        return valid.get(Rifts.getRandom().nextInt(valid.size()));
+        return this.sizes.getOrDefault(name, null);
     }
 
     public List<CustomRiftSize> list() {
-        return new ArrayList<>(sizes.values());
+        return new ArrayList<>(this.sizes.values());
     }
 
     public class CustomRiftSize {
@@ -62,14 +50,6 @@ public class RiftSize {
             this.maxMonsters = maxMonsters;
             this.length = length;
             this.radius = radius;
-        }
-
-        public String name() {
-            return this.name;
-        }
-
-        public boolean enabled() {
-            return this.enabled;
         }
 
         public int maxMonsters() {

@@ -1,7 +1,8 @@
-package io.github.mrsperry.rifts.rifts;
+package io.github.mrsperry.rifts.meta;
 
 import com.google.common.collect.Lists;
 
+import io.github.mrsperry.rifts.Main;
 import io.github.mrsperry.rifts.configs.RiftConfig;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
 
@@ -33,20 +34,23 @@ public class RiftEffect implements Runnable {
 
     @Override
     public void run() {
+        // TODO: dont check particle locations, make big circle
         World world = this.center.getWorld();
         if (this.config.showCoreEffect()) {
             for (Location core : getCoreLocations(this.center)) {
-                world.playEffect(core, Effect.EXPLOSION_LARGE, 1);
+                world.playEffect(core, Effect.EXPLOSION_HUGE, 1);
             }
         }
         if (this.config.showSecondaryEffect()) {
+            Effect effect = Main.getRandom().nextInt(2) == 0 ? Effect.PORTAL : Effect.MAGIC_CRIT;
             for (Location secondary : getSecondaryLocations(this.center)) {
-                world.playEffect(secondary, Effect.PORTAL, 1);
+                world.playEffect(secondary, effect, 1);
             }
         }
         if (this.config.showAmbientEffect()) {
+            Effect effect = Main.getRandom().nextInt(2) == 0 ? Effect.COLOURED_DUST : Effect.WITCH_MAGIC;
             SpawnUtils.spawn(this.valid, 15, (location, count) ->
-                    location.getWorld().spigot().playEffect(location, Effect.COLOURED_DUST, 0, 0, 1, 0, 1, 1, 0, 16)
+                    location.getWorld().spigot().playEffect(location, effect, 0, 0, 1, 0, 1, 1, 0, 16)
             );
         }
     }

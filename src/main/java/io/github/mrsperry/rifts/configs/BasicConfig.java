@@ -1,15 +1,13 @@
 package io.github.mrsperry.rifts.configs;
 
-import io.github.mrsperry.rifts.Rifts;
+import io.github.mrsperry.rifts.Main;
 
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 
 import java.io.File;
 import java.util.List;
-import java.util.Set;
 
 public class BasicConfig implements IConfig {
     private Plugin riftsPlugin;
@@ -18,7 +16,7 @@ public class BasicConfig implements IConfig {
 
     public BasicConfig(String path) {
         this.path = path;
-        this.riftsPlugin = Rifts.getInstance();
+        this.riftsPlugin = Main.getInstance();
         load();
     }
 

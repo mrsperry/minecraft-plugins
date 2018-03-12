@@ -1,9 +1,7 @@
 package io.github.mrsperry.rifts.configs;
 
-import io.github.mrsperry.rifts.rifts.RiftSize;
-import io.github.mrsperry.rifts.rifts.RiftSize.CustomRiftSize;
-
-import org.apache.commons.lang.builder.ToStringBuilder;
+import io.github.mrsperry.rifts.meta.RiftSize;
+import io.github.mrsperry.rifts.meta.RiftSize.CustomRiftSize;
 
 import org.bukkit.Bukkit;
 import org.bukkit.entity.EntityType;
@@ -98,9 +96,4 @@ public class RiftConfig extends BasicConfig {
     }
 
     public boolean showSecondaryEffect() { return showSecondaryEffect; }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this);
-    }
 }

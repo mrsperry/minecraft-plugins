@@ -1,12 +1,12 @@
-package io.github.mrsperry.rifts.rifts;
+package io.github.mrsperry.rifts.meta;
 
 import io.github.mrsperry.rifts.Messenger;
 import io.github.mrsperry.rifts.RiftManager;
-import io.github.mrsperry.rifts.Rifts;
+import io.github.mrsperry.rifts.Main;
 import io.github.mrsperry.rifts.configs.RiftConfig;
 import io.github.mrsperry.rifts.utils.MobUtils;
 import io.github.mrsperry.rifts.utils.SpawnUtils;
-import io.github.mrsperry.rifts.rifts.RiftSize.CustomRiftSize;
+import io.github.mrsperry.rifts.meta.RiftSize.CustomRiftSize;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -70,17 +70,17 @@ public class Rift implements Runnable, Listener {
         RiftEffect riftEffect = new RiftEffect(this.config)
                 .setCenter(this.center)
                 .setValidLocations(this.validLocations);
-        this.effectId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), riftEffect, 0L, 5L);
-        this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Rifts.getInstance(), this, 0, 20); // 20 ticks == 1 second
+        this.effectId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), riftEffect, 0L, 5L);
+        this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), this, 0, 20);
         this.riftId = RiftManager.registerRift(this);
-        Bukkit.getServer().getPluginManager().registerEvents(this, Rifts.getInstance());
+        Bukkit.getServer().getPluginManager().registerEvents(this, Main.getInstance());
         Messenger.sendCreateMessage(this.center.getWorld());
     }
 
     public void run() {
         this.timer--;
         if (this.timer <= 0) {
-            this.death();
+            this.stop();
         }
 
         if (this.validLocations.size() > 0 && this.monsters.size() < this.maxMonsters) {
@@ -97,7 +97,7 @@ public class Rift implements Runnable, Listener {
         }
     }
 
-    private void death() {
+    public void stop() {
         this.deactivated = true;
         new BukkitRunnable() {
             @Override
@@ -122,7 +122,7 @@ public class Rift implements Runnable, Listener {
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Rifts.getInstance(), 0, 2);
+        }.runTaskTimerAsynchronously(Main.getInstance(), 0, 2);
     }
 
     public int getID() {
@@ -131,10 +131,6 @@ public class Rift implements Runnable, Listener {
 
     public Location getCenter() {
         return this.center;
-    }
-
-    public void end() {
-        this.timer = 0;
     }
 
     @EventHandler
@@ -148,7 +144,6 @@ public class Rift implements Runnable, Listener {
         }
     }
 
-    // prevent creepers and charged creepers from destroying blocks
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
         if (MobUtils.listContainsMonster(this.monsters, event.getEntity())) {

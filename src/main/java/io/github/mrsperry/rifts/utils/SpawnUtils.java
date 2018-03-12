@@ -1,6 +1,6 @@
 package io.github.mrsperry.rifts.utils;
 
-import io.github.mrsperry.rifts.Rifts;
+import io.github.mrsperry.rifts.Main;
 import io.github.mrsperry.rifts.configs.GeneralConfig;
 
 import org.bukkit.Location;
@@ -17,7 +17,7 @@ public class SpawnUtils {
 
     public static void spawn(List<Location> validLocations, int maxCount, ISpawn operation){
         for (int count = 0; count < maxCount; count++) {
-            Location location = validLocations.get(Rifts.getRandom().nextInt(validLocations.size()));
+            Location location = validLocations.get(Main.getRandom().nextInt(validLocations.size()));
             if (location != null) {
                 operation.execute(location, count);
             }
@@ -25,7 +25,7 @@ public class SpawnUtils {
     }
 
     public static Location getValidLocation(Location center, int minArea, int maxArea) {
-        Random random = Rifts.getRandom();
+        Random random = Main.getRandom();
         Location location;
         int tries = 0;
         do {
@@ -46,7 +46,7 @@ public class SpawnUtils {
         if (block.getType() == Material.AIR) {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
             Block above = block.getWorld().getBlockAt(location.add(0, 1, 0));
-            return below.getType().isSolid() && !above.getType().isSolid(); // require 2 blocks of air & solid material below
+            return below.getType().isSolid() && !above.getType().isSolid();
         }
         return false;
     }

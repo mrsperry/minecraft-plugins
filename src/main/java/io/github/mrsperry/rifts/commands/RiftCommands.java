@@ -1,9 +1,12 @@
-package io.github.mrsperry.rifts.rifts;
+package io.github.mrsperry.rifts.commands;
 
 import io.github.mrsperry.rifts.RiftManager;
 import io.github.mrsperry.rifts.configs.RiftConfig;
 import io.github.mrsperry.rifts.Timer;
+import io.github.mrsperry.rifts.meta.Rift;
+
 import net.md_5.bungee.api.ChatColor;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -16,12 +19,11 @@ import java.util.*;
 public class RiftCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String cmdLine, String[] args) {
-
         switch (command.getName().toLowerCase()) {
             case "spawnrift":
                 return spawnRift(sender, args);
-            case "endrift":
-                return endrift(sender, args);
+            case "stoprift":
+                return stopRift(sender, args);
             case "riftids":
                 return listRifts(sender);
             default:
@@ -65,14 +67,14 @@ public class RiftCommands implements CommandExecutor {
             return true;
         }
 
-        Timer.spawnRift(player, config.getRiftSize().radius(), config);
+        Timer.spawnRift(player, config);
         sender.sendMessage(ChatColor.GREEN + "Spawning new rift around player " + player.getName());
 
         return true;
     }
 
     // /endrift [# || -a]
-    private boolean endrift(CommandSender sender, String[] args) {
+    private boolean stopRift(CommandSender sender, String[] args) {
         int radius;
         boolean all;
         Location location;
@@ -90,7 +92,7 @@ public class RiftCommands implements CommandExecutor {
         if(all) {
             sender.sendMessage(ChatColor.GREEN + "Ending all active rifts...");
             for(Rift rift : RiftManager.getActiveRifts()) {
-                rift.end();
+                rift.stop();
                 RiftManager.unregisterRift(rift.getID());
             }
         } else {
@@ -99,7 +101,7 @@ public class RiftCommands implements CommandExecutor {
             for(Rift rift : RiftManager.getActiveRifts()) {
                 double dist = location.distance(rift.getCenter());
                 if(dist <= radius) {
-                    rift.end();
+                    rift.stop();
                     RiftManager.unregisterRift(rift.getID());
                 }
             }

@@ -1,5 +1,5 @@
-main: io.github.mrsperry.rifts.Rifts
-name: Rifts
+main: io.github.mrsperry.meta.Main
+name: Main
 version: 1.0.0
 description: World-splitting rifts featuring a wide array of monsters to kill.
 commands:
@@ -8,10 +8,10 @@ commands:
     usage: /spawnrift |radius=50| |player=Notch|
     permission: rifts.spawn
   endrift:
-    description: End a rift within a radius or all rifts
-    usage: /endrift [50 || -a]
+    description: End a rift within a radius or all meta
+    usage: /stoprift [50 || -a]
     permission: rifts.end
   riftids:
     description: Get a list of all rift config IDs
-    usage: /eriftids
+    usage: /riftids
     permission: rifts.spawn
