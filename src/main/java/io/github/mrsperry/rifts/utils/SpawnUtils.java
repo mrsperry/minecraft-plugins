@@ -6,8 +6,11 @@ import io.github.mrsperry.rifts.configs.GeneralConfig;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class SpawnUtils {
@@ -25,6 +28,7 @@ public class SpawnUtils {
     }
 
     public static Location getValidLocation(Location center, int minArea, int maxArea) {
+        Map<Location, Material> original = new HashMap<>();
         Random random = Main.getRandom();
         Location location;
         int tries = 0;
@@ -37,6 +41,8 @@ public class SpawnUtils {
                     center.getWorld().getHighestBlockYAt(center) + 1,
                     center.getBlockZ() + (z + minArea));
             tries++;
+            original.put(location, location.getBlock().getType());
+            location.getBlock().setType(Material.WOOL);
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
         return isValidLocation(location) ? location : null;
     }
@@ -49,5 +55,17 @@ public class SpawnUtils {
             return below.getType().isSolid() && !above.getType().isSolid();
         }
         return false;
+    }
+
+    private void cleanupdebug(Map<Location, Material> org) {
+        new BukkitRunnable() {
+
+            @Override
+            public void run() {
+                for(Location loc : org.keySet()) {
+                    loc.getBlock().setType(org.get(loc));
+                }
+            }
+        }.runTaskLater(Main.getInstance(), 100);
     }
 }
