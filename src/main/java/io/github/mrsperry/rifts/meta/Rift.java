@@ -31,6 +31,7 @@ public class Rift implements Runnable, Listener {
     private int taskId;
     private int effectId;
     private boolean deactivated;
+    private boolean ending = false;
 
     private RiftConfig config;
 
@@ -81,9 +82,7 @@ public class Rift implements Runnable, Listener {
         this.timer--;
         if (this.timer <= 0) {
             this.stop();
-        }
-
-        if (this.validLocations.size() > 0 && this.monsters.size() < this.maxMonsters) {
+        } else if (this.validLocations.size() > 0 && this.monsters.size() < this.maxMonsters) {
             SpawnUtils.spawn(this.validLocations, 1, (location, count) -> {
                 LivingEntity monster = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));
                 List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
@@ -100,17 +99,15 @@ public class Rift implements Runnable, Listener {
     private void stop() {
         this.deactivated = true;
         new BukkitRunnable() {
-            boolean ending = false;
-
             @Override
             public void run() {
-                if(monsters.size() <= 0 && !ending) {
+                if(monsters.size() == 0 && !ending) {
                     ending = true;
                     Messenger.sendDeathMessage(center.getWorld());
                     Bukkit.getScheduler().cancelTask(taskId);
                     Bukkit.getScheduler().cancelTask(effectId);
-                    RiftManager.unregisterRift(riftId);
                     HandlerList.unregisterAll(RiftManager.getRiftById(riftId));
+                    RiftManager.unregisterRift(riftId);
                     this.cancel();
                 }
 
@@ -121,7 +118,7 @@ public class Rift implements Runnable, Listener {
                         entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
                     } else {
                         monsters.remove(0);
-                        //this.run();
+                        this.run();
                     }
                 }
             }

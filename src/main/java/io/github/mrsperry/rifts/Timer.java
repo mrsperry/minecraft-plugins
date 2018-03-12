@@ -23,7 +23,6 @@ public class Timer implements Runnable {
     public static boolean spawnRift(Player player, RiftConfig config) {
         Location location = SpawnUtils.getValidLocation(player.getLocation(), GeneralConfig.getMinArea(), GeneralConfig.getMaxArea());
         if (location != null) {
-            Bukkit.broadcastMessage("Location: " + location + "  Distance: " + player.getLocation().distance(location));
             new Rift(location, config);
         }
         return true;
