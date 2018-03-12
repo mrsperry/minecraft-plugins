@@ -97,7 +97,7 @@ public class Rift implements Runnable, Listener {
         }
     }
 
-    public void stop() {
+    private void stop() {
         this.deactivated = true;
         new BukkitRunnable() {
             @Override
@@ -118,11 +118,15 @@ public class Rift implements Runnable, Listener {
                         entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
                     } else {
                         monsters.remove(0);
-                        this.run();
+                        //this.run();
                     }
                 }
             }
-        }.runTaskTimerAsynchronously(Main.getInstance(), 0, 2);
+        }.runTaskTimer(Main.getInstance(), 0, 2);
+    }
+
+    public void end() {
+        this.timer = 0;
     }
 
     public int getID() {

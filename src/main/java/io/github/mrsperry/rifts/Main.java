@@ -33,7 +33,7 @@ public class Main extends JavaPlugin {
     @Override
     public void onDisable() {
         for (Rift rift : RiftManager.getActiveRifts()) {
-            rift.stop();
+            rift.end();
         }
     }
 

@@ -92,7 +92,7 @@ public class RiftCommands implements CommandExecutor {
         if(all) {
             sender.sendMessage(ChatColor.GREEN + "Ending all active rifts...");
             for(Rift rift : RiftManager.getActiveRifts()) {
-                rift.stop();
+                rift.end();
                 RiftManager.unregisterRift(rift.getID());
             }
         } else {
@@ -101,7 +101,7 @@ public class RiftCommands implements CommandExecutor {
             for(Rift rift : RiftManager.getActiveRifts()) {
                 double dist = location.distance(rift.getCenter());
                 if(dist <= radius) {
-                    rift.stop();
+                    rift.end();
                     RiftManager.unregisterRift(rift.getID());
                 }
             }
