@@ -10,7 +10,6 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class PlayerListener implements Listener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        // Check if any ID is being used
         if (RiftManager.getCurrentRiftId() > 0) {
             Messenger.sendJoinMessage(event.getPlayer());
         }
