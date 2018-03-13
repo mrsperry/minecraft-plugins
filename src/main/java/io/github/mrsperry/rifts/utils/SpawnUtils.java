@@ -66,11 +66,7 @@ public class SpawnUtils {
 
             location = new Location(center.getWorld(), x, y, z);
             tries++;
-
-            original.put(location, location.getBlock().getType());
-            location.getBlock().setType(Material.WOOL);
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
-        cleanupdebug(original);
         return isValidLocation(location) ? location : null;
     }
 
@@ -82,17 +78,5 @@ public class SpawnUtils {
             return below.getType().isSolid() && !above.getType().isSolid();
         }
         return false;
-    }
-
-    private static void cleanupdebug(Map<Location, Material> org) {
-        new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                for(Location loc : org.keySet()) {
-                    loc.getBlock().setType(org.get(loc));
-                }
-            }
-        }.runTaskLater(Main.getInstance(), 200);
     }
 }
