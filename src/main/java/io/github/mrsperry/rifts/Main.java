@@ -26,7 +26,7 @@ public class Main extends JavaPlugin {
         getCommand("riftids").setExecutor(new RiftCommands());
 
         if (GeneralConfig.areRiftsEnabled()) {
-            getServer().getScheduler().scheduleSyncRepeatingTask(this, new Timer(), 0, GeneralConfig.getRiftFrequency() * 20);
+            //getServer().getScheduler().scheduleSyncRepeatingTask(this, new Timer(), 0, GeneralConfig.getRiftFrequency() * 20);
         }
     }
 
