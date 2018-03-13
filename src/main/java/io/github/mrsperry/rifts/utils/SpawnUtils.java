@@ -3,12 +3,9 @@ package io.github.mrsperry.rifts.utils;
 import io.github.mrsperry.rifts.Main;
 import io.github.mrsperry.rifts.configs.GeneralConfig;
 
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.bukkit.util.Vector;
 
 import java.util.HashMap;
 import java.util.List;
@@ -30,7 +27,6 @@ public class SpawnUtils {
     }
 
     public static Location getValidLocation(Location center, int minArea, int maxArea) {
-        Map<Location, Material> original = new HashMap<>();
         Random random = Main.getRandom();
         Location location;
         int tries = 0;
@@ -66,7 +62,6 @@ public class SpawnUtils {
 
             location = new Location(center.getWorld(), x, y, z);
             tries++;
-            original.put(location, location.getBlock().getType());
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
         return isValidLocation(location) ? location : null;
     }
