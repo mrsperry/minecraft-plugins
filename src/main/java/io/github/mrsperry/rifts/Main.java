@@ -21,9 +21,7 @@ public class Main extends JavaPlugin {
         GeneralConfig.initialize(this.getConfig());
         RiftManager.loadConfigs();
 
-        getCommand("spawnrift").setExecutor(new RiftCommands());
-        getCommand("stoprift").setExecutor(new RiftCommands());
-        getCommand("riftids").setExecutor(new RiftCommands());
+        getCommand("rift").setExecutor(new RiftCommands());
 
         if (GeneralConfig.areRiftsEnabled()) {
             //getServer().getScheduler().scheduleSyncRepeatingTask(this, new Timer(), 0, GeneralConfig.getRiftFrequency() * 20);

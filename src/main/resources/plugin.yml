@@ -3,15 +3,7 @@ name: Rifts
 version: 1.0.0
 description: World-splitting rifts featuring a wide array of monsters to kill.
 commands:
-  spawnrift:
-    description: Spawn a rift around a player
-    usage: /spawnrift |radius=50| |player=Notch|
-    permission: rifts.spawn
-  stoprift:
-    description: End a rift within a radius or all meta
-    usage: /stoprift [50 || -a]
-    permission: rifts.end
-  riftids:
-    description: Get a list of all rift config IDs
-    usage: /riftids
-    permission: rifts.spawn
+  rift:
+    description: SMain rift command
+    usage: /rift [spawn | stop | ids]
+    permission: rifts.manage

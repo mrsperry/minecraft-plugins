@@ -14,20 +14,27 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.lang.reflect.Array;
 import java.util.*;
 
 public class RiftCommands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String cmdLine, String[] args) {
-        switch (command.getName().toLowerCase()) {
-            case "spawnrift":
-                return spawnRift(sender, args);
-            case "stoprift":
-                return stopRift(sender, args);
-            case "riftids":
-                return listRifts(sender);
-            default:
-                return false;
+        if(args.length > 0) {
+            String[] newArgs = Arrays.copyOfRange(args, 1, args.length);
+            switch (args[0]) {
+                case "spawn":
+                    return spawnRift(sender, newArgs);
+                case "stop":
+                    return stopRift(sender, newArgs);
+                case "ids":
+                    return listRifts(sender);
+                default:
+                    return false;
+            }
+        } else {
+            displayHelp(sender);
+            return true;
         }
     }
 
@@ -121,5 +128,17 @@ public class RiftCommands implements CommandExecutor {
         }
 
         return pairs;
+    }
+
+    private void displayHelp(CommandSender sender) {
+        String result;
+
+        result = ChatColor.GOLD + "/rift [spawn | stop | ids]\n";
+        result += "\n";
+        result += "/rift spawn |id=Rift1| |player=notch|\n";
+        result += "/rift stop [radius || -a]\n";
+        result += "/rift ids";
+
+        sender.sendMessage(result);
     }
 }
