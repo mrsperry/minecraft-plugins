@@ -37,37 +37,36 @@ public class SpawnUtils {
         do {
             int difference = maxArea - minArea;
 
-            //Finding point within a circle of radius 1
+            // Finding point within a circle of radius 1
             double t = 2 * Math.PI * random.nextDouble();
             double u = random.nextDouble() + random.nextDouble();
             double r = (u > 1) ? 2-u : u;
             double dPrime;
 
-            // x coordingate in circle radius 1
+            // x coordinate in circle radius 1
             double x = r * Math.cos(t);
-            //x coordinate in circle radius (range)
+            // x coordinate in circle radius (range)
             x = x * difference + center.getX();
 
-            //z coordinate in circle radius 1
+            // z coordinate in circle radius 1
             double z = r * Math.sin(t);
-            //z coordingate in circle radius (range)
+            // z coordinate in circle radius (range)
             z = z * difference + center.getZ();
 
-            //distance from point to center
+            // distance from point to center
             dPrime = center.distance(new Location(center.getWorld(), x, center.getY(), z));
 
-            //getting point on line from center and generated point minArea away from generated point
-            // 1 / dPrime * distance is the distance to make one step on this line, multiply by minArea to get atleast that far away from center
+            // getting point on line from center and generated point minArea away from generated point
+            // 1 / dPrime * distance is the distance to make one step on this line, multiply by minArea to get at least that far away from center
             x = x + (minArea / dPrime) * (x - center.getX());
             z = z + (minArea / dPrime) * (z - center.getZ());
 
-            //get y value for that x,z coordinate
+            // get y value for that x,z coordinate
             double y = center.getWorld().getHighestBlockYAt((int)x, (int)z);
 
             location = new Location(center.getWorld(), x, y, z);
             tries++;
             original.put(location, location.getBlock().getType());
-            //location.getBlock().setType(Material.WOOL);
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
         return isValidLocation(location) ? location : null;
     }
