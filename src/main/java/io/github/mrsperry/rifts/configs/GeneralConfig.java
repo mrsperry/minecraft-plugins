@@ -1,17 +1,21 @@
 package io.github.mrsperry.rifts.configs;
 
+import com.google.common.collect.Lists;
+
 import io.github.mrsperry.rifts.meta.RiftSize;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.ArrayList;
+
 public class GeneralConfig {
     private static boolean riftsEnabled;
 
     private static String joinMessage;
-    private static String startMessage;
-    private static String stopMessage;
+    private static ArrayList<String> startMessages;
+    private static ArrayList<String> stopMessages;
 
     private static Sound startSound;
     private static float startVolume;
@@ -29,8 +33,14 @@ public class GeneralConfig {
         riftsEnabled = config.getBoolean("enabled", true);
 
         joinMessage = config.getString("join", "");
-        startMessage = config.getString("start", "");
-        stopMessage = config.getString("stop", "");
+        startMessages = Lists.newArrayList();
+        if (config.isList("messages.start-messages")) {
+            startMessages.addAll(config.getStringList("messages.start-messages"));
+        }
+        stopMessages = Lists.newArrayList();
+        if (config.isList("messages.stop-messages")) {
+            stopMessages.addAll(config.getStringList("messages.stop-messages"));
+        }
 
         String[] startSoundString = config.getString("sounds.start", "block_end_portal_spawn:0.5").split(":");
         try {
@@ -76,12 +86,12 @@ public class GeneralConfig {
         return joinMessage;
     }
 
-    public static String getStartMessage() {
-        return startMessage;
+    public static ArrayList<String> getStartMessages() {
+        return startMessages;
     }
 
-    public static String getStopMessage() {
-        return stopMessage;
+    public static ArrayList<String> getStopMessages() {
+        return stopMessages;
     }
 
     public static Sound getStartSound() {
