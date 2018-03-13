@@ -44,7 +44,7 @@ public class RiftEffect implements Runnable {
 
                     HashMap<Sound, Float> sounds = this.config.getCoreSounds();
                     if (sounds.keySet().size() > 0) {
-                        Sound sound = (Sound) sounds.keySet().toArray()[sounds.keySet().size()];
+                        Sound sound = (Sound) sounds.keySet().toArray()[random.nextInt(sounds.keySet().size())];
                         world.playSound(core, sound, sounds.get(sound), 0);
                     }
                 }
@@ -57,7 +57,7 @@ public class RiftEffect implements Runnable {
 
                 HashMap<Sound, Float> sounds = this.config.getSecondarySounds();
                 if (sounds.keySet().size() > 0) {
-                    Sound sound = (Sound) sounds.keySet().toArray()[sounds.keySet().size()];
+                    Sound sound = (Sound) sounds.keySet().toArray()[random.nextInt(sounds.keySet().size())];
                     world.playSound(secondary, sound, sounds.get(sound), 0);
                 }
             }
