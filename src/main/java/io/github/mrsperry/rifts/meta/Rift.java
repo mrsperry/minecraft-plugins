@@ -11,6 +11,7 @@ import io.github.mrsperry.rifts.meta.RiftSize.CustomRiftSize;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Monster;
@@ -75,7 +76,7 @@ public class Rift implements Runnable, Listener {
         this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), this, 0, 20);
         this.riftId = RiftManager.registerRift(this);
         Bukkit.getServer().getPluginManager().registerEvents(this, Main.getInstance());
-        Messenger.sendCreateMessage(this.center.getWorld());
+        Messenger.sendStartMessage(this.center.getWorld());
     }
 
     public void run() {
@@ -103,7 +104,7 @@ public class Rift implements Runnable, Listener {
             public void run() {
                 if(monsters.size() == 0 && !ending) {
                     ending = true;
-                    Messenger.sendDeathMessage(center.getWorld());
+                    Messenger.sendStopMessage(center.getWorld());
                     Bukkit.getScheduler().cancelTask(taskId);
                     Bukkit.getScheduler().cancelTask(effectId);
                     HandlerList.unregisterAll(RiftManager.getRiftById(riftId));
@@ -143,6 +144,7 @@ public class Rift implements Runnable, Listener {
         if (MobUtils.listContainsMonster(this.monsters, entity)) {
             this.monsters.remove(entity);
             if(deactivated) {
+                entity.getLocation().getWorld().playSound(entity.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 2, 0);
                 event.getDrops().clear();
             }
         }

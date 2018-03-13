@@ -3,14 +3,20 @@ package io.github.mrsperry.rifts.configs;
 import io.github.mrsperry.rifts.meta.RiftSize;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 
 public class GeneralConfig {
     private static boolean riftsEnabled;
 
     private static String joinMessage;
-    private static String createMessage;
-    private static String deathMessage;
+    private static String startMessage;
+    private static String stopMessage;
+
+    private static Sound startSound;
+    private static float startVolume;
+    private static Sound stopSound;
+    private static float stopVolume;
 
     private static int minArea;
     private static int maxArea;
@@ -20,26 +26,41 @@ public class GeneralConfig {
     private static int max;
 
     public static void initialize(FileConfiguration config) {
-        riftsEnabled = config.getBoolean("rifts.enabled", true);
+        riftsEnabled = config.getBoolean("enabled", true);
 
-        joinMessage = config.getString("rifts.messages.join", "");
-        createMessage = config.getString("rifts.messages.create", "");
-        deathMessage = config.getString("rifts.messages.death", "");
+        joinMessage = config.getString("join", "");
+        startMessage = config.getString("start", "");
+        stopMessage = config.getString("stop", "");
 
-        minArea = config.getInt("rifts.spawning.min-area", 50);
-        maxArea = config.getInt("rifts.spawning.max-area", 100);
+        String[] startSoundString = config.getString("sounds.start", "block_end_portal_spawn:0.5").split(":");
+        try {
+            startSound = Sound.valueOf(startSoundString[0].toUpperCase());
+            startVolume = Float.parseFloat(startSoundString[1]);
+        } catch (Exception ex) {
+            Bukkit.getLogger().warning("Error loading rift start sound or volume!");
+        }
+        String[] stopSoundString = config.getString("sounds.stop", "block_portal_travel:0.5").split(":");
+        try {
+            stopSound = Sound.valueOf(stopSoundString[0].toUpperCase());
+            stopVolume = Float.parseFloat(stopSoundString[1]);
+        } catch (Exception ex) {
+            Bukkit.getLogger().warning("Error loading rift stop sound or volume!");
+        }
+
+        minArea = config.getInt("min-area", 50);
+        maxArea = config.getInt("max-area", 100);
         if (minArea > maxArea) {
             minArea = 50;
             maxArea = 100;
             Bukkit.getLogger().warning("Maximum area is less than the minimum area a rift can spawn in; setting defaults");
         }
-        chance = config.getInt("rifts.spawning.chance", 25);
-        tries = config.getInt("rifts.spawning.tries", 100);
-        frequency = config.getInt("rifts.spawning.frequency", 60);
-        max = config.getInt("rifts.spawning.max", 3);
+        chance = config.getInt("chance", 25);
+        tries = config.getInt("tries", 100);
+        frequency = config.getInt("frequency", 60);
+        max = config.getInt("max", 3);
 
-        for(String key : config.getConfigurationSection("rifts.spawning.size").getKeys(false)) {
-            RiftSize.getInstance().register(key, config.getConfigurationSection("rifts.spawning.size." + key));
+        for(String key : config.getConfigurationSection("sizes").getKeys(false)) {
+            RiftSize.getInstance().register(key, config.getConfigurationSection("sizes." + key));
         }
 
         RiftSize.getInstance().list().forEach(size ->
@@ -55,12 +76,28 @@ public class GeneralConfig {
         return joinMessage;
     }
 
-    public static String getCreateMessage() {
-        return createMessage;
+    public static String getStartMessage() {
+        return startMessage;
     }
 
-    public static String getDeathMessage() {
-        return deathMessage;
+    public static String getStopMessage() {
+        return stopMessage;
+    }
+
+    public static Sound getStartSound() {
+        return startSound;
+    }
+
+    public static float getStartVolume() {
+        return startVolume;
+    }
+
+    public static Sound getStopSound() {
+        return stopSound;
+    }
+
+    public static float getStopVolume() {
+        return stopVolume;
     }
 
     public static int getMinArea() {

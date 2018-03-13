@@ -15,20 +15,22 @@ public class Messenger {
         }
     }
 
-    public static void sendCreateMessage(World world) {
-        String message = GeneralConfig.getCreateMessage();
+    public static void sendStartMessage(World world) {
+        String message = GeneralConfig.getStartMessage();
         if (!message.equals("")) {
             for (Player player : world.getPlayers()) {
                 player.sendMessage(ChatColor.GRAY + message);
+                world.playSound(player.getLocation(), GeneralConfig.getStartSound(), GeneralConfig.getStartVolume(), 0);
             }
         }
     }
 
-    public static void sendDeathMessage(World world) {
-        String message = GeneralConfig.getDeathMessage();
+    public static void sendStopMessage(World world) {
+        String message = GeneralConfig.getStopMessage();
         if (!message.equals("")) {
             for (Player player : world.getPlayers()) {
                 player.sendMessage(ChatColor.GRAY + message);
+                world.playSound(player.getLocation(), GeneralConfig.getStopSound(), GeneralConfig.getStopVolume(), 0);
             }
         }
     }

@@ -42,7 +42,7 @@ public class SpawnUtils {
                     center.getBlockZ() + (z + (z >= 0 ? + minArea : - minArea)));
             tries++;
             original.put(location, location.getBlock().getType());
-            location.getBlock().setType(Material.WOOL);
+            //location.getBlock().setType(Material.WOOL);
         } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
         cleanupdebug(original);
         return isValidLocation(location) ? location : null;

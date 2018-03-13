@@ -8,10 +8,10 @@ import io.github.mrsperry.rifts.utils.SpawnUtils;
 
 import org.bukkit.Effect;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.World;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RiftEffect implements Runnable {
     private RiftConfig config;
@@ -36,15 +36,30 @@ public class RiftEffect implements Runnable {
     public void run() {
         // TODO: dont check particle locations, make big circle
         World world = this.center.getWorld();
+        Random random = Main.getRandom();
         if (this.config.showCoreEffect()) {
             for (Location core : getCoreLocations(this.center)) {
-                world.playEffect(core, Effect.EXPLOSION_HUGE, 1);
+                if (random.nextInt(3) == 0) {
+                    world.playEffect(core, Effect.EXPLOSION_LARGE, 3);
+
+                    HashMap<Sound, Float> sounds = this.config.getCoreSounds();
+                    if (sounds.keySet().size() > 0) {
+                        Sound sound = (Sound) sounds.keySet().toArray()[sounds.keySet().size()];
+                        world.playSound(core, sound, sounds.get(sound), 0);
+                    }
+                }
             }
         }
         if (this.config.showSecondaryEffect()) {
             Effect effect = Main.getRandom().nextInt(2) == 0 ? Effect.PORTAL : Effect.MAGIC_CRIT;
             for (Location secondary : getSecondaryLocations(this.center)) {
                 world.playEffect(secondary, effect, 1);
+
+                HashMap<Sound, Float> sounds = this.config.getSecondarySounds();
+                if (sounds.keySet().size() > 0) {
+                    Sound sound = (Sound) sounds.keySet().toArray()[sounds.keySet().size()];
+                    world.playSound(secondary, sound, sounds.get(sound), 0);
+                }
             }
         }
         if (this.config.showAmbientEffect()) {
@@ -57,9 +72,9 @@ public class RiftEffect implements Runnable {
 
     public static ArrayList<Location> getCoreLocations(Location location) {
         return Lists.newArrayList(
-                location.clone().add(0.5, 2.5, 0.5), location.clone().add(0.5, 3.5, 0.5), location.clone().add(1.5, 1.5, 0.5),
-                location.clone().add(0.5, 3.5, 1.5), location.clone().add(-1.5, 3.5, 0.5), location.clone().add(0.5, 3.5, -1.5),
-                location.clone().add(0.5, 4.5, 0.5)
+                location.clone().add(0.5, 4.5, 0.5),location.clone().add(1.5, 4.5, 0), location.clone().add(-1.5, 4.5, 0),
+                location.clone().add(0, 4.5, 1.5), location.clone().add(0, 4.5, -1.5), location.clone().add(0.5, 5.5, 0.5),
+                location.clone().add(0.5, 3.5, 0.5)
         );
     }
 
