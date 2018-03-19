@@ -17,6 +17,7 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
@@ -153,11 +154,16 @@ public class Rift implements Runnable, Listener {
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
-            Entity entity = event.getEntity();
-            if (MobUtils.listContainsEntity(this.mobs, entity)) {
-                entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
+        Entity entity = event.getEntity();
+        if (MobUtils.listContainsEntity(this.mobs, entity)) {
+            if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
                 event.setCancelled(true);
+            }
+            if (event.getCause() == EntityDamageEvent.DamageCause.FIRE_TICK) {
+                event.setCancelled(true);
+            }
+            if (!event.isCancelled()) {
+                entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
             }
         }
     }
