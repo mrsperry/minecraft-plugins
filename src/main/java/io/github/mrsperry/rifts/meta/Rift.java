@@ -14,7 +14,6 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -43,7 +42,7 @@ public class Rift implements Runnable, Listener {
     private double timer;
     private int maxMonsters;
 
-    private ArrayList<Monster> monsters;
+    private ArrayList<LivingEntity> mobs;
 
     public Rift(Location location, RiftConfig config) {
         this.deactivated = false;
@@ -55,7 +54,7 @@ public class Rift implements Runnable, Listener {
         this.maxMonsters = size.maxMonsters();
         int radius = size.radius();
 
-        this.monsters = new ArrayList<>();
+        this.mobs = new ArrayList<>();
         ArrayList<Location> validLocations = new ArrayList<>();
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
@@ -85,18 +84,18 @@ public class Rift implements Runnable, Listener {
         this.timer--;
         if (this.timer <= 0) {
             this.stop();
-        } else if (this.monsters.size() < this.maxMonsters) {
+        } else if (this.mobs.size() < this.maxMonsters) {
             SpawnUtils.spawn(this.center.clone().add(0, 5, 0), 1, (location, count) -> {
-                LivingEntity monster = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));
+                LivingEntity mob = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));
                 Random random = Main.getRandom();
-                monster.setVelocity(new Vector((random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1));
+                mob.setVelocity(new Vector((random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1));
 
                 List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
                 for(PotionEffectType effect : effects) {
                     PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE, 1, false);
-                    monster.addPotionEffect(potion);
+                    mob.addPotionEffect(potion);
                 }
-                this.monsters.add((Monster) monster);
+                this.mobs.add(mob);
             });
         }
     }
@@ -106,7 +105,7 @@ public class Rift implements Runnable, Listener {
         new BukkitRunnable() {
             @Override
             public void run() {
-                if(monsters.size() == 0 && !ending) {
+                if(mobs.size() == 0 && !ending) {
                     ending = true;
                     Messenger.sendStopMessage(center.getWorld());
                     Bukkit.getScheduler().cancelTask(taskId);
@@ -116,12 +115,12 @@ public class Rift implements Runnable, Listener {
                     this.cancel();
                 }
 
-                if (monsters.size() > 0) {
-                    LivingEntity entity = monsters.get(0);
+                if (mobs.size() > 0) {
+                    LivingEntity entity = mobs.get(0);
                     if (!entity.isDead()) {
                         entity.damage(Integer.MAX_VALUE);
                     } else {
-                        monsters.remove(0);
+                        mobs.remove(0);
                         this.run();
                     }
                 }
@@ -136,8 +135,8 @@ public class Rift implements Runnable, Listener {
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
-        if (MobUtils.listContainsMonster(this.monsters, entity)) {
-            this.monsters.remove(entity);
+        if (MobUtils.listContainsEntity(this.mobs, entity)) {
+            this.mobs.remove(entity);
             if(deactivated) {
                 entity.getLocation().getWorld().playSound(entity.getLocation(), Sound.BLOCK_PORTAL_TRIGGER, 2, 0);
                 event.getDrops().clear();
@@ -147,7 +146,7 @@ public class Rift implements Runnable, Listener {
 
     @EventHandler
     public void onEntityExplode(EntityExplodeEvent event) {
-        if (MobUtils.listContainsMonster(this.monsters, event.getEntity())) {
+        if (MobUtils.listContainsEntity(this.mobs, event.getEntity())) {
             event.blockList().clear();
         }
     }
@@ -156,18 +155,10 @@ public class Rift implements Runnable, Listener {
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
             Entity entity = event.getEntity();
-            if (MobUtils.listContainsMonster(this.monsters, entity)) {
+            if (MobUtils.listContainsEntity(this.mobs, entity)) {
                 entity.getWorld().spawnParticle(Particle.PORTAL, entity.getLocation().add(0, 1, 0), 5);
                 event.setCancelled(true);
             }
         }
-    }
-
-    public int getID() {
-        return this.riftId;
-    }
-
-    public Location getCenter() {
-        return this.center;
     }
 }

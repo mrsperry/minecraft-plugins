@@ -20,7 +20,7 @@ public class RiftConfig extends BasicConfig {
     private boolean showSecondaryEffect;
     private boolean showAmbientEffect;
 
-    private List<EntityType> monsters;
+    private List<EntityType> mobs;
     private List<PotionEffectType> potionEffects;
     private HashMap<Sound, Float> coreSounds;
     private HashMap<Sound, Float> secondarySounds;
@@ -37,12 +37,12 @@ public class RiftConfig extends BasicConfig {
         this.showAmbientEffect = this.getBoolean("rift.ambient-effect", true);
         this.showSecondaryEffect = this.getBoolean("rift.secondary-effect", true);
 
-        this.monsters = new ArrayList<>();
-        for (String monsterType : this.getStringList("rift.monsters")) {
+        this.mobs = new ArrayList<>();
+        for (String mobType : this.getStringList("rift.mobs")) {
             try {
-                this.monsters.add(EntityType.valueOf(monsterType.toUpperCase()));
+                this.mobs.add(EntityType.valueOf(mobType.toUpperCase()));
             } catch (Exception ex) {
-                Bukkit.getLogger().warning("Error loading monster in " + this.riftID + " config! Unknown monster: " + monsterType);
+                Bukkit.getLogger().warning("Error loading monster in " + this.riftID + " config! Unknown mob: " + mobType);
             }
         }
 
@@ -114,7 +114,7 @@ public class RiftConfig extends BasicConfig {
     }
 
     public List<EntityType> getMonsters() {
-        return this.monsters;
+        return this.mobs;
     }
 
     public List<PotionEffectType> getPotionEffects() {

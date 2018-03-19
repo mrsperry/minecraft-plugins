@@ -4,16 +4,16 @@ import io.github.mrsperry.rifts.Main;
 
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Monster;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MobUtils {
-    public static boolean listContainsMonster(ArrayList<Monster> monsters, Entity entity) {
-        if (entity instanceof Monster) {
-            return monsters.contains(entity);
+    public static boolean listContainsEntity(ArrayList<LivingEntity> mobs, Entity entity) {
+        if (entity instanceof LivingEntity) {
+            return mobs.contains(entity);
         }
         return false;
     }
