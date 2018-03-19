@@ -16,7 +16,7 @@ import java.util.*;
 public class RiftEffect implements Runnable {
     private RiftConfig config;
     private Location center;
-    private List<Location> valid;
+    private List<Location> validLocations;
 
     public RiftEffect(RiftConfig config) {
         this.config = config;
@@ -27,8 +27,8 @@ public class RiftEffect implements Runnable {
         return this;
     }
 
-    public RiftEffect setValidLocations(List<Location> valid) {
-        this.valid = valid;
+    public RiftEffect setValidLocations(List<Location> validLocations) {
+        this.validLocations = validLocations;
         return this;
     }
 
@@ -64,7 +64,7 @@ public class RiftEffect implements Runnable {
         }
         if (this.config.showAmbientEffect()) {
             Effect effect = Main.getRandom().nextInt(2) == 0 ? Effect.COLOURED_DUST : Effect.WITCH_MAGIC;
-            SpawnUtils.spawn(this.valid, 15, (location, count) ->
+            SpawnUtils.spawn(this.validLocations.get(random.nextInt(this.validLocations.size())), 15, (location, count) ->
                     location.getWorld().spigot().playEffect(location, effect, 0, 0, 1, 0, 1, 1, 0, 16)
             );
         }

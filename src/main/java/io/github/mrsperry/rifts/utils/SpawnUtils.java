@@ -7,9 +7,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class SpawnUtils {
@@ -17,9 +14,8 @@ public class SpawnUtils {
         void execute(Location location, int count);
     }
 
-    public static void spawn(List<Location> validLocations, int maxCount, ISpawn operation){
+    public static void spawn(Location location, int maxCount, ISpawn operation){
         for (int count = 0; count < maxCount; count++) {
-            Location location = validLocations.get(Main.getRandom().nextInt(validLocations.size()));
             if (location != null) {
                 operation.execute(location, count);
             }

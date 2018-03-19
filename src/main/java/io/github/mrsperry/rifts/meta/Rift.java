@@ -18,14 +18,17 @@ import org.bukkit.entity.Monster;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Rift implements Runnable, Listener {
     private int riftId;
@@ -41,7 +44,6 @@ public class Rift implements Runnable, Listener {
     private int maxMonsters;
 
     private ArrayList<Monster> monsters;
-    private ArrayList<Location> validLocations;
 
     public Rift(Location location, RiftConfig config) {
         this.deactivated = false;
@@ -54,7 +56,7 @@ public class Rift implements Runnable, Listener {
         int radius = size.radius();
 
         this.monsters = new ArrayList<>();
-        this.validLocations = new ArrayList<>();
+        ArrayList<Location> validLocations = new ArrayList<>();
         for (int x = -radius; x <= radius; x++) {
             for (int y = -radius; y <= radius; y++) {
                 for (int z = -radius; z <= radius; z++) {
@@ -63,7 +65,7 @@ public class Rift implements Runnable, Listener {
                             this.center.getBlockY() + y,
                             this.center.getBlockZ() + z);
                     if (SpawnUtils.isValidLocation(current)) {
-                        this.validLocations.add(current);
+                        validLocations.add(current);
                     }
                 }
             }
@@ -71,7 +73,7 @@ public class Rift implements Runnable, Listener {
 
         RiftEffect riftEffect = new RiftEffect(this.config)
                 .setCenter(this.center)
-                .setValidLocations(this.validLocations);
+                .setValidLocations(validLocations);
         this.effectId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), riftEffect, 0L, 5L);
         this.taskId = Bukkit.getScheduler().scheduleSyncRepeatingTask(Main.getInstance(), this, 0, 20);
         this.riftId = RiftManager.registerRift(this);
@@ -83,11 +85,13 @@ public class Rift implements Runnable, Listener {
         this.timer--;
         if (this.timer <= 0) {
             this.stop();
-        } else if (this.validLocations.size() > 0 && this.monsters.size() < this.maxMonsters) {
-            SpawnUtils.spawn(this.validLocations, 1, (location, count) -> {
+        } else if (this.monsters.size() < this.maxMonsters) {
+            SpawnUtils.spawn(this.center.clone().add(0, 5, 0), 1, (location, count) -> {
                 LivingEntity monster = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));
-                List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
+                Random random = Main.getRandom();
+                monster.setVelocity(new Vector((random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1));
 
+                List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
                 for(PotionEffectType effect : effects) {
                     PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE, 1, false);
                     monster.addPotionEffect(potion);
@@ -130,14 +134,6 @@ public class Rift implements Runnable, Listener {
         this.timer = 0;
     }
 
-    public int getID() {
-        return this.riftId;
-    }
-
-    public Location getCenter() {
-        return this.center;
-    }
-
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         Entity entity = event.getEntity();
@@ -155,5 +151,22 @@ public class Rift implements Runnable, Listener {
         if (MobUtils.listContainsMonster(this.monsters, event.getEntity())) {
             event.blockList().clear();
         }
+    }
+
+    @EventHandler
+    public void onEntityDamage(EntityDamageEvent event) {
+        if (event.getCause() == EntityDamageEvent.DamageCause.FALL) {
+            if (MobUtils.listContainsMonster(this.monsters, event.getEntity())) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    public int getID() {
+        return this.riftId;
+    }
+
+    public Location getCenter() {
+        return this.center;
     }
 }
