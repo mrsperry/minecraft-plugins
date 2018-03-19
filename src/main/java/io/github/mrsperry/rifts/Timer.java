@@ -13,9 +13,11 @@ import java.util.Collection;
 
 public class Timer implements Runnable {
     public void run() {
-        if (RiftManager.getActiveRifts().size() < GeneralConfig.getMaxRifts()) {
-            if (Main.getRandom().nextInt(100) + 1 <= GeneralConfig.getRiftChance()) {
-                spawnRandomRift();
+        if (Main.areRiftsEnabled()) {
+            if (RiftManager.getActiveRifts().size() < GeneralConfig.getMaxRifts()) {
+                if (Main.getRandom().nextInt(100) + 1 <= GeneralConfig.getRiftChance()) {
+                    spawnRandomRift();
+                }
             }
         }
     }

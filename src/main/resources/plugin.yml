@@ -1,9 +1,9 @@
 main: io.github.mrsperry.rifts.Main
 name: Rifts
 version: 1.0.0
-description: World-splitting rifts featuring a wide array of monsters to kill.
+description: Customizable "rift" events featuring variable mobs, sounds and sizes.
 commands:
-  rift:
-    description: SMain rift command
-    usage: /rift [spawn | stop | ids]
+  rifts:
+    description: Rift management command
+    usage: /rifts <enabled | spawn | stop | ids>
     permission: rifts.manage
