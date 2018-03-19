@@ -3,9 +3,11 @@ package io.github.mrsperry.rifts.utils;
 import io.github.mrsperry.rifts.Main;
 import io.github.mrsperry.rifts.configs.GeneralConfig;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.entity.Player;
 
 import java.util.Random;
 
@@ -58,7 +60,7 @@ public class SpawnUtils {
 
             location = new Location(center.getWorld(), x, y, z);
             tries++;
-        } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries());
+        } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries() && !isNearOthers(location, minArea));
         return isValidLocation(location) ? location : null;
     }
 
@@ -68,6 +70,15 @@ public class SpawnUtils {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
             Block above = block.getWorld().getBlockAt(location.add(0, 1, 0));
             return below.getType().isSolid() && !above.getType().isSolid();
+        }
+        return false;
+    }
+
+    public static boolean isNearOthers(Location location, int min) {
+        for(Player player : Bukkit.getOnlinePlayers()) {
+            if(player.getLocation().distance(location) < min) {
+                return true;
+            }
         }
         return false;
     }
