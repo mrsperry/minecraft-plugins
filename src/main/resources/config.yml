@@ -20,7 +20,7 @@ rifts:
     max: 3
     size:
       # You can add any number of rift configurations here.
-      # Any configuration may be used randomly when a rift spawns.
+      # Any configuration may be used in any rift config file.
       # `max-monsters` specifies how many monsters from a rift may be spawned at once (this does not affect multiple rifts)
       # `length` is the duration in minutes
       # `radius` is the radius of spawnable blocks going in all directions
