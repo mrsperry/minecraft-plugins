@@ -1,0 +1,34 @@
+rifts:
+  enabled: true
+  messages:
+    # Message to display when a player joins a world with an active rift
+    login: "You feel an overwhelming sense of dread in the world..."
+    # Message to display when a rift is created
+    create: "Your mind becomes clouded as you feel your soul being drained..."
+    # Message to display when a rift dies
+    death: "Your thoughts become less pervasive and the world begins to heal..."
+  spawning:
+    # Number of blocks away from a player a rift can spawn
+    area: 50
+    # Percentage to spawn
+    chance: 25
+    # Number of tries for a valid location (more tries = higher chance to spawn)
+    tries: 100
+    # How many seconds between spawn chance
+    frequency: 60
+    # Maximum number of rifts at a time
+    max: 3
+    size:
+      # You can add any number of rift configurations here.
+      # Any configuration may be used in any rift config file.
+      # `max-monsters` specifies how many monsters from a rift may be spawned at once (this does not affect multiple rifts)
+      # `length` is the duration in minutes
+      # `radius` is the radius of spawnable blocks going in all directions
+      example-small:
+        max-monsters: 25
+        length: 5
+        radius: 25
+      another-example:
+        max-monsters: 200
+        length: 15
+        radius: 100

@@ -1,0 +1,9 @@
+main: io.github.mrsperry.rifts.Main
+name: Rifts
+version: 1.0.0
+description: Customizable "rift" events featuring variable mobs, sounds and sizes.
+commands:
+  rifts:
+    description: Rift management command
+    usage: /rifts <enabled | spawn | stop | ids>
+    permission: rifts.manage
