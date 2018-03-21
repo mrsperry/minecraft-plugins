@@ -1,0 +1,9 @@
+# Chance of a compressed mob to spawn
+chance: 100
+# How amny mobs are spawned when killed
+yield: 5
+# List of entity types that can't be compressed
+# Only creatures (passive/hostile mobs) will be affected
+blacklist:
+  - "skeleton"
+  - "ender_dragon"
