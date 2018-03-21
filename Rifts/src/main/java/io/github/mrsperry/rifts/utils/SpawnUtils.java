@@ -76,8 +76,10 @@ public class SpawnUtils {
 
     public static boolean isNearOthers(Location location, int min) {
         for(Player player : Bukkit.getOnlinePlayers()) {
-            if(player.getLocation().distance(location) < min) {
-                return true;
+            if (location.getWorld() == player.getWorld()) {
+                if (player.getLocation().distance(location) < min) {
+                    return true;
+                }
             }
         }
         return false;

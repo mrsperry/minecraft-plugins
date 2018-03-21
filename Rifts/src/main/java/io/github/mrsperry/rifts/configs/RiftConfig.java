@@ -113,7 +113,7 @@ public class RiftConfig extends BasicConfig {
         return this.showSecondaryEffect;
     }
 
-    public List<EntityType> getMonsters() {
+    public List<EntityType> getMobs() {
         return this.mobs;
     }
 

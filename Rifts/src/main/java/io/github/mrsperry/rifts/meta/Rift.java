@@ -87,16 +87,18 @@ public class Rift implements Runnable, Listener {
             this.stop();
         } else if (this.mobs.size() < this.maxMonsters) {
             SpawnUtils.spawn(this.center.clone().add(0, 5, 0), 1, (location, count) -> {
-                LivingEntity mob = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMonsters()));
-                Random random = Main.getRandom();
-                mob.setVelocity(new Vector((random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1));
+                if (this.config.getMobs().size() > 0) {
+                    LivingEntity mob = (LivingEntity) location.getWorld().spawnEntity(location, MobUtils.getRandomMob(this.config.getMobs()));
+                    Random random = Main.getRandom();
+                    mob.setVelocity(new Vector((random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1, (random.nextDouble() * 2) - 1));
 
-                List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
-                for(PotionEffectType effect : effects) {
-                    PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE, 1, false);
-                    mob.addPotionEffect(potion);
+                    List<PotionEffectType> effects = MobUtils.getRandomEffects(this.config.getPotionEffects(), this.config.getMaxPotionsApplied());
+                    for (PotionEffectType effect : effects) {
+                        PotionEffect potion = new PotionEffect(effect, Integer.MAX_VALUE, 1, false);
+                        mob.addPotionEffect(potion);
+                    }
+                    this.mobs.add(mob);
                 }
-                this.mobs.add(mob);
             });
         }
     }
