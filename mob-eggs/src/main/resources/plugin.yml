@@ -1,0 +1,5 @@
+main: io.github.mrsperry.mobeggs.Main
+name: MobEggs
+version: 1.0.0.0
+authors: [dinner1111]
+description: Throw eggs at mobs, get mob eggs!
