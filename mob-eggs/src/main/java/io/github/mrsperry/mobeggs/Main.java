@@ -11,11 +11,13 @@ import org.bukkit.craftbukkit.v1_12_R1.inventory.CraftItemStack;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.ProjectileHitEvent;
+import org.bukkit.event.player.PlayerEggThrowEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class Main extends JavaPlugin implements Listener {
     // Can't group all mobs that have eggs any other way
@@ -31,9 +33,13 @@ public class Main extends JavaPlugin implements Listener {
             EntityType.ZOMBIE, EntityType.ZOMBIE_HORSE, EntityType.ZOMBIE_VILLAGER
     );
 
+    private Random random;
+
     @Override
     public void onEnable() {
         this.saveDefaultConfig();
+
+        this.random = new Random();
 
         FileConfiguration config = this.getConfig();
         if (config.isList("blacklist")) {
@@ -53,24 +59,45 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
-        Entity hit = event.getEntity();
-        if (event.getDamager() instanceof Egg) {
-            if (hit != null && this.allowed.contains(hit.getType())) {
-                // Set NBT for the mob egg
-                net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(new ItemStack(Material.MONSTER_EGG));
-                NBTTagCompound tag = new NBTTagCompound();
-                NBTTagCompound id = new NBTTagCompound();
-                id.setString("id", this.getType(hit.getType()));
-                tag.set("EntityTag", id);
-                nmsStack.setTag(tag);
+    public void onProjectileHit(ProjectileHitEvent event) {
+        Entity entity = event.getEntity();
+        Entity hit = event.getHitEntity();
+        if (event.getEntity() instanceof Egg) {
+            if (hit != null) {
+                if (this.allowed.contains(hit.getType())) {
+                    // Set NBT for the mob egg
+                    net.minecraft.server.v1_12_R1.ItemStack nmsStack = CraftItemStack.asNMSCopy(new ItemStack(Material.MONSTER_EGG));
+                    NBTTagCompound tag = new NBTTagCompound();
+                    NBTTagCompound id = new NBTTagCompound();
+                    id.setString("id", this.getType(hit.getType()));
+                    tag.set("EntityTag", id);
+                    nmsStack.setTag(tag);
 
-                event.setCancelled(true);
-                hit.getWorld().dropItemNaturally(hit.getLocation().add(0, 1, 0), CraftItemStack.asBukkitCopy(nmsStack));
-                hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 0);
-                hit.remove();
+                    hit.getWorld().dropItemNaturally(hit.getLocation().add(0, 1, 0), CraftItemStack.asBukkitCopy(nmsStack));
+                    hit.getWorld().playSound(hit.getLocation(), Sound.ENTITY_CHICKEN_EGG, 1, 0);
+                    hit.remove();
+                }
+            } else {
+                // Implement default chicken spawning mechanics
+                int amount = 0;
+                if (this.random.nextInt(8) == 0) {
+                    amount = 1;
+                }
+                if (this.random.nextInt(32) == 0) {
+                    amount = 4;
+                }
+                for (int index = 0; index < amount; index++) {
+                    Chicken chick = (Chicken) entity.getWorld().spawnEntity(entity.getLocation(), EntityType.CHICKEN);
+                    chick.setBaby();
+                }
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerEggThrow(PlayerEggThrowEvent event) {
+        // Don't want chickens spawning when we hit a mob
+        event.setHatching(false);
     }
 
     private String getType(EntityType type) {
