@@ -60,7 +60,7 @@ public class SpawnUtils {
 
             location = new Location(center.getWorld(), x, y, z);
             tries++;
-        } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries() || isNearOthers(location, minArea));
+        } while (tries <= GeneralConfig.getRiftTries() && (!isValidLocation(location) || isNearOthers(location, minArea)));
         return isValidLocation(location) ? location : null;
     }
 
