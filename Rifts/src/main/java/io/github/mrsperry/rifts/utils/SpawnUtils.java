@@ -66,7 +66,7 @@ public class SpawnUtils {
 
     public static boolean isValidLocation(Location location) {
         Block block = location.getBlock();
-        if (block.getType() == Material.AIR) {
+        if (block.getType() == Material.AIR || block.getType() == Material.SNOW) {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
             Block above = block.getWorld().getBlockAt(location.add(0, 1, 0));
             return below.getType().isSolid() && !above.getType().isSolid();
