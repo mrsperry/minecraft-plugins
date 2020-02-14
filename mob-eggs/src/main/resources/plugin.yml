@@ -1,6 +1,6 @@
 main: "io.github.mrsperry.mobeggs.Main"
 name: "MobEggs"
-version: "1.0.1"
+version: ${plugin.version}
 authors: ["dinner1111"]
 description: "Throw eggs at mobs, get mob eggs!"
 api-version: "1.15"
