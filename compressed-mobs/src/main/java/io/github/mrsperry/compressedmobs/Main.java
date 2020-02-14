@@ -1,5 +1,7 @@
 package io.github.mrsperry.compressedmobs;
 
+import com.google.common.collect.Lists;
+
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.NamespacedKey;
@@ -14,10 +16,25 @@ import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
 public class Main extends JavaPlugin implements Listener {
+    private ArrayList<CreatureSpawnEvent.SpawnReason> blacklistedReasons = Lists.newArrayList(
+        CreatureSpawnEvent.SpawnReason.BEEHIVE,
+        CreatureSpawnEvent.SpawnReason.CUSTOM,
+        CreatureSpawnEvent.SpawnReason.CURED,
+        CreatureSpawnEvent.SpawnReason.DROWNED,
+        CreatureSpawnEvent.SpawnReason.EXPLOSION,
+        CreatureSpawnEvent.SpawnReason.INFECTION,
+        CreatureSpawnEvent.SpawnReason.LIGHTNING,
+        CreatureSpawnEvent.SpawnReason.SHEARED,
+        CreatureSpawnEvent.SpawnReason.SHOULDER_ENTITY,
+        CreatureSpawnEvent.SpawnReason.SLIME_SPLIT,
+        CreatureSpawnEvent.SpawnReason.SPAWNER_EGG
+    );
+
     private Random random;
 
     private double chance;
@@ -64,9 +81,9 @@ public class Main extends JavaPlugin implements Listener {
                 for (int amount = 0; amount < total; amount++) {
                     Entity entity = mob.getWorld().spawnEntity(mob.getLocation(), mob.getType());
                     entity.setVelocity(new Vector(
-                            (this.random.nextDouble() * 2) - 1,
-                            (this.random.nextDouble() / 2),
-                            (this.random.nextDouble() * 2) - 1));
+                        (this.random.nextDouble() * 2) - 1,
+                        (this.random.nextDouble() / 2),
+                        (this.random.nextDouble() * 2) - 1));
                 }
             }
         }
@@ -78,8 +95,9 @@ public class Main extends JavaPlugin implements Listener {
             Entity creature = event.getEntity();
             PersistentDataContainer container = creature.getPersistentDataContainer();
 
-            if (container.has(new NamespacedKey(this, "compressed"), PersistentDataType.BYTE)) {
-                return;
+            if (container.has(new NamespacedKey(this, "compressed"), PersistentDataType.BYTE)
+                || this.blacklistedReasons.contains(event.getSpawnReason())) {
+                    return;
             }
 
             if (this.random.nextDouble() * this.chance <= 1) {
