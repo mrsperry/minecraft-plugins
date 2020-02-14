@@ -18,9 +18,10 @@ import java.util.Random;
 public class Main extends JavaPlugin implements Listener {
     private Random random;
 
-    private int chance;
+    private double chance;
     private int minYield;
     private int maxYield;
+
     private HashSet<EntityType> blacklist;
 
     @Override
@@ -30,11 +31,11 @@ public class Main extends JavaPlugin implements Listener {
         this.random = new Random();
 
         FileConfiguration config = this.getConfig();
-        this.chance = config.getInt("chance-to-compress", 15);
+        this.chance = config.getDouble("global-chance", 100.0);
         this.minYield = config.getInt("global-min-yield", 3);
         this.maxYield = config.getInt("global-max-yield", 5);
 
-        this.blacklist = new HashSet<EntityType>();
+        this.blacklist = new HashSet<>();
         if (config.isList("blacklist")) {
             for (String mob : config.getStringList("blacklist")) {
                 try {
@@ -73,7 +74,7 @@ public class Main extends JavaPlugin implements Listener {
     public void onCreatureSpawn(CreatureSpawnEvent event) {
         if (!this.blacklist.contains(event.getEntityType())) {
             Entity creature = event.getEntity();
-            if (this.random.nextInt(100) <= this.chance) {
+            if (this.random.nextDouble() * this.chance <= 1) {
                 // Use names instead of UUIDs; Entities aren't assigned IDs until after the spawn event
                 creature.setCustomName(ChatColor.GRAY + "Compressed " + creature.getName());
                 creature.setCustomNameVisible(true);

@@ -1,5 +1,6 @@
-# Chance of a compressed mob to spawn
-chance: 100
+# Chance of a compressed mob to spawn (decimals are allowed)
+# Calculated as a 1 in X percent chance
+global-chance: 100.0
 # How many mobs are spawned when killed
 global-min-yield: 3
 global-max-yield: 5
