@@ -1,4 +1,5 @@
-main: io.github.mrsperry.creeperworks.Main
-name: Creeperworks
-version: 1.0.0.0
-authors: [dinner1111]
+main: "io.github.mrsperry.creeperworks.Main"
+name: "Creeperworks"
+version: ${plugin.version}
+authors: ["dinner1111"]
+description: "Adds a colorful firework to creeeper explosions"
