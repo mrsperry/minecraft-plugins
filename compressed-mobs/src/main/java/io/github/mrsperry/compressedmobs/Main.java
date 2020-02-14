@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Random;
 
@@ -41,7 +42,8 @@ public class Main extends JavaPlugin implements Listener {
     private int minYield;
     private int maxYield;
 
-    private HashSet<EntityType> blacklist;
+    private HashMap<EntityType, Object[]> creatures = new HashMap<>();
+    private HashSet<EntityType> blacklist = new HashSet<>();
 
     @Override
     public void onEnable() {
@@ -54,7 +56,21 @@ public class Main extends JavaPlugin implements Listener {
         this.minYield = config.getInt("global-min-yield", 3);
         this.maxYield = config.getInt("global-max-yield", 5);
 
-        this.blacklist = new HashSet<>();
+        if (config.isConfigurationSection("creatures")) {
+            for (String key : config.getConfigurationSection("creatures").getKeys(false)) {
+                try {
+                    this.creatures.put(EntityType.valueOf(key.toUpperCase()), new Object[] {
+                        config.getDouble("creatures." + key + ".chance", this.chance),
+                        config.getInt("creatures." + key + ".min-yield", this.minYield),
+                        config.getInt("creatures." + key + ".max-yield", this.maxYield)
+                    });
+                } catch (IllegalArgumentException ex) {
+                    this.getLogger().severe("Could not parse entity type: " + key);
+                }
+            }
+        }
+        this.getLogger().info("Found " + this.creatures.size() + " custom setting(s)");
+
         if (config.isList("blacklist")) {
             for (String mob : config.getStringList("blacklist")) {
                 try {
@@ -73,13 +89,21 @@ public class Main extends JavaPlugin implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         if (!this.blacklist.contains(event.getEntityType())) {
             Entity mob = event.getEntity();
+            EntityType type = mob.getType();
             PersistentDataContainer container = mob.getPersistentDataContainer();
 
             if (container.has(new NamespacedKey(this, "compressed"), PersistentDataType.BYTE)) {
-                int range = this.maxYield - this.minYield;
-                int total = this.minYield + (range > 0 ? this.random.nextInt(range) : 0);
+                int min = this.minYield, max = this.maxYield;
+                if (this.creatures.containsKey(type)) {
+                    Object[] values = this.creatures.get(type);
+                    min = (int) values[1];
+                    max = (int) values[2];
+                }
+
+                int range = max - min;
+                int total = min + (range > 0 ? this.random.nextInt(range) : 0);
                 for (int amount = 0; amount < total; amount++) {
-                    Entity entity = mob.getWorld().spawnEntity(mob.getLocation(), mob.getType());
+                    Entity entity = mob.getWorld().spawnEntity(mob.getLocation(), type);
                     entity.setVelocity(new Vector(
                         (this.random.nextDouble() * 2) - 1,
                         (this.random.nextDouble() / 2),
@@ -91,7 +115,9 @@ public class Main extends JavaPlugin implements Listener {
 
     @EventHandler
     public void onCreatureSpawn(CreatureSpawnEvent event) {
-        if (!this.blacklist.contains(event.getEntityType())) {
+        EntityType type = event.getEntityType();
+
+        if (!this.blacklist.contains(type)) {
             Entity creature = event.getEntity();
             PersistentDataContainer container = creature.getPersistentDataContainer();
 
@@ -100,7 +126,8 @@ public class Main extends JavaPlugin implements Listener {
                     return;
             }
 
-            if (this.random.nextDouble() * this.chance <= 1) {
+            double chance = this.creatures.containsKey(type) ? (double) this.creatures.get(type)[0] : this.chance;
+            if (this.random.nextDouble() * chance <= 1) {
                 container.set(new NamespacedKey(this, "compressed"), PersistentDataType.BYTE, (byte) 1);
 
                 creature.setCustomName(ChatColor.GRAY + "Compressed " + creature.getName());
