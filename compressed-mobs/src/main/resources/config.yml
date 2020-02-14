@@ -1,7 +1,8 @@
 # Chance of a compressed mob to spawn
 chance: 100
 # How many mobs are spawned when killed
-yield: 5
+global-min-yield: 3
+global-max-yield: 5
 # List of entity types that can't be compressed
 # Only creatures (passive/hostile mobs) will be affected
 blacklist:

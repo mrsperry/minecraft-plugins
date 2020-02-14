@@ -2,6 +2,7 @@ package io.github.mrsperry.compressedmobs;
 
 import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
@@ -18,7 +19,8 @@ public class Main extends JavaPlugin implements Listener {
     private Random random;
 
     private int chance;
-    private int yield;
+    private int minYield;
+    private int maxYield;
     private HashSet<EntityType> blacklist;
 
     @Override
@@ -29,7 +31,9 @@ public class Main extends JavaPlugin implements Listener {
 
         FileConfiguration config = this.getConfig();
         this.chance = config.getInt("chance-to-compress", 15);
-        this.yield = config.getInt("yield-when-killed", 5);
+        this.minYield = config.getInt("global-min-yield", 3);
+        this.maxYield = config.getInt("global-max-yield", 5);
+
         this.blacklist = new HashSet<EntityType>();
         if (config.isList("blacklist")) {
             for (String mob : config.getStringList("blacklist")) {
@@ -51,7 +55,9 @@ public class Main extends JavaPlugin implements Listener {
             Entity mob = event.getEntity();
             if (mob.getCustomName() != null) {
                 if (mob.getCustomName().equals(ChatColor.GRAY + "Compressed " + mob.getName().replace(ChatColor.GRAY + "Compressed ", ""))) {
-                    for (int amount = 0; amount < this.yield; amount++) {
+                    int range = this.maxYield - this.minYield;
+                    int total = this.minYield + (range > 0 ? this.random.nextInt(range) : 0);
+                    for (int amount = 0; amount < total; amount++) {
                         Entity entity = mob.getWorld().spawnEntity(mob.getLocation(), mob.getType());
                         entity.setVelocity(new Vector(
                                 (this.random.nextDouble() * 2) - 1,
