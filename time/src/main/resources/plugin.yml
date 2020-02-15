@@ -1,9 +1,10 @@
-main: io.github.mrsperry.time.Main
-name: Time
-version: 1.0.0.0
-authors: [dinner1111]
-description: Records how much time you play.
+main: "io.github.mrsperry.time.Main"
+name: "Time"
+version: ${plugin.version}
+authors: ["dinner1111"]
+description: "Records how much time you play."
+api-version: "1.15"
 commands:
   time:
-    usage: /time [player name | server]
-    description: Tells you how much time you or someone else has played
+    usage: "/time [player name | server]"
+    description: "Tells you how much time you or someone else has played"
