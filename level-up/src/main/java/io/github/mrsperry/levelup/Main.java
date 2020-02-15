@@ -1,9 +1,11 @@
 package io.github.mrsperry.levelup;
 
 import com.google.common.collect.Lists;
+
 import org.bukkit.Color;
 import org.bukkit.FireworkEffect;
 import org.bukkit.Location;
+import org.bukkit.World;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Firework;
 import org.bukkit.event.EventHandler;
@@ -13,15 +15,21 @@ import org.bukkit.event.player.PlayerLevelChangeEvent;
 import org.bukkit.inventory.meta.FireworkMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Random;
 
 public class Main extends JavaPlugin implements Listener {
-    private final HashSet<Integer> levels = new HashSet<Integer>();
-    private final HashSet<Color> colors = new HashSet<Color>();
+    private final HashSet<Integer> levels = new HashSet<>();
+    private final HashSet<Color> colors = new HashSet<>();
     private final Random random = new Random();
+
+    private final ArrayList<FireworkEffect.Type> starTypes = Lists.newArrayList(
+        FireworkEffect.Type.BALL,
+        FireworkEffect.Type.BALL_LARGE,
+        FireworkEffect.Type.BURST,
+        FireworkEffect.Type.STAR
+    );
 
     @Override
     public void onEnable() {
@@ -31,7 +39,7 @@ public class Main extends JavaPlugin implements Listener {
         if (this.getConfig().isSet("levels")) {
             for (String level : this.getConfig().getStringList("levels")) {
                 try {
-                    levels.add(Integer.parseInt(level));
+                    this.levels.add(Integer.parseInt(level));
                 } catch (NumberFormatException ex) {
                     this.getLogger().severe("Invalid number format: " + level);
                 }
@@ -39,7 +47,7 @@ public class Main extends JavaPlugin implements Listener {
         }
         if (this.getConfig().isSet("colors")) {
             for (String color : this.getConfig().getStringList("colors")) {
-                colors.add(getColor(color));
+                this.colors.add(getColor(color));
             }
         }
     }
@@ -48,18 +56,18 @@ public class Main extends JavaPlugin implements Listener {
     public void onPlayerLevelChange(PlayerLevelChangeEvent event) {
         if (this.levels.contains(event.getNewLevel())) {
             if (event.getOldLevel() < event.getNewLevel()) {
-                if (!colors.isEmpty()) {
+                if (!this.colors.isEmpty()) {
                     Location location = event.getPlayer().getLocation();
-                    ArrayList<FireworkEffect.Type> types = Lists.newArrayList(
-                            FireworkEffect.Type.BALL,
-                            FireworkEffect.Type.BALL_LARGE,
-                            FireworkEffect.Type.BURST,
-                            FireworkEffect.Type.STAR);
+                    World world = location.getWorld();
+                    if (world == null) {
+                        return;
+                    }
+
                     Firework firework = (Firework) location.getWorld().spawnEntity(location, EntityType.FIREWORK);
                     FireworkMeta meta = firework.getFireworkMeta();
                     meta.setPower(1);
                     meta.addEffects(FireworkEffect.builder()
-                            .with(types.get(this.random.nextInt(types.size())))
+                            .with(this.starTypes.get(this.random.nextInt(this.starTypes.size())))
                             .flicker(true)
                             .trail(true)
                             .withColor(getColorFromSet())
@@ -79,7 +87,7 @@ public class Main extends JavaPlugin implements Listener {
     }
 
     private Color getColorFromSet() {
-        return (Color) colors.toArray()[random.nextInt(colors.size())];
+        return (Color) this.colors.toArray()[this.random.nextInt(this.colors.size())];
     }
 
     private Color getColor(String color) {
