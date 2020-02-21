@@ -60,13 +60,13 @@ public class SpawnUtils {
 
             location = new Location(center.getWorld(), x, y, z);
             tries++;
-        } while (!isValidLocation(location) && tries <= GeneralConfig.getRiftTries() && isNearOthers(location, minArea));
+        } while (tries <= GeneralConfig.getRiftTries() && (!isValidLocation(location) || isNearOthers(location, minArea)));
         return isValidLocation(location) ? location : null;
     }
 
     public static boolean isValidLocation(Location location) {
         Block block = location.getBlock();
-        if (block.getType() == Material.AIR) {
+        if (block.getType() == Material.AIR || block.getType() == Material.SNOW) {
             Block below = block.getWorld().getBlockAt(location.subtract(0, 1, 0));
             Block above = block.getWorld().getBlockAt(location.add(0, 1, 0));
             return below.getType().isSolid() && !above.getType().isSolid();
