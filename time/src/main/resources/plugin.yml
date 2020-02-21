@@ -1,6 +1,6 @@
 main: "io.github.mrsperry.time.Main"
 name: "Time"
-version: ${plugin.version}
+version: ${project.version}
 authors: ["dinner1111"]
 description: "Records how much time you play."
 api-version: "1.15"
