@@ -1,0 +1,10 @@
+main: "io.github.mrsperry.deathtracker.Main"
+name: "DeathTracker"
+version: ${project.version}
+authors: ["dinner1111"]
+description: "Keeps tracks of all your deaths locations, times and causes"
+api-version: "1.15"
+commands:
+  deathlist:
+    description: "Lists out previous deaths of a player"
+    usage: "/deathlist [player | page]"
