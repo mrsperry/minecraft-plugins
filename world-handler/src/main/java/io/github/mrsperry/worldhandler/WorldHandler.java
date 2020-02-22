@@ -28,61 +28,61 @@ public class WorldHandler {
      * @return The custom world
      */
     public static CustomWorld createWorld(final String name, final World.Environment environment) {
-        return WorldHandler.createWorld(name, environment, true);
+        return WorldHandler.createWorld(name, environment, WorldType.NORMAL);
     }
 
     /**
      * Creates a new custom world with the specified settings
      * @param name The world's name
      * @param environment The world's environment
-     * @param generateStructures If structures should be generated
-     * @return The custom world
-     */
-    public static CustomWorld createWorld(final String name, final World.Environment environment, final boolean generateStructures) {
-        return WorldHandler.createWorld(name, environment, generateStructures, Main.getInstance().getRandom().nextLong());
-    }
-
-    /**
-     * Creates a new custom world with the specified settings
-     * @param name The world's name
-     * @param environment The world's environment
-     * @param generateStructures If structures should be generated
-     * @param seed The world's seed
-     * @return The custom world
-     */
-    public static CustomWorld createWorld(final String name, final World.Environment environment, final boolean generateStructures, final long seed) {
-        return WorldHandler.createWorld(name, environment, generateStructures, seed, WorldType.NORMAL);
-    }
-
-    /**
-     * Creates a new custom world with the specified settings
-     * @param name The world's name
-     * @param environment The world's environment
-     * @param generateStructures If structures should be generated
-     * @param seed The world's seed
      * @param type The world's type
      * @return The custom world
      */
-    public static CustomWorld createWorld(final String name, final World.Environment environment, final boolean generateStructures, final long seed, final WorldType type) {
-        return WorldHandler.createWorld(name, environment, generateStructures, seed, type, "null");
+    public static CustomWorld createWorld(final String name, final World.Environment environment, final WorldType type) {
+        return WorldHandler.createWorld(name, environment, type, true);
     }
 
     /**
      * Creates a new custom world with the specified settings
      * @param name The world's name
      * @param environment The world's environment
+     * @param type The world's type
+     * @param generateStructures If structures should be generated
+     * @return The custom world
+     */
+    public static CustomWorld createWorld(final String name, final World.Environment environment, final WorldType type, final boolean generateStructures) {
+        return WorldHandler.createWorld(name, environment, type, generateStructures, Main.getInstance().getRandom().nextLong());
+    }
+
+    /**
+     * Creates a new custom world with the specified settings
+     * @param name The world's name
+     * @param environment The world's environment
+     * @param type The world's type
      * @param generateStructures If structures should be generated
      * @param seed The world's seed
+     * @return The custom world
+     */
+    public static CustomWorld createWorld(final String name, final World.Environment environment, final WorldType type, final boolean generateStructures, final long seed) {
+        return WorldHandler.createWorld(name, environment, type, generateStructures, seed, "null");
+    }
+
+    /**
+     * Creates a new custom world with the specified settings
+     * @param name The world's name
+     * @param environment The world's environment
      * @param type The world's type
+     * @param generateStructures If structures should be generated
+     * @param seed The world's seed
      * @param generator The world's custom generator
      * @return The custom world
      */
-    public static CustomWorld createWorld(final String name, final World.Environment environment, final boolean generateStructures, final long seed, final WorldType type, String generator) {
+    public static CustomWorld createWorld(final String name, final World.Environment environment, final WorldType type, final boolean generateStructures, final long seed, String generator) {
         return WorldHandler.addWorld(new CustomWorld(new WorldCreator(name)
             .environment(environment)
+            .type(type)
             .generateStructures(generateStructures)
             .seed(seed)
-            .type(type)
             .generator(generator)
             .createWorld()));
     }
@@ -91,18 +91,18 @@ public class WorldHandler {
      * Creates a new custom world with the specified settings
      * @param name The world's name
      * @param environment The world's environment
+     * @param type The world's type
      * @param generateStructures If structures should be generated
      * @param seed The world's seed
-     * @param type The world's type
      * @param generator The world's custom generator
      * @return The custom world
      */
-    public static CustomWorld createWorld(final String name, final World.Environment environment, final boolean generateStructures, final long seed, final WorldType type, ChunkGenerator generator) {
+    public static CustomWorld createWorld(final String name, final World.Environment environment, final WorldType type, final boolean generateStructures, final long seed, ChunkGenerator generator) {
         return WorldHandler.addWorld(new CustomWorld(new WorldCreator(name)
             .environment(environment)
+            .type(type)
             .generateStructures(generateStructures)
             .seed(seed)
-            .type(type)
             .generator(generator)
             .createWorld()));
     }
