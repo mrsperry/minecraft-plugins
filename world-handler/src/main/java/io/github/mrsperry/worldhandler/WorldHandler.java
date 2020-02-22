@@ -110,21 +110,26 @@ public class WorldHandler {
     /**
      * Adds a custom world to be handled
      * @param world The custom world to add
-     * @return The custom world that was added
+     * @return The custom world that was added or null if another world already exists with the same name
      */
     protected static CustomWorld addWorld(CustomWorld world) {
-        WorldHandler.worlds.put(world.getWorld().getName(), world);
+        final String name = world.getWorld().getName();
+        if (WorldHandler.worlds.containsKey(name)) {
+            return null;
+        }
+
+        WorldHandler.worlds.put(name, world);
         return world;
     }
 
     /**
      * Adds a normal world to be handled and converted into a custom world
      * @param name The normal world's name
-     * @return The custom world that was added or null if the world could not be found
+     * @return The custom world that was added or null if the world could not be found or another world exists with the same name
      */
     protected static CustomWorld addWorld(String name) {
         final World world = Bukkit.getWorld(name);
-        if (world == null) {
+        if (world == null || WorldHandler.worlds.containsKey(name)) {
             return null;
         }
 
