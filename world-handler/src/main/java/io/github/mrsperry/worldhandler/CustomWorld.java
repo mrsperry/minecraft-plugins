@@ -32,8 +32,8 @@ public class CustomWorld {
 
     public String getSettings() {
         return ChatColor.DARK_GRAY + "========== " + ChatColor.AQUA + this.world.getName() + ChatColor.DARK_GRAY + " ==========\n"
-            + ChatColor.GRAY + "Game Mode: " + ChatColor.GREEN + this.gameMode.toString() + "\n"
-            + ChatColor.GRAY + "Difficulty: " + ChatColor.GREEN + this.difficulty.toString() + "\n"
+            + ChatColor.GRAY + "Game Mode: " + ChatColor.GREEN + this.gameMode.toString().toLowerCase() + "\n"
+            + ChatColor.GRAY + "Difficulty: " + ChatColor.GREEN + this.difficulty.toString().toLowerCase() + "\n"
             + ChatColor.GRAY + "Animals: " + (this.animals ? ChatColor.GREEN : ChatColor.RED) + this.animals + "\n"
             + ChatColor.GRAY + "Monsters: " + (this.monsters ? ChatColor.GREEN : ChatColor.RED) + this.monsters + "\n"
             + ChatColor.GRAY + "Weather: " + (this.weather ? ChatColor.GREEN : ChatColor.RED) + this.weather + "\n"
