@@ -140,6 +140,29 @@ public class WorldHandler {
     }
 
     /**
+     * Removes a world from the handler list
+     * @param world The the custom world to remove
+     * @return If the world was removed
+     */
+    public static boolean removeWorld(CustomWorld world) {
+        return WorldHandler.removeWorld(world.getWorld().getName());
+    }
+
+    /**
+     * Removes a world from the handler list
+     * @param name The name of the custom world to remove
+     * @return If the world was removed
+     */
+    public static boolean removeWorld(String name) {
+        if (WorldHandler.worlds.containsKey(name)) {
+            WorldHandler.worlds.remove(name);
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
      * Gets a custom world
      * @param name The name of the custom world
      * @return The custom world or null if the world could not be found
