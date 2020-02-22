@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 
 import io.github.mrsperry.mcutils.types.EntityTypes;
 import io.github.mrsperry.worldhandler.listeners.EntityListener;
+import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.*;
@@ -149,8 +150,13 @@ public class Commands implements CommandExecutor {
 
                             sender.sendMessage(ChatColor.GREEN + "Monster spawns set to: " + value);
                         } else if (args[1].equalsIgnoreCase("weather")) {
-                            world.setCanChangeWeather(args[2].equalsIgnoreCase("true"));
-                            sender.sendMessage(ChatColor.GREEN + "Weather events set to: " + world.canChangeWeather());
+                            final boolean value = args[2].equalsIgnoreCase("true");
+                            world.setCanChangeWeather(value);
+                            if (!value) {
+                                WeatherListener.clearWeather(world);
+                            }
+
+                            sender.sendMessage(ChatColor.GREEN + "Weather events set to: " + value);
                         } else if (args[1].equalsIgnoreCase("timelock")) {
                             world.setTimeLock(args[2].equalsIgnoreCase("true"));
                             sender.sendMessage(ChatColor.GREEN + "Time lock set to: " + world.getTimeLock());

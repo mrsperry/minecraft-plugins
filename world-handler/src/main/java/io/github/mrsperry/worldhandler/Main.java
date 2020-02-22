@@ -2,6 +2,7 @@ package io.github.mrsperry.worldhandler;
 
 import io.github.mrsperry.worldhandler.listeners.EntityListener;
 
+import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -21,6 +22,7 @@ public class Main extends JavaPlugin {
 
         PluginManager manager = this.getServer().getPluginManager();
         manager.registerEvents(new EntityListener(), this);
+        manager.registerEvents(new WeatherListener(), this);
     }
 
     @Override
