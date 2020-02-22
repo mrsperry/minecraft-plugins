@@ -140,13 +140,17 @@ public class Commands implements CommandExecutor {
                         } else if (args[1].equalsIgnoreCase("animals")) {
                             final boolean value = args[2].equalsIgnoreCase("true");
                             world.setCanSpawnAnimals(value);
-                            EntityListener.clearEntities(world, EntityTypes.getNeutralTypes());
+                            if (!value) {
+                                EntityListener.clearEntities(world, EntityTypes.getNeutralTypes());
+                            }
 
                             sender.sendMessage(ChatColor.GREEN + "Animal spawns set to: " + value);
                         } else if (args[1].equalsIgnoreCase("monsters")) {
                             final boolean value = args[2].equalsIgnoreCase("true");
                             world.setCanSpawnMonsters(value);
-                            EntityListener.clearEntities(world, EntityTypes.getHostileTypes());
+                            if (!value) {
+                                EntityListener.clearEntities(world, EntityTypes.getHostileTypes());
+                            }
 
                             sender.sendMessage(ChatColor.GREEN + "Monster spawns set to: " + value);
                         } else if (args[1].equalsIgnoreCase("weather")) {
