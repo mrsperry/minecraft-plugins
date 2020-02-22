@@ -1,5 +1,8 @@
 package io.github.mrsperry.worldhandler;
 
+import io.github.mrsperry.worldhandler.listeners.EntityListener;
+
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
@@ -15,6 +18,9 @@ public class Main extends JavaPlugin {
         Main.instance = this;
 
         Objects.requireNonNull(this.getCommand("worlds")).setExecutor(new Commands());
+
+        PluginManager manager = this.getServer().getPluginManager();
+        manager.registerEvents(new EntityListener(), this);
     }
 
     @Override

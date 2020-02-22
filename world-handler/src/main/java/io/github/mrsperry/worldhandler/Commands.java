@@ -2,6 +2,8 @@ package io.github.mrsperry.worldhandler;
 
 import com.google.common.collect.Lists;
 
+import io.github.mrsperry.mcutils.types.EntityTypes;
+import io.github.mrsperry.worldhandler.listeners.EntityListener;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.*;
@@ -135,11 +137,17 @@ public class Commands implements CommandExecutor {
                                 sender.sendMessage(ChatColor.RED + "Invalid difficulty: " + args[2]);
                             }
                         } else if (args[1].equalsIgnoreCase("animals")) {
-                            world.setCanSpawnAnimals(args[2].equalsIgnoreCase("true"));
-                            sender.sendMessage(ChatColor.GREEN + "Animal spawns set to: " + world.canSpawnAnimals());
+                            final boolean value = args[2].equalsIgnoreCase("true");
+                            world.setCanSpawnAnimals(value);
+                            EntityListener.clearEntities(world, EntityTypes.getNeutralTypes());
+
+                            sender.sendMessage(ChatColor.GREEN + "Animal spawns set to: " + value);
                         } else if (args[1].equalsIgnoreCase("monsters")) {
-                            world.setCanSpawnMonsters(args[2].equalsIgnoreCase("true"));
-                            sender.sendMessage(ChatColor.GREEN + "Monster spawns set to: " + world.canSpawnMonsters());
+                            final boolean value = args[2].equalsIgnoreCase("true");
+                            world.setCanSpawnMonsters(value);
+                            EntityListener.clearEntities(world, EntityTypes.getHostileTypes());
+
+                            sender.sendMessage(ChatColor.GREEN + "Monster spawns set to: " + value);
                         } else if (args[1].equalsIgnoreCase("weather")) {
                             world.setCanChangeWeather(args[2].equalsIgnoreCase("true"));
                             sender.sendMessage(ChatColor.GREEN + "Weather events set to: " + world.canChangeWeather());
