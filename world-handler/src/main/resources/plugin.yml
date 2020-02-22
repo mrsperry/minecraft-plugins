@@ -1,0 +1,5 @@
+main: "io.github.mrsperry.worldhandler.Main"
+name: "WorldHandler"
+version: ${project.version}
+description: "Allows handling of custom worlds"
+api-version: "1.15"
