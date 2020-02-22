@@ -34,7 +34,7 @@ public class CustomWorld {
         final String worldType = this.world.getWorldType() == null ? "none" : this.world.getWorldType().toString().toLowerCase();
         final String generator = this.world.getGenerator() == null ? "default" : this.world.getGenerator().toString().toLowerCase();
 
-        return ChatColor.DARK_GRAY + "========== " + ChatColor.AQUA + this.world.getName() + "'s Info" + ChatColor.DARK_GRAY + " ==========\n"
+        return ChatColor.DARK_GRAY + "========== " + ChatColor.AQUA + "Info for " + this.world.getName() + ChatColor.DARK_GRAY + " ==========\n"
             + ChatColor.GRAY + "Environment: " + ChatColor.GREEN + this.world.getEnvironment().toString().toLowerCase() + "\n"
             + ChatColor.GRAY + "World Type: " + ChatColor.GREEN + worldType + "\n"
             + ChatColor.GRAY + "Seed: " + ChatColor.GREEN + this.world.getSeed() + "\n"
@@ -43,7 +43,7 @@ public class CustomWorld {
     }
 
     public String getSettings() {
-        return ChatColor.DARK_GRAY + "========== " + ChatColor.AQUA + this.world.getName() + "'s Settings" + ChatColor.DARK_GRAY + " ==========\n"
+        return ChatColor.DARK_GRAY + "========== " + ChatColor.AQUA + "Settings for " + this.world.getName() + ChatColor.DARK_GRAY + " ==========\n"
             + ChatColor.GRAY + "Game Mode: " + ChatColor.GREEN + this.gameMode.toString().toLowerCase() + "\n"
             + ChatColor.GRAY + "Difficulty: " + ChatColor.GREEN + this.difficulty.toString().toLowerCase() + "\n"
             + ChatColor.GRAY + "Animals: " + (this.animals ? ChatColor.GREEN : ChatColor.RED) + this.animals + "\n"
