@@ -2,9 +2,6 @@ package io.github.mrsperry.worldhandler;
 
 import com.google.common.collect.Lists;
 
-import io.github.mrsperry.mcutils.types.EntityTypes;
-import io.github.mrsperry.worldhandler.listeners.EntityListener;
-import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.*;
@@ -125,52 +122,27 @@ public class Commands implements CommandExecutor {
 
                         if (args[1].equalsIgnoreCase("gamemode")) {
                             try {
-                                GameMode gameMode = GameMode.valueOf(args[2].toUpperCase());
-
-                                for (Player player : world.getWorld().getPlayers()) {
-                                    player.setGameMode(gameMode);
-                                }
-                                world.setDefaultGameMode(gameMode);
-
-                                sender.sendMessage(ChatColor.GREEN + "Default game mode set to: " + args[2]);
+                                world.setDefaultGameMode(GameMode.valueOf(args[2].toUpperCase()));
+                                sender.sendMessage(ChatColor.GREEN + "Default game mode set to: " + args[2].toLowerCase());
                             } catch (IllegalArgumentException ex) {
-                                sender.sendMessage(ChatColor.RED + "Invalid game mode: " + args[2]);
+                                sender.sendMessage(ChatColor.RED + "Invalid game mode: " + args[2].toLowerCase());
                             }
                         } else if (args[1].equalsIgnoreCase("difficulty")) {
                             try {
-                                Difficulty difficulty = Difficulty.valueOf(args[2].toUpperCase());
-
-                                world.getWorld().setDifficulty(difficulty);
-                                world.setDefaultDifficulty(difficulty);
-
-                                sender.sendMessage(ChatColor.GREEN + "Default difficulty set to: " + args[2]);
+                                world.setDefaultDifficulty(Difficulty.valueOf(args[2].toUpperCase()));
+                                sender.sendMessage(ChatColor.GREEN + "Default difficulty set to: " + args[2].toLowerCase());
                             } catch (IllegalArgumentException ex) {
-                                sender.sendMessage(ChatColor.RED + "Invalid difficulty: " + args[2]);
+                                sender.sendMessage(ChatColor.RED + "Invalid difficulty: " + args[2].toLowerCase());
                             }
                         } else if (args[1].equalsIgnoreCase("animals")) {
-                            final boolean value = args[2].equalsIgnoreCase("true");
-                            world.setCanSpawnAnimals(value);
-                            if (!value) {
-                                EntityListener.clearEntities(world, EntityTypes.getNeutralTypes());
-                            }
-
-                            sender.sendMessage(ChatColor.GREEN + "Animal spawns set to: " + value);
+                            world.setCanSpawnAnimals(args[2].equalsIgnoreCase("true"));
+                            sender.sendMessage(ChatColor.GREEN + "Animal spawns set to: " + args[2].toLowerCase());
                         } else if (args[1].equalsIgnoreCase("monsters")) {
-                            final boolean value = args[2].equalsIgnoreCase("true");
-                            world.setCanSpawnMonsters(value);
-                            if (!value) {
-                                EntityListener.clearEntities(world, EntityTypes.getHostileTypes());
-                            }
-
-                            sender.sendMessage(ChatColor.GREEN + "Monster spawns set to: " + value);
+                            world.setCanSpawnMonsters(args[2].equalsIgnoreCase("true"));
+                            sender.sendMessage(ChatColor.GREEN + "Monster spawns set to: " + args[2].toLowerCase());
                         } else if (args[1].equalsIgnoreCase("weather")) {
-                            final boolean value = args[2].equalsIgnoreCase("true");
-                            world.setCanChangeWeather(value);
-                            if (!value) {
-                                WeatherListener.clearWeather(world);
-                            }
-
-                            sender.sendMessage(ChatColor.GREEN + "Weather events set to: " + value);
+                            world.setCanChangeWeather(args[2].equalsIgnoreCase("true"));
+                            sender.sendMessage(ChatColor.GREEN + "Weather events set to: " + args[2].toLowerCase());
                         } else if (args[1].equalsIgnoreCase("timelock")) {
                             world.setTimeLock(args[2].equalsIgnoreCase("true"));
                             sender.sendMessage(ChatColor.GREEN + "Time lock set to: " + world.getTimeLock());

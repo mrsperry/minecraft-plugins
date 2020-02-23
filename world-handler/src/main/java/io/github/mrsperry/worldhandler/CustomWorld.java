@@ -1,16 +1,18 @@
 package io.github.mrsperry.worldhandler;
 
+import io.github.mrsperry.mcutils.types.EntityTypes;
+import io.github.mrsperry.worldhandler.listeners.EntityListener;
+import io.github.mrsperry.worldhandler.listeners.WeatherListener;
+
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.World;
-import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
-
-import java.util.function.Consumer;
 
 public class CustomWorld {
     /** The normal world object */
@@ -69,6 +71,10 @@ public class CustomWorld {
 
     public void setDefaultGameMode(GameMode gameMode) {
         this.gameMode = gameMode;
+
+        for (Player player : this.world.getPlayers()) {
+            player.setGameMode(gameMode);
+        }
     }
 
     public Difficulty getDefaultDifficulty() {
@@ -77,6 +83,8 @@ public class CustomWorld {
 
     public void setDefaultDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+
+        this.world.setDifficulty(difficulty);
     }
 
     public boolean canSpawnAnimals() {
@@ -85,6 +93,10 @@ public class CustomWorld {
 
     public void setCanSpawnAnimals(boolean enabled) {
         this.animals = enabled;
+
+        if (!enabled) {
+            EntityListener.clearEntities(this, EntityTypes.getNeutralTypes());
+        }
     }
 
     public boolean canSpawnMonsters() {
@@ -93,6 +105,10 @@ public class CustomWorld {
 
     public void setCanSpawnMonsters(boolean enabled) {
         this.monsters = enabled;
+
+        if (!enabled) {
+            EntityListener.clearEntities(this, EntityTypes.getHostileTypes());
+        }
     }
 
     public boolean canChangeWeather() {
@@ -101,6 +117,10 @@ public class CustomWorld {
 
     public void setCanChangeWeather(boolean enabled) {
         this.weather = enabled;
+
+        if (!enabled) {
+            WeatherListener.clearWeather(this);
+        }
     }
 
     public boolean getTimeLock() {
@@ -112,7 +132,7 @@ public class CustomWorld {
 
         final BukkitScheduler scheduler = Bukkit.getScheduler();
         if (enabled && this.timeTask == null) {
-            final World world = this.getWorld();
+            final World world = this.world;
             this.timeTask = scheduler.runTaskTimer(Main.getInstance(), () -> world.setFullTime(world.getTime() - 60), 60L, 60L);
         } else {
             if (this.timeTask != null) {
