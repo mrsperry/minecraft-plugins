@@ -31,7 +31,7 @@ public class Commands implements CommandExecutor {
 
                 // Help command
                 if (args[0].equalsIgnoreCase("help")) {
-                    sender.sendMessage(ChatColor.GRAY + "Usage: /worlds [help | list | create | info | settings | load | unload]");
+                    sender.sendMessage(ChatColor.GRAY + "Usage: /worlds [help | list | tp | create | info | settings | load | unload]");
                     return true;
                 }
 
@@ -57,7 +57,11 @@ public class Commands implements CommandExecutor {
                     return true;
                 }
 
-                if (args[0].equalsIgnoreCase("create")) {
+                if (args[0].equalsIgnoreCase("tp")) {
+                    sender.sendMessage(ChatColor.RED + "Not enough arguments");
+                    sender.sendMessage(ChatColor.RED + "Usage: /worlds tp [world | player]");
+                    return true;
+                } else if (args[0].equalsIgnoreCase("create")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
                     sender.sendMessage(ChatColor.RED + "Usage: /worlds create <name> [environment] [world type] [generate structures] [seed] [world generator]");
                     return true;
@@ -80,6 +84,17 @@ public class Commands implements CommandExecutor {
                 // Settings command
                 if (args[0].equalsIgnoreCase("settings")) {
                     this.listWorldSettings(sender, args[1]);
+                    return true;
+                }
+
+                // Teleport command
+                if (args[0].equalsIgnoreCase("tp")) {
+                    if (sender instanceof Player) {
+                        this.teleportToWorld(sender, (Player) sender, args[1]);
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "Too few arguments");
+                        sender.sendMessage(ChatColor.RED + "Usage: /worlds tp <player> <world>");
+                    }
                     return true;
                 }
 
@@ -157,6 +172,18 @@ public class Commands implements CommandExecutor {
                     return true;
                 }
 
+                // Teleport command
+                if (args[0].equalsIgnoreCase("tp")) {
+                    Player player = Bukkit.getPlayer(args[1]);
+                    if (player == null) {
+                        sender.sendMessage(ChatColor.RED + "Could not find player: " + args[1]);
+                        return true;
+                    }
+
+                    this.teleportToWorld(sender, player, args[2]);
+                    return true;
+                }
+
                 // Create command
                 if (args[0].equalsIgnoreCase("create")) {
                     this.createWorld(sender, args[1], args[2]);
@@ -181,7 +208,7 @@ public class Commands implements CommandExecutor {
         }
 
         sender.sendMessage(ChatColor.RED + "Invalid argument");
-        sender.sendMessage(ChatColor.RED + "Usage: /worlds [help | list | create | info | settings | load | unload]");
+        sender.sendMessage(ChatColor.RED + "Usage: /worlds [help | list | tp | create | info | settings | load | unload]");
         return true;
     }
 
@@ -241,6 +268,27 @@ public class Commands implements CommandExecutor {
             sender.sendMessage(ChatColor.RED + "Could not find world: " + world);
         } else {
             sender.sendMessage(customWorld.getSettings());
+        }
+    }
+
+    /**
+     * Teleports a player to a new world
+     * @param sender The command sender
+     * @param player The player to be teleported
+     * @param worldName The world to teleport the player to
+     */
+    private void teleportToWorld(final CommandSender sender, final Player player, final String worldName) {
+        World world = Bukkit.getWorld(worldName);
+        if (world == null) {
+            sender.sendMessage(ChatColor.RED + "Could not find world: " + worldName);
+            return;
+        }
+
+        player.teleport(world.getSpawnLocation());
+        player.sendMessage(ChatColor.GREEN + "You have been teleported to: " + worldName);
+
+        if (sender != player) {
+            sender.sendMessage(ChatColor.GREEN + "You teleported " + player.getName() + " to: " + worldName);
         }
     }
 
