@@ -2,9 +2,15 @@ package io.github.mrsperry.worldhandler;
 
 import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;
 import org.bukkit.World;
+import org.bukkit.scheduler.BukkitRunnable;
+import org.bukkit.scheduler.BukkitScheduler;
+import org.bukkit.scheduler.BukkitTask;
+
+import java.util.function.Consumer;
 
 public class CustomWorld {
     /** The normal world object */
@@ -21,6 +27,7 @@ public class CustomWorld {
     private boolean weather = true;
     /** If the time of day should be locked */
     private boolean timeLock = true;
+    private BukkitTask timeTask = null;
 
     /**
      * Creates a new custom world
@@ -102,5 +109,16 @@ public class CustomWorld {
 
     public void setTimeLock(boolean enabled) {
         this.timeLock = enabled;
+
+        final BukkitScheduler scheduler = Bukkit.getScheduler();
+        if (enabled && this.timeTask == null) {
+            final World world = this.getWorld();
+            this.timeTask = scheduler.runTaskTimer(Main.getInstance(), () -> world.setFullTime(world.getTime() - 60), 60L, 60L);
+        } else {
+            if (this.timeTask != null) {
+                this.timeTask.cancel();
+                this.timeTask = null;
+            }
+        }
     }
 }
