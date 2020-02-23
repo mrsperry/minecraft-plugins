@@ -125,7 +125,13 @@ public class Commands implements CommandExecutor {
 
                         if (args[1].equalsIgnoreCase("gamemode")) {
                             try {
-                                world.setDefaultGameMode(GameMode.valueOf(args[2].toUpperCase()));
+                                GameMode gameMode = GameMode.valueOf(args[2].toUpperCase());
+
+                                for (Player player : world.getWorld().getPlayers()) {
+                                    player.setGameMode(gameMode);
+                                }
+                                world.setDefaultGameMode(gameMode);
+
                                 sender.sendMessage(ChatColor.GREEN + "Default game mode set to: " + args[2]);
                             } catch (IllegalArgumentException ex) {
                                 sender.sendMessage(ChatColor.RED + "Invalid game mode: " + args[2]);
