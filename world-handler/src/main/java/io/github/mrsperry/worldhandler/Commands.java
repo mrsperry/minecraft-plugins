@@ -59,7 +59,7 @@ public class Commands implements CommandExecutor {
 
                 if (args[0].equalsIgnoreCase("create")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
-                    sender.sendMessage(ChatColor.RED + "Usage: /worlds create <name> [environment] [generate structures] [seed] [world type] [world generator]");
+                    sender.sendMessage(ChatColor.RED + "Usage: /worlds create <name> [environment] [world type] [generate structures] [seed] [world generator]");
                     return true;
                 } else if (args[0].equalsIgnoreCase("load")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
