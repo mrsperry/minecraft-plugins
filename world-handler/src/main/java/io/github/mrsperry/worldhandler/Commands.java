@@ -132,7 +132,11 @@ public class Commands implements CommandExecutor {
                             }
                         } else if (args[1].equalsIgnoreCase("difficulty")) {
                             try {
-                                world.setDefaultDifficulty(Difficulty.valueOf(args[2].toUpperCase()));
+                                Difficulty difficulty = Difficulty.valueOf(args[2].toUpperCase());
+
+                                world.getWorld().setDifficulty(difficulty);
+                                world.setDefaultDifficulty(difficulty);
+
                                 sender.sendMessage(ChatColor.GREEN + "Default difficulty set to: " + args[2]);
                             } catch (IllegalArgumentException ex) {
                                 sender.sendMessage(ChatColor.RED + "Invalid difficulty: " + args[2]);
