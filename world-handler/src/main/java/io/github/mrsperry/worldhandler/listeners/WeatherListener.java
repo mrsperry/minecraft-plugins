@@ -1,7 +1,7 @@
 package io.github.mrsperry.worldhandler.listeners;
 
-import io.github.mrsperry.worldhandler.CustomWorld;
-import io.github.mrsperry.worldhandler.WorldHandler;
+import io.github.mrsperry.worldhandler.worlds.CustomWorld;
+import io.github.mrsperry.worldhandler.worlds.WorldHandler;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

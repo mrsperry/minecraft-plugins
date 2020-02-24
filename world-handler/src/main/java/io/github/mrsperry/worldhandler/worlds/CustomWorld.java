@@ -1,6 +1,7 @@
-package io.github.mrsperry.worldhandler;
+package io.github.mrsperry.worldhandler.worlds;
 
 import io.github.mrsperry.mcutils.types.EntityTypes;
+import io.github.mrsperry.worldhandler.Main;
 import io.github.mrsperry.worldhandler.listeners.EntityListener;
 import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 

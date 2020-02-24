@@ -2,6 +2,8 @@ package io.github.mrsperry.worldhandler;
 
 import com.google.common.collect.Lists;
 
+import io.github.mrsperry.worldhandler.worlds.CustomWorld;
+import io.github.mrsperry.worldhandler.worlds.WorldHandler;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.*;

@@ -2,8 +2,8 @@ package io.github.mrsperry.worldhandler.listeners;
 
 import io.github.mrsperry.mcutils.types.EntityTypes;
 
-import io.github.mrsperry.worldhandler.CustomWorld;
-import io.github.mrsperry.worldhandler.WorldHandler;
+import io.github.mrsperry.worldhandler.worlds.CustomWorld;
+import io.github.mrsperry.worldhandler.worlds.WorldHandler;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
