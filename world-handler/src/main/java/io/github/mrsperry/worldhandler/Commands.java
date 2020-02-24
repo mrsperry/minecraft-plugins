@@ -19,7 +19,7 @@ import java.util.List;
 public class Commands implements CommandExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String cmdLine, final String[] args) {
-        if (command.getName().equalsIgnoreCase("worlds")) {
+        if (command.getName().equalsIgnoreCase("world")) {
             if (args.length == 0) {
                 // List command
                 this.listWorlds(sender);
@@ -33,7 +33,7 @@ public class Commands implements CommandExecutor {
 
                 // Help command
                 if (args[0].equalsIgnoreCase("help")) {
-                    sender.sendMessage(ChatColor.GRAY + "Usage: /worlds [help | list | tp | create | info | settings | load | unload]");
+                    sender.sendMessage(ChatColor.GRAY + "Usage: /world [help | list | tp | create | info | settings | load | unload]");
                     return true;
                 }
 
@@ -43,7 +43,7 @@ public class Commands implements CommandExecutor {
                         this.listWorldInfo(sender, ((Player) sender).getWorld().getName());
                     } else {
                         sender.sendMessage(ChatColor.RED + "Too few arguments");
-                        sender.sendMessage(ChatColor.RED + "Usage: /worlds settings <world name>");
+                        sender.sendMessage(ChatColor.RED + "Usage: /world settings <world name>");
                     }
                     return true;
                 }
@@ -54,26 +54,26 @@ public class Commands implements CommandExecutor {
                         this.listWorldSettings(sender, ((Player) sender).getWorld().getName());
                     } else {
                         sender.sendMessage(ChatColor.RED + "Too few arguments");
-                        sender.sendMessage(ChatColor.RED + "Usage: /worlds settings <world name>");
+                        sender.sendMessage(ChatColor.RED + "Usage: /world settings <world name>");
                     }
                     return true;
                 }
 
                 if (args[0].equalsIgnoreCase("tp")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
-                    sender.sendMessage(ChatColor.RED + "Usage: /worlds tp [world | player]");
+                    sender.sendMessage(ChatColor.RED + "Usage: /world tp [world | player]");
                     return true;
                 } else if (args[0].equalsIgnoreCase("create")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
-                    sender.sendMessage(ChatColor.RED + "Usage: /worlds create <name> [environment] [world type] [generate structures] [seed] [world generator]");
+                    sender.sendMessage(ChatColor.RED + "Usage: /world create <name> [environment] [world type] [generate structures] [seed] [world generator]");
                     return true;
                 } else if (args[0].equalsIgnoreCase("load")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
-                    sender.sendMessage(ChatColor.RED + "Usage: /worlds load <name>");
+                    sender.sendMessage(ChatColor.RED + "Usage: /world load <name>");
                     return true;
                 } else if (args[0].equalsIgnoreCase("unload")) {
                     sender.sendMessage(ChatColor.RED + "Not enough arguments");
-                    sender.sendMessage(ChatColor.RED + "Usage: /worlds unload <name>");
+                    sender.sendMessage(ChatColor.RED + "Usage: /world unload <name>");
                     return true;
                 }
             } else if (args.length == 2) {
@@ -95,7 +95,7 @@ public class Commands implements CommandExecutor {
                         this.teleportToWorld(sender, (Player) sender, args[1]);
                     } else {
                         sender.sendMessage(ChatColor.RED + "Too few arguments");
-                        sender.sendMessage(ChatColor.RED + "Usage: /worlds tp <player> <world>");
+                        sender.sendMessage(ChatColor.RED + "Usage: /world tp <player> <world>");
                     }
                     return true;
                 }
@@ -165,7 +165,7 @@ public class Commands implements CommandExecutor {
                             sender.sendMessage(ChatColor.GREEN + "Time lock set to: " + world.getTimeLock());
                         } else {
                             sender.sendMessage(ChatColor.RED + "Invalid argument");
-                            sender.sendMessage(ChatColor.RED + "Usage: /worlds settings <gamemode | difficulty | animals | monsters | weather | timelock> [value]");
+                            sender.sendMessage(ChatColor.RED + "Usage: /world settings <gamemode | difficulty | animals | monsters | weather | timelock> [value]");
                         }
                         return true;
                     } else {
@@ -210,7 +210,7 @@ public class Commands implements CommandExecutor {
         }
 
         sender.sendMessage(ChatColor.RED + "Invalid argument");
-        sender.sendMessage(ChatColor.RED + "Usage: /worlds [help | list | tp | create | info | settings | load | unload]");
+        sender.sendMessage(ChatColor.RED + "Usage: /world [help | list | tp | create | info | settings | load | unload]");
         return true;
     }
 

@@ -4,6 +4,6 @@ version: ${project.version}
 description: "Allows handling of custom worlds"
 api-version: "1.15"
 commands:
-  worlds:
+  world:
     description: "Allows manipulation of custom worlds"
-    usage: "/worlds [help | list | tp | create | info | settings | load | unload]"
+    usage: "/world [help | list | tp | create | info | settings | load | unload]"
