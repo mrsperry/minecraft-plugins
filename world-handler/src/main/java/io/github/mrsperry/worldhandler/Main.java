@@ -18,7 +18,7 @@ public class Main extends JavaPlugin {
     public void onEnable() {
         Main.instance = this;
 
-        Objects.requireNonNull(this.getCommand("world")).setExecutor(new Commands());
+        Objects.requireNonNull(this.getCommand("world")).setExecutor(new WorldCommands());
 
         PluginManager manager = this.getServer().getPluginManager();
         manager.registerEvents(new EntityListener(), this);

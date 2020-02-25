@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-public class Commands implements CommandExecutor {
+public class WorldCommands implements CommandExecutor {
     @Override
     public boolean onCommand(final CommandSender sender, final Command command, final String cmdLine, final String[] args) {
         if (command.getName().equalsIgnoreCase("world")) {
