@@ -102,7 +102,7 @@ public class PortalSchematic {
             stream = new FileInputStream(file);
             return new String(stream.readAllBytes());
         } catch (final FileNotFoundException ex) {
-            instance.getLogger().severe("Could not find portal schematic file: " + fileName);
+            logger.severe("Could not find portal schematic file: " + fileName);
             return null;
         } catch (final IOException ex) {
             logger.severe("An exception occurred while reading schematic");
