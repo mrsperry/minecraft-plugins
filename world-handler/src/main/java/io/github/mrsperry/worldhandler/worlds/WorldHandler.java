@@ -2,17 +2,72 @@ package io.github.mrsperry.worldhandler.worlds;
 
 import io.github.mrsperry.worldhandler.Main;
 
-import org.bukkit.Bukkit;
-import org.bukkit.World;
-import org.bukkit.WorldCreator;
-import org.bukkit.WorldType;
+import org.bukkit.*;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.generator.ChunkGenerator;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.logging.Logger;
 
 public class WorldHandler {
-    private static HashMap<String, CustomWorld> worlds = new HashMap<>();
+    private final static HashMap<String, CustomWorld> worlds = new HashMap<>();
+
+    /**
+     * Loads all world settings from a config file
+     * @param config The config file
+     */
+    public static void initialize(final FileConfiguration config) {
+        final Logger logger = Main.getInstance().getLogger();
+        final ConfigurationSection worlds = config.getConfigurationSection("worlds");
+        if (worlds == null) {
+            logger.info("No world settings were found in the config file");
+            return;
+        }
+
+        logger.info("Loading world settings from config...");
+        for (final String key : worlds.getKeys(false)) {
+            final String path = "worlds." + key + ".";
+            final World world = Bukkit.getWorld(key);
+            if (world == null) {
+                logger.severe("Could not find world: " + key);
+                continue;
+            }
+
+            final CustomWorld customWorld = new CustomWorld(world);
+            try {
+                customWorld.setDefaultGameMode(GameMode.valueOf(config.getString(path + "gamemode")));
+            } catch (final Exception ex) {
+                logger.severe("Could not parse game mode for: " + key);
+            }
+            try {
+                customWorld.setDefaultDifficulty(Difficulty.valueOf(config.getString(path + "difficulty")));
+            } catch (final Exception ex) {
+                logger.severe("Could not parse difficulty for: " + key);
+            }
+            customWorld.setCanSpawnAnimals(config.getBoolean(path + "animals"));
+            customWorld.setCanSpawnMonsters(config.getBoolean(path + "monsters"));
+            customWorld.setCanChangeWeather(config.getBoolean(path + "weather"));
+            customWorld.setTimeLock(config.getBoolean(path + "timelock"));
+
+            WorldHandler.worlds.put(world.getName(), customWorld);
+        }
+    }
+
+    public static void save(final FileConfiguration config) {
+        for (final String key : WorldHandler.worlds.keySet()) {
+            final String path = "worlds." + key + ".";
+            final CustomWorld world = WorldHandler.worlds.get(key);
+
+            config.set(path + "gamemode", world.getDefaultGameMode().toString().toLowerCase());
+            config.set(path + "difficulty", world.getDefaultDifficulty().toString().toLowerCase());
+            config.set(path + "animals", world.canSpawnAnimals());
+            config.set(path + "monsters", world.canSpawnMonsters());
+            config.set(path + "weather", world.canChangeWeather());
+            config.set(path + "timelock", world.getTimeLock());
+        }
+    }
 
     /**
      * Creates a new custom world with the specified settings

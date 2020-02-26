@@ -5,6 +5,7 @@ import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 import io.github.mrsperry.worldhandler.portals.PortalCommands;
 import io.github.mrsperry.worldhandler.portals.PortalHandler;
 import io.github.mrsperry.worldhandler.worlds.WorldCommands;
+import io.github.mrsperry.worldhandler.worlds.WorldHandler;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,7 @@ public class Main extends JavaPlugin {
 
         this.saveDefaultConfig();
 
+        WorldHandler.initialize(this.getConfig());
         PortalHandler.reloadPortals();
 
         Objects.requireNonNull(this.getCommand("world")).setExecutor(new WorldCommands());
@@ -35,7 +37,8 @@ public class Main extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
+        WorldHandler.save(this.getConfig());
+        this.saveConfig();
     }
 
     public static Main getInstance() {
