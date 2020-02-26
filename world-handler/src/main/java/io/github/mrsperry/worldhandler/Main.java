@@ -4,6 +4,7 @@ import io.github.mrsperry.worldhandler.listeners.EntityListener;
 import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 import io.github.mrsperry.worldhandler.portals.PortalCommands;
 import io.github.mrsperry.worldhandler.portals.PortalHandler;
+import io.github.mrsperry.worldhandler.worlds.WorldCommands;
 
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;

@@ -1,9 +1,8 @@
-package io.github.mrsperry.worldhandler;
+package io.github.mrsperry.worldhandler.worlds;
 
 import com.google.common.collect.Lists;
 
-import io.github.mrsperry.worldhandler.worlds.CustomWorld;
-import io.github.mrsperry.worldhandler.worlds.WorldHandler;
+import io.github.mrsperry.worldhandler.Main;
 
 import net.md_5.bungee.api.ChatColor;
 
