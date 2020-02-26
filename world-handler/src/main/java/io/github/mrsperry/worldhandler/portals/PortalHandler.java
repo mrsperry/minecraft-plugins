@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Objects;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public class PortalHandler {
     /** Map of all schematic files */
@@ -48,7 +49,8 @@ public class PortalHandler {
     public static boolean registerPortal(final String name) {
         final String data = PortalSchematic.readPortalFile(name);
         if (data != null) {
-            PortalHandler.schematics.put(name, data);
+            // Remove file extension if present
+            PortalHandler.schematics.put(name.split(Pattern.quote(".portalschematic"))[0], data);
             return true;
         }
 
