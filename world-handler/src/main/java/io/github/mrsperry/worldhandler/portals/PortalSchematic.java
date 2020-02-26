@@ -4,15 +4,18 @@ import io.github.mrsperry.worldhandler.Main;
 
 import net.md_5.bungee.api.ChatColor;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.util.function.Function;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 
 public class PortalSchematic {
     private String name;
@@ -34,6 +37,55 @@ public class PortalSchematic {
         this.destination = destination;
         this.pos1 = pos1;
         this.pos2 = pos2;
+    }
+
+    /**
+     * Constructs a portal from a schematic string
+     * @param location The location of the portal origin
+     * @param name The name of the schematic to use
+     */
+    public static void constructPortal(final Location location, final String name) {
+        final Logger logger = Main.getInstance().getLogger();
+
+        final String serialized = PortalHandler.getSchematic(name);
+        if (serialized == null) {
+            logger.severe("Could not find schematic for construction: " + name);
+            return;
+        }
+
+        final World world = location.getWorld();
+        if (world == null) {
+            logger.severe("Could not find world for construction: " + location.toString());
+            return;
+        }
+
+        // Split up each block's data
+        final String[] sections = serialized.split(Pattern.quote("|~|"));
+
+        for (final String section : sections) {
+            // Separate offset and block data
+            final String[] data = section.split(Pattern.quote("|:|"));
+
+            Location offset;
+            try {
+                // Parse the offset
+                final String[] offsetCoords = data[0].split(Pattern.quote(","));
+                offset = new Location(world,
+                    Integer.parseInt(offsetCoords[0]),
+                    Integer.parseInt(offsetCoords[1]),
+                    Integer.parseInt(offsetCoords[2]));
+            } catch (Exception ex) {
+                logger.severe("Could not parse offset coordinates while constructing: " + section);
+                return;
+            }
+
+            try {
+                final Block block = world.getBlockAt(location.clone().subtract(offset));
+                block.setBlockData(Bukkit.createBlockData(data[1]));
+            } catch (Exception ex) {
+                logger.severe("Could not set block data while constructing: " + section);
+            }
+        }
     }
 
     /**
@@ -150,7 +202,7 @@ public class PortalSchematic {
         FileOutputStream writer = null;
         try {
             writer = new FileOutputStream(file);
-            writer.write(result.toString().getBytes());
+            writer.write(result.toString().substring(0, result.length() - 3).getBytes());
             writer.flush();
         } catch (IOException ex) {
             sender.sendMessage(ChatColor.RED + "Could not write to file; portal schematic was not created");
