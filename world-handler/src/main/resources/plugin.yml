@@ -7,3 +7,6 @@ commands:
   world:
     description: "Allows manipulation of custom worlds"
     usage: "/world [help | list | tp | create | info | settings | load | unload]"
+  portal:
+    description: "Allows creation of portal schematics"
+    usage: "/portal <create | pos1 | pos2>"
