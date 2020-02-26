@@ -5,10 +5,13 @@ import io.github.mrsperry.worldhandler.Main;
 import net.md_5.bungee.api.ChatColor;
 
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.World;
+import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 
 import java.io.*;
+import java.util.function.Function;
 import java.util.logging.Logger;
 
 public class PortalSchematic {
@@ -71,19 +74,24 @@ public class PortalSchematic {
      * @param sender The player who created this portal
      */
     public void createPortalFile(final Player sender) {
-        if (this.pos1.getWorld() != null && this.pos2.getWorld() != null) {
-            if (this.pos1.getWorld() != this.pos2.getWorld()) {
-                sender.sendMessage(ChatColor.RED + "Both positions must be in the same world");
-                return;
-            }
-        } else {
-            sender.sendMessage(ChatColor.RED + "Both positions must belong to a world");
+        final World world = this.activator.getWorld();
+        if (world == null) {
+            sender.sendMessage(ChatColor.RED + "The activator location must belong to a world");
             return;
         }
-        final World world = this.pos1.getWorld();
 
+        if (this.destination.getWorld() != world) {
+            sender.sendMessage(ChatColor.RED + "The destination location must belong to the same world as the activator");
+            return;
+        }
+
+        if (this.pos1.getWorld() != world || this.pos2.getWorld() != world) {
+            sender.sendMessage(ChatColor.RED + "Both position locations must belong to the same world as the activator");
+            return;
+        }
+
+        // Get the min and max coordinates
         int minX, maxX, minY, maxY, minZ, maxZ;
-
         if (this.pos1.getBlockX() > this.pos2.getBlockX()) {
             minX = this.pos2.getBlockX();
             maxX = this.pos1.getBlockX();
@@ -110,11 +118,31 @@ public class PortalSchematic {
 
         final File file = new File(Main.getInstance().getDataFolder().getAbsolutePath() + "\\portals\\" + this.name + ".portalschematic");
 
+        // Gets the data string of a location
+        Function<Location, String> getData = (location) -> {
+            final Location distance = this.activator.clone().subtract(location);
+            return distance.getBlockX() + ","
+                + distance.getBlockY() + ","
+                + distance.getBlockZ() + "|:|"
+                + world.getBlockAt(location).getBlockData().getAsString() + "|~|";
+        };
+
         final StringBuilder result = new StringBuilder();
+        // Set the activator
+        result.append(getData.apply(this.activator));
+        // Set the destination
+        result.append(getData.apply(this.destination));
+        // Set all blocks
         for (int x = minX; x <= maxX; x++) {
             for (int y = minY; y <= maxY; y++) {
                 for (int z = minZ; z <= maxZ; z++) {
-                    result.append(world.getBlockAt(x, y, z).getBlockData().getAsString()).append("DELIMITER");
+                    Block block = world.getBlockAt(x, y, z);
+                    Material type = block.getType();
+                    if (type == Material.AIR || type == Material.CAVE_AIR || type == Material.VOID_AIR) {
+                        continue;
+                    }
+
+                    result.append(getData.apply(block.getLocation()));
                 }
             }
         }
