@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class PortalHandler {
     /** Map of all schematic files */
-    final static HashMap<String, String> schematics = new HashMap<>();
+    private final static HashMap<String, String> schematics = new HashMap<>();
 
     /**
      * Loads all portal schematics from file
@@ -69,5 +69,9 @@ public class PortalHandler {
         }
 
         return success;
+    }
+
+    public static String getSchematic(String name) {
+        return PortalHandler.schematics.getOrDefault(name, null);
     }
 }
