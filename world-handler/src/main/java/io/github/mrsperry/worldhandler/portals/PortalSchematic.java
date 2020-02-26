@@ -9,7 +9,6 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.entity.Player;
 
 import java.io.*;
@@ -172,11 +171,12 @@ public class PortalSchematic {
 
         // Gets the data string of a location
         Function<Location, String> getData = (location) -> {
-            final Location distance = this.activator.clone().subtract(location);
-            return distance.getBlockX() + ","
-                + distance.getBlockY() + ","
-                + distance.getBlockZ() + "|:|"
-                + world.getBlockAt(location).getBlockData().getAsString() + "|~|";
+            // Get the relative distance from the player's location
+            final int x = this.destination.getBlockX() - location.getBlockX();
+            final int y = this.destination.getBlockY() - location.getBlockY();
+            final int z = this.destination.getBlockZ() - location.getBlockZ();
+
+            return x + "," + y + "," + z + "|:|" + world.getBlockAt(location).getBlockData().getAsString() + "|~|";
         };
 
         final StringBuilder result = new StringBuilder();
