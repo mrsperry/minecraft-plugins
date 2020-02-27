@@ -3,7 +3,7 @@ package io.github.mrsperry.worldhandler;
 import com.google.common.collect.Lists;
 import io.github.mrsperry.mcutils.ConfigManager;
 import io.github.mrsperry.worldhandler.listeners.EntityListener;
-import io.github.mrsperry.worldhandler.listeners.TeleportListener;
+import io.github.mrsperry.worldhandler.listeners.PlayerListener;
 import io.github.mrsperry.worldhandler.listeners.WeatherListener;
 import io.github.mrsperry.worldhandler.portals.PortalCommands;
 import io.github.mrsperry.worldhandler.portals.PortalHandler;
@@ -39,7 +39,7 @@ public class Main extends JavaPlugin {
         PluginManager manager = this.getServer().getPluginManager();
         manager.registerEvents(new EntityListener(), this);
         manager.registerEvents(new WeatherListener(), this);
-        manager.registerEvents(new TeleportListener(this.configManager), this);
+        manager.registerEvents(new PlayerListener(this.configManager), this);
     }
 
     @Override

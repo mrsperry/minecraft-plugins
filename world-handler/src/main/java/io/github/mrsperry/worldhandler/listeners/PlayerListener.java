@@ -20,11 +20,11 @@ import org.bukkit.inventory.ItemStack;
 import java.util.HashMap;
 import java.util.Map;
 
-public class TeleportListener implements Listener {
+public class PlayerListener implements Listener {
     private ConfigManager manager;
     private YamlConfiguration config;
 
-    public TeleportListener(final ConfigManager manager) {
+    public PlayerListener(final ConfigManager manager) {
         this.manager = manager;
         this.config = manager.getConfig("inventories");
     }
