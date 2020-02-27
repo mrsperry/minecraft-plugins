@@ -13,6 +13,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -27,6 +28,17 @@ public class PlayerListener implements Listener {
     public PlayerListener(final ConfigManager manager) {
         this.manager = manager;
         this.config = manager.getConfig("inventories");
+    }
+
+    @EventHandler
+    public void onPlayerJoin(final PlayerJoinEvent event) {
+        final Player player = event.getPlayer();
+        final CustomWorld world = WorldHandler.getWorld(player.getWorld().getName());
+        if (world == null) {
+            return;
+        }
+
+        player.setGameMode(world.getDefaultGameMode());
     }
 
     @EventHandler
@@ -50,8 +62,13 @@ public class PlayerListener implements Listener {
 
         if (toWorld != null) {
             final CustomWorld world = WorldHandler.getWorld(toWorld.getName());
+            if (world == null) {
+                return;
+            }
 
-            if (world != null && world.getRetainInventory()) {
+            player.setGameMode(world.getDefaultGameMode());
+
+            if (world.getRetainInventory()) {
                 this.loadInventory(player, toWorld);
             }
         }
