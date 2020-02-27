@@ -9,6 +9,7 @@ import org.bukkit.generator.ChunkGenerator;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 public class WorldHandler {
@@ -37,12 +38,14 @@ public class WorldHandler {
 
             final CustomWorld customWorld = new CustomWorld(world);
             try {
-                customWorld.setDefaultGameMode(GameMode.valueOf(config.getString(path + "gamemode")));
+                final String value = Objects.requireNonNull(config.getString(path + "gamemode", "survival")).toUpperCase();
+                customWorld.setDefaultGameMode(GameMode.valueOf(value));
             } catch (final Exception ex) {
                 logger.severe("Could not parse game mode for: " + key);
             }
             try {
-                customWorld.setDefaultDifficulty(Difficulty.valueOf(config.getString(path + "difficulty")));
+                final String value = Objects.requireNonNull(config.getString(path + "difficulty", "easy")).toUpperCase();
+                customWorld.setDefaultDifficulty(Difficulty.valueOf(value));
             } catch (final Exception ex) {
                 logger.severe("Could not parse difficulty for: " + key);
             }
