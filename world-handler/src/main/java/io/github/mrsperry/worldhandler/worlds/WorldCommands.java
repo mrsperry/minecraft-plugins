@@ -21,19 +21,13 @@ public class WorldCommands implements CommandExecutor {
     public boolean onCommand(final CommandSender sender, final Command command, final String cmdLine, final String[] args) {
         if (command.getName().equalsIgnoreCase("world")) {
             if (args.length == 0) {
-                // List command
-                this.listWorlds(sender);
+                // Help command
+                sender.sendMessage(ChatColor.GRAY + "Usage: /world [list | tp | create | info | settings | load | unload]");
                 return true;
             } else if (args.length == 1) {
                 // List command
                 if (args[0].equalsIgnoreCase("list")) {
                     this.listWorlds(sender);
-                    return true;
-                }
-
-                // Help command
-                if (args[0].equalsIgnoreCase("help")) {
-                    sender.sendMessage(ChatColor.GRAY + "Usage: /world [help | list | tp | create | info | settings | load | unload]");
                     return true;
                 }
 
@@ -213,7 +207,7 @@ public class WorldCommands implements CommandExecutor {
         }
 
         sender.sendMessage(ChatColor.RED + "Invalid argument");
-        sender.sendMessage(ChatColor.RED + "Usage: /world [help | list | tp | create | info | settings | load | unload]");
+        sender.sendMessage(ChatColor.RED + "Usage: /world [list | tp | create | info | settings | load | unload]");
         return true;
     }
 
