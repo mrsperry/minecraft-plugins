@@ -31,6 +31,8 @@ public class CustomWorld {
     /** If the time of day should be locked */
     private boolean timeLock = true;
     private BukkitTask timeTask = null;
+    /** If the world will retain a player's inventory when teleporting out */
+    private boolean retainInventory = false;
 
     /**
      * Creates a new custom world
@@ -59,7 +61,8 @@ public class CustomWorld {
             + ChatColor.GRAY + "Animals: " + (this.animals ? ChatColor.GREEN : ChatColor.RED) + this.animals + "\n"
             + ChatColor.GRAY + "Monsters: " + (this.monsters ? ChatColor.GREEN : ChatColor.RED) + this.monsters + "\n"
             + ChatColor.GRAY + "Weather: " + (this.weather ? ChatColor.GREEN : ChatColor.RED) + this.weather + "\n"
-            + ChatColor.GRAY + "Time Lock: " + (this.timeLock ? ChatColor.GREEN : ChatColor.RED) + this.timeLock;
+            + ChatColor.GRAY + "Time Lock: " + (this.timeLock ? ChatColor.GREEN : ChatColor.RED) + this.timeLock + "\n"
+            + ChatColor.GRAY + "Retain Inventory: " + (this.retainInventory ? ChatColor.GREEN : ChatColor.RED) + this.retainInventory;
     }
 
     public World getWorld() {
@@ -141,5 +144,13 @@ public class CustomWorld {
                 this.timeTask = null;
             }
         }
+    }
+
+    public boolean getRetainInventory() {
+        return this.retainInventory;
+    }
+
+    public void setRetainInventory(boolean enabled) {
+        this.retainInventory = enabled;
     }
 }

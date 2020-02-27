@@ -53,6 +53,7 @@ public class WorldHandler {
             customWorld.setCanSpawnMonsters(config.getBoolean(path + "monsters"));
             customWorld.setCanChangeWeather(config.getBoolean(path + "weather"));
             customWorld.setTimeLock(config.getBoolean(path + "timelock"));
+            customWorld.setRetainInventory(config.getBoolean(path + "retain-inventory"));
 
             WorldHandler.worlds.put(world.getName(), customWorld);
         }
@@ -69,6 +70,7 @@ public class WorldHandler {
             config.set(path + "monsters", world.canSpawnMonsters());
             config.set(path + "weather", world.canChangeWeather());
             config.set(path + "timelock", world.getTimeLock());
+            config.set(path + "retain-inventory", world.getRetainInventory());
         }
     }
 

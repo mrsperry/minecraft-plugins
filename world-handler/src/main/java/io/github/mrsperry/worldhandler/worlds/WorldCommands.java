@@ -163,6 +163,9 @@ public class WorldCommands implements CommandExecutor {
                         } else if (args[1].equalsIgnoreCase("timelock")) {
                             world.setTimeLock(args[2].equalsIgnoreCase("true"));
                             sender.sendMessage(ChatColor.GREEN + "Time lock set to: " + world.getTimeLock());
+                        } else if (args[1].equalsIgnoreCase("retaininventory")) {
+                            world.setRetainInventory(args[2].equalsIgnoreCase("true"));
+                            sender.sendMessage(ChatColor.GREEN + "Retain inventory set to: " + world.getRetainInventory());
                         } else {
                             sender.sendMessage(ChatColor.RED + "Invalid argument");
                             sender.sendMessage(ChatColor.RED + "Usage: /world settings <gamemode | difficulty | animals | monsters | weather | timelock> [value]");
